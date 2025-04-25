@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Set deployment variables
@@ -31,7 +31,9 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ secrets.SERVER_PORT }}
+          envs: COMPOSE_FILE
           script: |
+            export PATH=$PATH:/usr/local/bin:/usr/bin:/bin
             cd prography/10th-1team-front
             git fetch --all
             git reset --hard origin/main
