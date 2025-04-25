@@ -32,7 +32,7 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-            cd /prography/10th-1team-front
+            cd prography/10th-1team-front
             git fetch --all
             git reset --hard origin/main
 
