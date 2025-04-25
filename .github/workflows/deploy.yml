@@ -39,4 +39,4 @@ jobs:
             git reset --hard origin/main
 
             sudo docker-compose -f $COMPOSE_FILE down || true
-            sudo  docker-compose -f $COMPOSE_FILE up -d --build
+            sudo docker-compose -f $COMPOSE_FILE up -d --build
