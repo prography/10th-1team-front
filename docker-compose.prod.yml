@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile
     container_name: nextjs-prod
     ports:
-      - "8081:3000"
+      - "8091:3000"
     restart: always
     environment:
       NODE_ENV: production
