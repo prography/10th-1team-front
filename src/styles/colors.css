@@ -1,0 +1,138 @@
+/* Color Primitive */
+@theme {
+  /* Blue */
+  --color-blue-50: #f5f8ff;
+  --color-blue-100: #ccdaff;
+  --color-blue-200: #99b6ff;
+  --color-blue-300: #6691ff;
+  --color-blue-400: #336dff;
+  --color-blue-500: #0048ff;
+  --color-blue-600: #003acc;
+  --color-blue-700: #002b99;
+  --color-blue-800: #001d66;
+  --color-blue-900: #000e33;
+
+  /* Grayscale */
+  --color-grayscale-50: #e8edfc;
+  --color-grayscale-100: #cfd8e7;
+  --color-grayscale-200: #abb7cd;
+  --color-grayscale-300: #8c9ab5;
+  --color-grayscale-400: #7585a2;
+  --color-grayscale-500: #5e7090;
+  --color-grayscale-600: #50627f;
+  --color-grayscale-700: #404f68;
+  --color-grayscale-800: #303d53;
+  --color-grayscale-900: #1e293b;
+  --color-grayscale-black: #1a1a1a;
+  --color-grayscale-white: #ffffff;
+
+  /* Red */
+  --color-red-main: #ff4d4f;
+  --color-red-light: #ffecec;
+  --color-red-deep: #d9363e;
+
+  /* Green */
+  --color-green-main: #2bc771;
+  --color-green-deep: #1aa958;
+  --color-green-light: #d2f5e6;
+
+  /* Mint */
+  --color-mint-main: #00c2a8;
+  --color-mint-deep: #009c89;
+  --color-mint-light: #a3f7ee;
+
+  /* Backgrounds */
+  --color-bg01: #ffffff;
+  --color-bg02: #f5f5f5;
+  --color-bg03: #ffffff00;
+  --color-bg04: #f7f7f9;
+}
+
+/* Color Sementic */
+@theme {
+  /* Brand */
+  --color-brand-primary-deep: var(--color-blue-500);
+  --color-brand-primary-main: var(--color-blue-900);
+  --color-brand-primary-light: var(--color-blue-200);
+  --color-brand-primary-surface: var(--color-blue-50);
+  --color-brand-kakao-main: #fee500;
+  --color-brand-kakao-deep: #ffa435;
+  --color-brand-kakao-light: #fffcdc;
+  --color-brand-naver-main: #03c75a;
+  --color-brand-naver-deep: #029c47;
+  --color-brand-naver-light: #e9fff3;
+
+  /* Button */
+  --color-button-primary-bg_main: var(--color-blue-500);
+  --color-button-primary-bg_pressed: var(--color-blue-600);
+  --color-button-primary-bg_disabled: var(--color-blue-50);
+  --color-button-primary-text_default: var(--color-grayscale-white);
+  --color-button-primary-text_disabled: var(--color-blue-100);
+
+  --color-button-neutral-bg_default: var(--color-grayscale-white);
+  --color-button-neutral-bg_pressed: var(--color-grayscale-100);
+  --color-button-neutral-bg_disabled: var(--color-bg04);
+  --color-button-neutral-text_default: var(--color-grayscale-black);
+  --color-button-neutral-text_pressed: var(--color-grayscale-400);
+  --color-button-neutral-text_disabled: var(--color-grayscale-200);
+  --color-button-neutral-border: var(--color-grayscale-100);
+
+  --color-button-secondary-bg_default: var(--color-blue-50);
+  --color-button-secondary-bg_pressed: var(--color-blue-100);
+  --color-button-secondary-bg_disabled: var(--color-bg04);
+  --color-button-secondary-text_default: var(--color-blue-500);
+  --color-button-secondary-text_pressed: var(--color-blue-600);
+  --color-button-secondary-text_disabled: var(--color-grayscale-200);
+  --color-button-secondary-border_default: var(--color-blue-500);
+
+  /* Surface */
+  --color-surface-normal-bg01: var(--color-bg01);
+  --color-surface-normal-bg02: var(--color-bg02);
+  --color-surface-normal-container0: var(--color-bg01);
+  --color-surface-normal-container10: var(--color-bg02);
+  --color-surface-normal-container-b10: var(--color-bg04);
+  --color-surface-normal-container-b50: var(--color-blue-50);
+  --color-surface-normal-none: var(--color-bg03);
+
+  /* Status */
+  --color-status-success-main: var(--color-green-main);
+  --color-status-success-deep: var(--color-green-deep);
+  --color-status-success-light: var(--color-green-light);
+  --color-status-accent-main: var(--color-mint-main);
+  --color-status-accent-deep: var(--color-mint-deep);
+  --color-status-accent-light: var(--color-mint-light);
+  --color-status-error-main: var(--color-red-main);
+  --color-status-error-deep: var(--color-red-deep);
+  --color-status-error-light: var(--color-red-light);
+  --color-status-disabled: var(--color-grayscale-100);
+
+  /* Border */
+  --color-border-normal-lowemp: var(--color-grayscale-100);
+  --color-border-normal-midemp: var(--color-grayscale-200);
+  --color-border-normal-highemp: var(--color-grayscale-400);
+  --color-border-primary-300: var(--color-blue-300);
+  --color-border-primary-500: var(--color-blue-500);
+
+  /* TextIcon */
+  --color-texticon-onnormal-highestemp: var(--color-grayscale-900);
+  --color-texticon-onnormal-highemp: var(--color-grayscale-800);
+  --color-texticon-onnormal-midemp: var(--color-grayscale-600);
+  --color-texticon-onnormal-lowemp: var(--color-grayscale-400);
+  --color-texticon-onnormal-lowestemp: var(--color-grayscale-200);
+  --color-texticon-onnormal-main-600: var(--color-blue-600);
+  --color-texticon-onnormal-main-500: var(--color-blue-500);
+  --color-texticon-onnormal-main-300: var(--color-blue-300);
+  --color-texticon-onnormal-main-601: var(--color-blue-100);
+  --color-texticon-onnormal-white: var(--color-grayscale-white);
+  --color-texticon-onnormal-black: var(--color-grayscale-black);
+  --color-texticon-onnormal-star-red: #ff0000;
+
+  /* Etc */
+  --color-etc-location-tab-button: var(--color-grayscale-50);
+  --color-etc-checkbox-bg_default: var(--color-bg01);
+  --color-etc-checkbox-bg_accent: var(--color-blue-200);
+  --color-etc-checkbox-border: var(--color-grayscale-200);
+  --color-etc-checkbox-accent-checked: var(--color-grayscale-white);
+  --color-etc-icon-star-filled: var(--color-texticon-onnormal-star-red);
+  --color-etc-icon-star-empty: var(--color-grayscale-200);
+}
