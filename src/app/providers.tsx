@@ -22,16 +22,21 @@ function makeQueryClient() {
   });
 }
 
-let browserQueryClient: QueryClient | undefined = undefined;
+export const getQueryClient = (() => {
+  let browserQueryClient: QueryClient | undefined;
 
-export function getQueryClient() {
-  if (isServer) {
-    return makeQueryClient();
-  } else {
-    if (!browserQueryClient) browserQueryClient = makeQueryClient();
+  return () => {
+    if (isServer) {
+      return makeQueryClient();
+    }
+
+    if (!browserQueryClient) {
+      browserQueryClient = makeQueryClient();
+    }
+
     return browserQueryClient;
-  }
-}
+  };
+})();
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   const queryClient = getQueryClient();
