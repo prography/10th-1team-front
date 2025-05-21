@@ -1,0 +1,77 @@
+@layer utilities {
+  .title-l-bold {
+    font-weight: 700;
+    font-size: 2.4rem;
+    line-height: 3.2rem;
+  }
+  .title-m-semibold {
+    font-weight: 600;
+    font-size: 2rem;
+    line-height: 2.8rem;
+  }
+  .body-l-semibold {
+    font-weight: 600;
+    font-size: 1.8rem;
+    line-height: 2.6rem;
+  }
+  .body-l-medium {
+    font-weight: 500;
+    font-size: 1.8rem;
+    line-height: 2.6rem;
+  }
+  .body-m-semibold {
+    font-weight: 600;
+    font-size: 1.8rem;
+    line-height: 2.4rem;
+  }
+  .body-m-regular {
+    font-weight: 400;
+    font-size: 1.8rem;
+    line-height: 2.4rem;
+  }
+  .body-s-semibold {
+    font-weight: 600;
+    font-size: 1.4rem;
+    line-height: 2rem;
+  }
+  .body-s-regular {
+    font-weight: 400;
+    font-size: 1.4rem;
+    line-height: 2rem;
+  }
+  .caption-m-semibold {
+    font-weight: 600;
+    font-size: 1.2rem;
+    line-height: 1.6rem;
+  }
+  .caption-m-regular {
+    font-weight: 400;
+    font-size: 1.2rem;
+    line-height: 1.6rem;
+  }
+  .caption-s-regular {
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.4rem;
+  }
+  .button-xl-semibold {
+    font-weight: 600;
+    font-size: 1.8rem;
+    line-height: 2.4rem;
+  }
+  .button-l-semibold {
+    font-weight: 600;
+    font-size: 1.6rem;
+    line-height: 2.4rem;
+  }
+  .button-m-medium {
+    font-weight: 500;
+    font-size: 1.4rem;
+    line-height: 2rem;
+  }
+  .button-s-medium {
+    font-weight: 500;
+    font-size: 1.2rem;
+    line-height: 1.8rem;
+  }
+}

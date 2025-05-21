@@ -1,0 +1,18 @@
+@import "tailwindcss";
+@import "./colors.css";
+@import "./typography.css";
+
+:root {
+  --font-family: "Pretendard", "Inter", sans-serif;
+}
+
+@layer base {
+  html {
+    background-color: #ffffff;
+    font-size: 62.5%; /* 1rem = 10px */
+  }
+
+  body {
+    font-family: var(--font-family);
+  }
+}
