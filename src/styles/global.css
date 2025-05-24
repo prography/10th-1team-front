@@ -8,11 +8,11 @@
 
 @layer base {
   html {
-    background-color: #ffffff;
     font-size: 62.5%; /* 1rem = 10px */
   }
 
   body {
+    background-color: #f5f5f5;
     font-family: var(--font-family);
   }
 }

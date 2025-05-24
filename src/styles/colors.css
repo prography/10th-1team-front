@@ -30,6 +30,7 @@
   --color-red-main: #ff4d4f;
   --color-red-light: #ffecec;
   --color-red-deep: #d9363e;
+  --color-red-star: #ff0000;
 
   /* Green */
   --color-green-main: #2bc771;
@@ -51,8 +52,8 @@
 /* Color Sementic */
 @theme {
   /* Brand */
-  --color-brand-primary-deep: var(--color-blue-500);
-  --color-brand-primary-main: var(--color-blue-900);
+  --color-brand-primary-deep: var(--color-blue-900);
+  --color-brand-primary-main: var(--color-blue-500);
   --color-brand-primary-light: var(--color-blue-200);
   --color-brand-primary-surface: var(--color-blue-50);
   --color-brand-kakao-main: #fee500;
@@ -125,7 +126,6 @@
   --color-texticon-onnormal-main-601: var(--color-blue-100);
   --color-texticon-onnormal-white: var(--color-grayscale-white);
   --color-texticon-onnormal-black: var(--color-grayscale-black);
-  --color-texticon-onnormal-star-red: #ff0000;
 
   /* Etc */
   --color-etc-location-tab-button: var(--color-grayscale-50);
@@ -133,6 +133,6 @@
   --color-etc-checkbox-bg_accent: var(--color-blue-200);
   --color-etc-checkbox-border: var(--color-grayscale-200);
   --color-etc-checkbox-accent-checked: var(--color-grayscale-white);
-  --color-etc-icon-star-filled: var(--color-texticon-onnormal-star-red);
+  --color-etc-icon-star-filled: var(--color-red-star);
   --color-etc-icon-star-empty: var(--color-grayscale-200);
 }
