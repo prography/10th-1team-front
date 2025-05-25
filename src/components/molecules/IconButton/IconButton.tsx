@@ -1,7 +1,7 @@
 import { ButtonHTMLAttributes, ReactNode } from "react";
 import { type VariantProps } from "class-variance-authority";
 import { cn } from "@/utils/cn";
-import { buttonVariants } from "@/components/atoms/Button/Button";
+import { buttonVariants } from "@/components/atoms/Button/buttonVariants";
 
 interface IconButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement>,
@@ -15,7 +15,7 @@ interface IconButtonProps
 }
 
 export default function IconButton({
-  variant = "none",
+  variant,
   className,
   disabled = false,
   isPressed = false,
