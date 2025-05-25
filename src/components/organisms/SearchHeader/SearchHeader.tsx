@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import IconButton from "@/components/molecules/IconButton/IconButton";
 import SearchForm from "@/components/molecules/SearchForm/SearchForm";
-import { cn } from "@/utils/style";
+import { cn } from "@/utils/cn";
 import Icon from "@/components/atoms/Icon/Icon";
 
 interface SearchHeaderProps {

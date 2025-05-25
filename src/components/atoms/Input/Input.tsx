@@ -1,6 +1,6 @@
 import { InputHTMLAttributes, forwardRef } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@/utils/style";
+import { cn } from "@/utils/cn";
 
 const inputVariants = cva(
   "h-[24px] body-m-semibold focus:outline-none transition-colors caret-[#20A6FF]",

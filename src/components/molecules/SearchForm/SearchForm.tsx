@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import Input from "@/components/atoms/Input/Input";
 import IconButton from "@/components/molecules/IconButton/IconButton";
-import { cn } from "@/utils/style";
+import { cn } from "@/utils/cn";
 import Icon from "@/components/atoms/Icon/Icon";
 
 interface SearchFormProps {
