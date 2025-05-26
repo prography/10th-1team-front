@@ -1,3 +1,4 @@
+import { colors } from "@/styles/colors";
 import { SVGProps } from "react";
 
 export default function Check(props: SVGProps<SVGSVGElement>) {
@@ -11,7 +12,7 @@ export default function Check(props: SVGProps<SVGSVGElement>) {
     >
       <path
         d="M4 10.2667L7.5 14L16 6"
-        stroke={props.stroke || "#0048FF"}
+        stroke={props.stroke || colors.Brand.Primary.Main}
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"

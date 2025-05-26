@@ -1,3 +1,4 @@
+import { colors } from "@/styles/colors";
 import { SVGProps } from "react";
 
 export default function Exit(props: SVGProps<SVGSVGElement>) {
@@ -11,13 +12,13 @@ export default function Exit(props: SVGProps<SVGSVGElement>) {
     >
       <path
         d="M4 20L20.0001 3.99994"
-        stroke={props.stroke || "#1A1A1A"}
+        stroke={props.stroke || colors.TextIcon.OnNormal.Black}
         strokeWidth={props.strokeWidth || "2"}
         strokeLinecap="round"
       />
       <path
         d="M4 4L20.0001 20.0001"
-        stroke={props.stroke || "#1A1A1A"}
+        stroke={props.stroke || colors.TextIcon.OnNormal.Black}
         strokeWidth={props.strokeWidth || "2"}
         strokeLinecap="round"
       />

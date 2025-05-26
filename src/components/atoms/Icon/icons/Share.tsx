@@ -1,3 +1,4 @@
+import { colors } from "@/styles/colors";
 import { SVGProps } from "react";
 
 export default function Share(props: SVGProps<SVGSVGElement>) {
@@ -11,17 +12,17 @@ export default function Share(props: SVGProps<SVGSVGElement>) {
     >
       <path
         d="M6 8L12 2L18 8"
-        stroke={props.stroke || "#1A1A1A"}
+        stroke={props.stroke || colors.TextIcon.OnNormal.Black}
         strokeWidth="2"
       />
       <path
         d="M12 3L12 15"
-        stroke={props.stroke || "#1A1A1A"}
+        stroke={props.stroke || colors.TextIcon.OnNormal.Black}
         strokeWidth="2"
       />
       <path
         d="M21 10V20H3V10"
-        stroke={props.stroke || "#1A1A1A"}
+        stroke={props.stroke || colors.TextIcon.OnNormal.Black}
         strokeWidth="2"
       />
     </svg>

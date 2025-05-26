@@ -1,3 +1,4 @@
+import { colors } from "@/styles/colors";
 import { SVGProps } from "react";
 
 export default function Search(props: SVGProps<SVGSVGElement>) {
@@ -14,7 +15,7 @@ export default function Search(props: SVGProps<SVGSVGElement>) {
         cy="12"
         r="7"
         transform="rotate(-90 11 12)"
-        stroke={props.stroke || "#0048FF"}
+        stroke={props.stroke || colors.TextIcon.OnNormal["Main 500"]}
         strokeWidth={props.strokeWidth || "2"}
       />
       <path
@@ -31,7 +32,7 @@ export default function Search(props: SVGProps<SVGSVGElement>) {
         L17.3013 15.8862
         L16.5942 16.5933
         Z"
-        fill={props.stroke || "#0048FF"}
+        fill={props.stroke || colors.TextIcon.OnNormal["Main 500"]}
       />
     </svg>
   );

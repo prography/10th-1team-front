@@ -1,3 +1,4 @@
+import { colors } from "@/styles/colors";
 import { SVGProps } from "react";
 
 export default function Back(props: SVGProps<SVGSVGElement>) {
@@ -11,7 +12,7 @@ export default function Back(props: SVGProps<SVGSVGElement>) {
     >
       <path
         d="M16 4L8 12L16 20"
-        stroke={props.stroke || "#1A1A1A"}
+        stroke={props.stroke || colors.TextIcon.OnNormal.Black}
         strokeWidth={props.strokeWidth || "2"}
         strokeLinecap="round"
         strokeLinejoin="round"

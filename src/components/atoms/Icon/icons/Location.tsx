@@ -1,3 +1,4 @@
+import { colors } from "@/styles/colors";
 import { SVGProps } from "react";
 
 export default function Location(props: SVGProps<SVGSVGElement>) {
@@ -36,7 +37,7 @@ export default function Location(props: SVGProps<SVGSVGElement>) {
         C12.0319 9.09368 11.8036 9.64478 11.3973 10.0511
         C10.991 10.4574 10.4399 10.6857 9.86523 10.6857
         Z"
-        fill={props.fill || "#0048FF"}
+        fill={props.fill || colors.TextIcon.OnNormal["Main 500"]}
       />
     </svg>
   );

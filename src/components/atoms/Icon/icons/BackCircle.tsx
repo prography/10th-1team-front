@@ -1,3 +1,4 @@
+import { colors } from "@/styles/colors";
 import { SVGProps } from "react";
 
 export default function BackCircle(props: SVGProps<SVGSVGElement>) {
@@ -13,19 +14,23 @@ export default function BackCircle(props: SVGProps<SVGSVGElement>) {
         <circle cx="12" cy="12" r="12" fill={props.fill || "white"} />
         <path
           d="M12 6L6 12L12 18"
-          stroke={props.stroke || "#1A1A1A"}
+          stroke={props.stroke || colors.TextIcon.OnNormal.Black}
           strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M6 12H18"
-          stroke={props.stroke || "#1A1A1A"}
+          stroke={props.stroke || colors.TextIcon.OnNormal.Black}
           strokeLinecap="round"
         />
       </g>
       <defs>
         <clipPath id="clip0_394_5659">
-          <rect width="24" height="24" fill={props.fill || "white"} />
+          <rect
+            width="24"
+            height="24"
+            fill={props.fill || colors.TextIcon.OnNormal.White}
+          />
         </clipPath>
       </defs>
     </svg>

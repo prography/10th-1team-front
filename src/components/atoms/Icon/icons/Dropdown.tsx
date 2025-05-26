@@ -1,3 +1,4 @@
+import { colors } from "@/styles/colors";
 import { SVGProps } from "react";
 
 export default function Dropdown(props: SVGProps<SVGSVGElement>) {
@@ -11,7 +12,7 @@ export default function Dropdown(props: SVGProps<SVGSVGElement>) {
     >
       <path
         d="M5 7L10 13L15 7"
-        stroke={props.stroke || "#ABB7CD"}
+        stroke={props.stroke || colors.TextIcon.OnNormal.LowestEmp}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
