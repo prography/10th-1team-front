@@ -5,6 +5,7 @@ import IconButton from "@/components/molecules/IconButton/IconButton";
 import SearchForm from "@/components/molecules/SearchForm/SearchForm";
 import { cn } from "@/utils/cn";
 import Icon from "@/components/atoms/Icon/Icon";
+import { useCallback } from "react";
 
 interface SearchHeaderProps {
   onSearch: (value: string) => void;
@@ -19,6 +20,10 @@ export default function SearchHeader({
 }: SearchHeaderProps) {
   const router = useRouter();
 
+  const handleBack = useCallback(() => {
+    router.push("/");
+  }, [router]);
+
   return (
     <header
       className={cn(
@@ -28,7 +33,7 @@ export default function SearchHeader({
     >
       <IconButton
         startIcon={<Icon icon="Back" size={20} />}
-        onClick={() => router.back()}
+        onClick={handleBack}
       />
       <div className="flex-1">
         <SearchForm onSearch={onSearch} placeholder={placeholder} />

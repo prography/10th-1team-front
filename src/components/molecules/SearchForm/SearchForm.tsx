@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, useCallback, useRef, useState } from "react";
 import Input from "@/components/atoms/Input/Input";
 import IconButton from "@/components/molecules/IconButton/IconButton";
 import { cn } from "@/utils/cn";
@@ -15,24 +15,27 @@ export default function SearchForm({
   placeholder = "검색어를 입력하세요",
   className,
 }: SearchFormProps) {
-  const [value, setValue] = useState("");
+  const [query, setQuery] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-  };
+  const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
+  }, []);
 
-  const handleClear = () => {
-    setValue("");
+  const handleClear = useCallback(() => {
+    setQuery("");
     inputRef.current?.focus();
-  };
+  }, []);
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    if (value.trim()) {
-      onSearch(value.trim());
-    }
-  };
+  const handleSubmit = useCallback(
+    (e: FormEvent) => {
+      e.preventDefault();
+      if (query.trim()) {
+        onSearch(query.trim());
+      }
+    },
+    [query, onSearch]
+  );
 
   return (
     <form
@@ -42,13 +45,13 @@ export default function SearchForm({
       <div className="relative flex-1 mr-[12px]">
         <Input
           ref={inputRef}
-          value={value}
+          value={query}
           onChange={handleChange}
           placeholder={placeholder}
           fullWidth
           className="pr-[35px]"
         />
-        {value && (
+        {query && (
           <div className="absolute right-0 top-1/2 -translate-y-1/2 h-[24px]">
             <IconButton
               startIcon={<Icon icon="Delete" size={24} />}
@@ -60,7 +63,7 @@ export default function SearchForm({
       <IconButton
         startIcon={<Icon icon="Search" size={20} />}
         type="submit"
-        disabled={!value.trim()}
+        disabled={!query.trim()}
       />
     </form>
   );
