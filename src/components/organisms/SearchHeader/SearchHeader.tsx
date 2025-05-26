@@ -31,10 +31,7 @@ export default function SearchHeader({
         className
       )}
     >
-      <IconButton
-        startIcon={<Icon icon="Back" size={20} />}
-        onClick={handleBack}
-      />
+      <IconButton startIcon={<Icon icon="Back" />} onClick={handleBack} />
       <div className="flex-1">
         <SearchForm onSearch={onSearch} placeholder={placeholder} />
       </div>

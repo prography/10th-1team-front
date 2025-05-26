@@ -42,7 +42,7 @@ export default function SearchForm({
       onSubmit={handleSubmit}
       className={cn("relative flex items-center", className)}
     >
-      <div className="relative flex-1 mr-[12px]">
+      <div className="flex-1 mr-[12px]">
         <Input
           ref={inputRef}
           value={query}
@@ -50,18 +50,18 @@ export default function SearchForm({
           placeholder={placeholder}
           fullWidth
           className="pr-[35px]"
+          endAdornment={
+            query && (
+              <IconButton
+                startIcon={<Icon icon="Delete" />}
+                onClick={handleClear}
+              />
+            )
+          }
         />
-        {query && (
-          <div className="absolute right-0 top-1/2 -translate-y-1/2 h-[24px]">
-            <IconButton
-              startIcon={<Icon icon="Delete" size={24} />}
-              onClick={handleClear}
-            />
-          </div>
-        )}
       </div>
       <IconButton
-        startIcon={<Icon icon="Search" size={20} />}
+        startIcon={<Icon icon="Search" />}
         type="submit"
         disabled={!query.trim()}
       />
