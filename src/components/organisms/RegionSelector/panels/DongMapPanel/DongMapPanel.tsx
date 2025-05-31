@@ -1,0 +1,153 @@
+"use client";
+
+import Button from "@/components/atoms/Button/Button";
+import RegionMapSVG from "../../../../molecules/RegionMapSVG/RegionMapSVG";
+import { DongInfo } from "@/types/region";
+import SelectedDongTags from "../../../../molecules/SelectedDongTags/SelectedDongTags";
+import { useDongMapPanel } from "./useDongMapPanel";
+
+interface DongMapPanelProps {
+  selectedDong: DongInfo[];
+  onChangeSelectedDong: (regions: DongInfo[]) => void;
+  onSelect: (dongList: DongInfo[]) => void;
+  selectedProvince: string;
+  selectedCity: string;
+  onBack: () => void;
+}
+
+const DongMapPanel: React.FC<DongMapPanelProps> = ({
+  selectedDong,
+  onChangeSelectedDong,
+  onSelect,
+  selectedProvince,
+  selectedCity,
+  onBack,
+}) => {
+  const {
+    zoomIndex,
+    position,
+    isDragging,
+    containerRef,
+    isOverflow,
+    tagContainerRef,
+    currentScale,
+    currentRegions,
+    handleRegionClick,
+    handleSelectAll,
+    handleRemoveRegion,
+    handleConfirm,
+    handleMouseDown,
+    handleMouseMove,
+    handleZoomIn,
+    handleZoomOut,
+    handleReset,
+  } = useDongMapPanel(
+    selectedProvince,
+    selectedCity,
+    selectedDong,
+    onChangeSelectedDong,
+    onSelect
+  );
+
+  return (
+    <>
+      <div className="px-[16px] py-[8px] bg-Surface-Normal-Container0 inline-flex justify-between items-center">
+        <div className="text-brand-primary-main body-m-semibold">
+          {selectedProvince} {selectedCity}
+        </div>
+        <Button
+          variant="neutral"
+          onClick={handleSelectAll}
+          disabled={!currentRegions}
+          isPressed={
+            selectedDong.length === (currentRegions ? currentRegions.length : 0)
+          }
+          className="button-s-medium rounded-[4px] px-[8px] py-[8px] gap-[10px]"
+        >
+          {selectedDong.length === (currentRegions ? currentRegions.length : 0)
+            ? "전체 해제"
+            : "전체 선택"}
+        </Button>
+      </div>
+      {currentRegions ? (
+        <>
+          <div className="relative py-[15px] px-[6px] overflow-hidden">
+            <div
+              ref={containerRef}
+              className="overflow-hidden touch-none"
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+            >
+              <RegionMapSVG
+                regions={currentRegions}
+                selectedDong={selectedDong}
+                isDragging={isDragging}
+                position={position}
+                scale={currentScale}
+                onRegionClick={handleRegionClick}
+              />
+            </div>
+          </div>
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <button
+              onClick={handleZoomOut}
+              disabled={zoomIndex === 0}
+              className="w-8 h-8 bg-white rounded-lg border border-gray-200 flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed text-black"
+            >
+              -
+            </button>
+            <div className="w-16 text-center text-sm text-black">
+              {Math.round(currentScale * 100)}%
+            </div>
+            <button
+              onClick={handleZoomIn}
+              disabled={zoomIndex === 6}
+              className="w-8 h-8 bg-white rounded-lg border border-gray-200 flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed text-black"
+            >
+              +
+            </button>
+            <button
+              onClick={handleReset}
+              className="w-8 h-8 bg-white rounded-lg border border-gray-200 flex items-center justify-center hover:bg-gray-50 ml-2 text-black"
+            >
+              ↺
+            </button>
+          </div>
+          <div className="py-[8px] pl-[16px]">
+            <div
+              className="flex gap-[10px] overflow-x-auto whitespace-nowrap pb-2 min-h-[40px]"
+              ref={tagContainerRef}
+            >
+              <SelectedDongTags
+                isOverflow={isOverflow}
+                selectedDong={selectedDong}
+                handleRemoveRegion={handleRemoveRegion}
+              />
+            </div>
+          </div>
+        </>
+      ) : (
+        <div className="flex flex-col items-center justify-center py-20">
+          <div className="text-lg text-gray-500">
+            {selectedCity}는 아직 지원하지 않습니다.
+          </div>
+        </div>
+      )}
+      <div className="flex gap-[8px] w-full px-[16px] py-[14px]">
+        <Button className="flex-1 h-[56px]" variant="neutral" onClick={onBack}>
+          뒤로
+        </Button>
+        <Button
+          className="flex-1 h-[56px]"
+          variant="primary"
+          onClick={handleConfirm}
+          disabled={!currentRegions}
+        >
+          완료
+        </Button>
+      </div>
+    </>
+  );
+};
+
+export default DongMapPanel;
