@@ -74,7 +74,7 @@ export default function SearchPageTemplate({
           onDeleteHistory={onDeleteHistory}
         />
 
-        <div ref={observerRef} className="h-[1px]" />
+        {mode === "results" && <div ref={observerRef} className="h-[1px]" />}
       </div>
     </div>
   );
