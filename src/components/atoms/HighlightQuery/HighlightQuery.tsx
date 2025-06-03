@@ -23,22 +23,32 @@ export default function HighlightQuery({
   const regex = new RegExp(escapedQuery, multiple ? "gi" : "i");
 
   if (multiple) {
-    const parts = text.split(regex);
-    const matches = text.match(regex);
-    if (!matches) return <span className={className}>{text}</span>;
+    const matches = [...text.matchAll(regex)];
+    if (matches.length === 0) return <span className={className}>{text}</span>;
 
-    return (
-      <span className={className}>
-        {parts.map((part, i) => (
-          <span key={i}>
-            {part}
-            {i < matches.length && (
-              <mark className={highlightClassName}>{matches[i]}</mark>
-            )}
-          </span>
-        ))}
-      </span>
-    );
+    const highlighted: React.ReactNode[] = [];
+    let lastIndex = 0;
+
+    for (const match of matches) {
+      if (match.index === undefined)
+        throw new Error("RegExp match index is undefined");
+
+      const start = match.index;
+      const end = start + match[0].length;
+
+      if (lastIndex < start) highlighted.push(text.slice(lastIndex, start));
+
+      highlighted.push(
+        <mark key={start} className={highlightClassName}>
+          {text.slice(start, end)}
+        </mark>
+      );
+
+      lastIndex = end;
+    }
+
+    if (lastIndex < text.length) highlighted.push(text.slice(lastIndex));
+    return <span className={className}>{highlighted}</span>;
   }
 
   const match = text.match(regex);
