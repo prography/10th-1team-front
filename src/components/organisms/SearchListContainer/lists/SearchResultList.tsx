@@ -32,7 +32,9 @@ export default function SearchResultList({
               </span>
             </div>
             <div className="caption-m-regular text-texticon-onnormal-midemp mb-[12px]">
-              {item.road_addresses} · {item.region.dong_name}
+              {item.road_addresses ?? "주소 없음"}
+              {" · "}
+              {item.region?.dong_name ?? "--"}
             </div>
 
             <div className="relative w-full aspect-[328/160] bg-gray-100 rounded-[4px] overflow-hidden">
