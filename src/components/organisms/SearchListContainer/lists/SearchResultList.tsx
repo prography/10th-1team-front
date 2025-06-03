@@ -1,8 +1,9 @@
-import Icon from "@/components/atoms/Icon/Icon";
+import Image from "next/image";
 import List from "@/components/atoms/List/List";
 import ListItem from "@/components/atoms/List/ListItem";
+import MapScoreCard from "./MapScoreCard";
+
 import type { SearchResultItem } from "@/types/search";
-import Image from "next/image";
 
 interface SearchResultListProps {
   items: SearchResultItem[];
@@ -52,38 +53,18 @@ export default function SearchResultList({
             </div>
 
             <div className="flex items-center gap-2 mt-[12px]">
-              <div className="flex-1 flex items-center gap-[8px] bg-surface-normal-container-b50 rounded-[4px] p-[12px]">
-                <Icon icon="Navermap" size={36} />
-                <div>
-                  <span className="caption-m-semibold mr-[2px]">
-                    네이버 지도
-                  </span>
-                  <span className="caption-s-regular">
-                    ({item.naver.count})
-                  </span>
-                  <div className="flex items-center gap-1">
-                    <Icon icon="Star" size={16} />
-                    <span className="text-red-star caption-m-regular">
-                      {item.naver.score ? item.naver.score : "--"}
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div className="flex-1 flex items-center gap-[8px] bg-surface-normal-container-b50 rounded-[4px] p-[12px]">
-                <Icon icon="Kakaomap" size={36} />
-                <div>
-                  <span className="caption-m-semibold mr-[2px]">카카오 맵</span>
-                  <span className="caption-s-regular">
-                    ({item.kakao.count})
-                  </span>
-                  <div className="flex items-center gap-1">
-                    <Icon icon="Star" size={16} />
-                    <span className="text-red-star caption-m-regular">
-                      {item.kakao.score ? item.kakao.score : "--"}
-                    </span>
-                  </div>
-                </div>
-              </div>
+              <MapScoreCard
+                icon="Navermap"
+                label="네이버 지도"
+                count={item.naver.count}
+                score={item.naver.score}
+              />
+              <MapScoreCard
+                icon="Kakaomap"
+                label="카카오 맵"
+                count={item.kakao.count}
+                score={item.kakao.score}
+              />
             </div>
           </div>
         </ListItem>
