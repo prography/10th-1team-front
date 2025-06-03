@@ -2,6 +2,7 @@ import Icon from "@/components/atoms/Icon/Icon";
 import List from "@/components/atoms/List/List";
 import ListItem from "@/components/atoms/List/ListItem";
 import type { SearchResultItem } from "@/types/search";
+import Image from "next/image";
 
 interface SearchResultListProps {
   items: SearchResultItem[];
@@ -34,14 +35,18 @@ export default function SearchResultList({
               {item.road_addresses} · {item.region.dong_name}
             </div>
 
-            <div className="w-full aspect-[328/160] bg-gray-100 rounded-[4px] overflow-hidden">
-              {item.image_url && (
-                <img
-                  src={item.image_url}
-                  alt={item.name}
-                  className="w-full h-full object-cover"
-                />
-              )}
+            <div className="relative w-full aspect-[328/160] bg-gray-100 rounded-[4px] overflow-hidden">
+              <Image
+                src={
+                  item.image_url && item.image_url !== ""
+                    ? item.image_url
+                    : "/images/fallback.png"
+                }
+                alt={item.name}
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="object-cover"
+              />
             </div>
 
             <div className="flex items-center gap-2 mt-[12px]">
