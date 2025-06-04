@@ -134,9 +134,9 @@ export function useDongMapPanel(
           y: e.touches[0].clientY - position.y,
         });
       } else if (e.touches.length === 2) {
+        e.preventDefault();
         const distance = getTouchDistance(e.touches);
         setLastTouchDistance(distance);
-        e.preventDefault();
       }
     },
     [position.x, position.y]
