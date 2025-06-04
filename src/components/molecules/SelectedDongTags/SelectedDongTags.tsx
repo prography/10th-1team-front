@@ -18,10 +18,11 @@ const SelectedDongTags: React.FC<SelectedDongTagsProps> = ({
   selectedDong,
   handleRemoveRegion,
 }) => {
+  const isOverflowing = isOverflow && selectedDong.length > 1;
   if (!selectedDong.length) return null;
   return (
     <>
-      {isOverflow && selectedDong.length > 1 && (
+      {isOverflowing && (
         <Button
           key={selectedDong[0].dong_code}
           className={TAG_BUTTON_CLASSNAME}
@@ -32,7 +33,7 @@ const SelectedDongTags: React.FC<SelectedDongTagsProps> = ({
           </span>
         </Button>
       )}
-      {selectedDong.map((dong: DongInfo) => (
+      {selectedDong.map((dong) => (
         <IconButton
           key={dong.dong_code}
           className={TAG_BUTTON_CLASSNAME}
