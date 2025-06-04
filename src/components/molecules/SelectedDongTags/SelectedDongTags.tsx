@@ -10,6 +10,9 @@ interface SelectedDongTagsProps {
   handleRemoveRegion: (dong: DongInfo) => void;
 }
 
+const TAG_BUTTON_CLASSNAME =
+  "button-m-medium inline-flex flex-shrink-0 items-center gap-[4px] px-[12px] bg-etc-location-tab-button rounded-[4px] text-texticon-onnormal-highemp";
+
 const SelectedDongTags: React.FC<SelectedDongTagsProps> = ({
   isOverflow = true,
   selectedDong,
@@ -21,11 +24,9 @@ const SelectedDongTags: React.FC<SelectedDongTagsProps> = ({
       {isOverflow && selectedDong.length > 1 && (
         <Button
           key={selectedDong[0].dong_code}
-          className="button-m-medium inline-flex flex-shrink-0 items-center gap-[4px] px-[12px] bg-etc-location-tab-button rounded-[4px]"
+          className={TAG_BUTTON_CLASSNAME}
         >
-          <span className="button-m-medium text-texticon-onnormal-highemp">
-            {selectedDong[0].name} 외{" "}
-          </span>
+          <span className="button-m-medium ">{selectedDong[0].name} 외 </span>
           <span className="caption-m-semibold text-texticon-onnormal-main-500">
             {selectedDong.length - 1}
           </span>
@@ -34,7 +35,7 @@ const SelectedDongTags: React.FC<SelectedDongTagsProps> = ({
       {selectedDong.map((dong: DongInfo) => (
         <IconButton
           key={dong.dong_code}
-          className="button-m-medium inline-flex flex-shrink-0 items-center gap-[4px] px-[12px] text-texticon-onnormal-highemp bg-etc-location-tab-button rounded-[4px]"
+          className={TAG_BUTTON_CLASSNAME}
           text={dong.name}
           onClick={() => handleRemoveRegion(dong)}
           endIcon={<Icon icon="Exit" size={16} />}
