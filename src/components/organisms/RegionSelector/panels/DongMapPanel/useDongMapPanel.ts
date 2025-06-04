@@ -203,25 +203,28 @@ export function useDongMapPanel(
   }, [selectedDong]);
 
   // 태그 리스트 드래그 스크롤 핸들러
-  const handleTagContainerMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    const el = e.currentTarget;
-    const pos = { left: el.scrollLeft, x: e.clientX };
+  const handleTagContainerMouseDown = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      const el = e.currentTarget;
+      const pos = { left: el.scrollLeft, x: e.clientX };
 
-    const mouseMoveHandler = (e: MouseEvent) => {
-      const scrollDistance = e.clientX - pos.x;
-      el.scrollLeft = pos.left - scrollDistance;
-      el.style.pointerEvents = "none";
-    };
+      const mouseMoveHandler = (e: MouseEvent) => {
+        const scrollDistance = e.clientX - pos.x;
+        el.scrollLeft = pos.left - scrollDistance;
+        el.style.pointerEvents = "none";
+      };
 
-    const mouseUpHandler = () => {
-      document.removeEventListener("mousemove", mouseMoveHandler);
-      document.removeEventListener("mouseup", mouseUpHandler);
-      el.style.pointerEvents = "auto";
-    };
+      const mouseUpHandler = () => {
+        document.removeEventListener("mousemove", mouseMoveHandler);
+        document.removeEventListener("mouseup", mouseUpHandler);
+        el.style.pointerEvents = "auto";
+      };
 
-    document.addEventListener("mousemove", mouseMoveHandler);
-    document.addEventListener("mouseup", mouseUpHandler);
-  };
+      document.addEventListener("mousemove", mouseMoveHandler);
+      document.addEventListener("mouseup", mouseUpHandler);
+    },
+    []
+  );
 
   return {
     zoomIndex,
