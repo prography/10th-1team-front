@@ -62,7 +62,7 @@ export function useDongMapPanel(
     }
   };
 
-  const handleSelectAll = () => {
+  const onToggleSelectAll = () => {
     if (selectedDong.length === GANGNAM_REGIONS.length) {
       onChangeSelectedDong([]);
     } else {
@@ -222,7 +222,7 @@ export function useDongMapPanel(
     currentScale,
     currentRegions,
     handleRegionClick,
-    handleSelectAll,
+    onToggleSelectAll,
     handleRemoveRegion,
     handleConfirm,
     handleWheel,

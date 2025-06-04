@@ -1,7 +1,7 @@
 "use client";
 
 import Button from "@/components/atoms/Button/Button";
-import RegionMapSVG from "../../../../molecules/RegionMapSVG/RegionMapSVG";
+import RegionMapDisplay from "../../../../molecules/RegionMapDisplay/RegionMapDisplay";
 import { DongInfo } from "@/types/region";
 import SelectedDongTags from "../../../../molecules/SelectedDongTags/SelectedDongTags";
 import { useDongMapPanel } from "./useDongMapPanel";
@@ -33,7 +33,7 @@ const DongMapPanel: React.FC<DongMapPanelProps> = ({
     currentScale,
     currentRegions,
     handleRegionClick,
-    handleSelectAll,
+    onToggleSelectAll,
     handleRemoveRegion,
     handleConfirm,
     handleMouseDown,
@@ -48,7 +48,8 @@ const DongMapPanel: React.FC<DongMapPanelProps> = ({
     onChangeSelectedDong,
     onSelect
   );
-
+  const isAllDongSelected =
+    selectedDong.length === (currentRegions ? currentRegions.length : 0);
   return (
     <>
       <div className="px-[16px] py-[8px] bg-Surface-Normal-Container0 inline-flex justify-between items-center">
@@ -57,16 +58,12 @@ const DongMapPanel: React.FC<DongMapPanelProps> = ({
         </div>
         <Button
           variant="neutral"
-          onClick={handleSelectAll}
+          onClick={onToggleSelectAll}
           disabled={!currentRegions}
-          isPressed={
-            selectedDong.length === (currentRegions ? currentRegions.length : 0)
-          }
+          isPressed={isAllDongSelected}
           className="button-s-medium rounded-[4px] px-[8px] py-[8px] gap-[10px]"
         >
-          {selectedDong.length === (currentRegions ? currentRegions.length : 0)
-            ? "전체 해제"
-            : "전체 선택"}
+          {isAllDongSelected ? "전체 해제" : "전체 선택"}
         </Button>
       </div>
       {currentRegions ? (
@@ -78,7 +75,7 @@ const DongMapPanel: React.FC<DongMapPanelProps> = ({
               onMouseDown={handleMouseDown}
               onMouseMove={handleMouseMove}
             >
-              <RegionMapSVG
+              <RegionMapDisplay
                 regions={currentRegions}
                 selectedDong={selectedDong}
                 isDragging={isDragging}
