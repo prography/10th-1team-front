@@ -1,7 +1,7 @@
 import { DongInfo, Region } from "@/types/region";
 import React from "react";
 
-interface RegionMapSVGProps {
+interface RegionMapDisplayProps {
   regions: Region[];
   selectedDong?: DongInfo[];
   isDragging?: boolean;
@@ -19,7 +19,7 @@ const COLORS = {
   defaultText: "#0048FF",
 };
 
-const RegionMapSVG: React.FC<RegionMapSVGProps> = ({
+const RegionMapDisplay: React.FC<RegionMapDisplayProps> = ({
   regions,
   selectedDong = [],
   isDragging = false,
@@ -96,4 +96,4 @@ const RegionMapSVG: React.FC<RegionMapSVGProps> = ({
   );
 };
 
-export default RegionMapSVG;
+export default RegionMapDisplay;
