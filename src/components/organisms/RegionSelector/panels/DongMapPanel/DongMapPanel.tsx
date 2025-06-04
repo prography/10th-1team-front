@@ -41,6 +41,7 @@ const DongMapPanel: React.FC<DongMapPanelProps> = ({
     handleMouseMove,
     doZoomIn,
     doZoomOut,
+    handleTagContainerMouseDown,
   } = useDongMapPanel(selectedDong, onChangeSelectedDong, onSelect);
   const isAllDongSelected =
     selectedDong.length === (regionMapData ? regionMapData.length : 0);
@@ -100,8 +101,14 @@ const DongMapPanel: React.FC<DongMapPanelProps> = ({
           </div>
           <div className="py-[8px] pl-[16px]">
             <div
-              className="flex gap-[10px] overflow-x-auto whitespace-nowrap pb-2 min-h-[40px]"
+              className="flex gap-[10px] overflow-x-auto whitespace-nowrap pb-2 min-h-[40px] scrollbar-hide cursor-grab active:cursor-grabbing"
               ref={tagContainerRef}
+              style={{
+                overflowX: "auto",
+                scrollbarWidth: "none",
+                msOverflowStyle: "none",
+              }}
+              onMouseDown={handleTagContainerMouseDown}
             >
               <SelectedDongTags
                 isOverflow={isOverflow}
