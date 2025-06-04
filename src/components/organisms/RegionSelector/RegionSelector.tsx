@@ -4,6 +4,7 @@ import Icon from "@/components/atoms/Icon/Icon";
 import RegionListPanel from "./panels/RegionListPanel/RegionListPanel";
 import DongMapPanel from "./panels/DongMapPanel/DongMapPanel";
 import { Province, DongInfo } from "@/types/region";
+import clsx from "clsx";
 
 interface RegionSelectorProps {
   isOpen: boolean;
@@ -39,7 +40,10 @@ const RegionSelector: React.FC<RegionSelectorProps> = ({
   return (
     <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
       <div
-        className={`bg-surface-normal-container0 rounded-xl w-[90%] max-w-[480px] text-black ${!hasSelectedRegion ? "h-[546px]" : ""} flex flex-col`}
+        className={clsx(
+          "bg-surface-normal-container0 rounded-xl w-[90%] max-w-[480px] text-black flex flex-col",
+          { "h-[546px]": !hasSelectedRegion }
+        )}
       >
         <div className="self-stretch pl-[16px] pr-[6px] pt-[14px] pb-[10px] border-b border-border-normal-lowemp inline-flex justify-between items-center">
           <h2 className="body-m-regular text-black">검색 지역 설정</h2>
