@@ -39,9 +39,8 @@ const DongMapPanel: React.FC<DongMapPanelProps> = ({
     handleConfirm,
     handleMouseDown,
     handleMouseMove,
-    handleZoomIn,
-    handleZoomOut,
-    handleReset,
+    doZoomIn,
+    doZoomOut,
   } = useDongMapPanel(selectedDong, onChangeSelectedDong, onSelect);
   const isAllDongSelected =
     selectedDong.length === (regionMapData ? regionMapData.length : 0);
@@ -82,7 +81,7 @@ const DongMapPanel: React.FC<DongMapPanelProps> = ({
           </div>
           <div className="flex items-center justify-center gap-2 mb-4">
             <button
-              onClick={handleZoomOut}
+              onClick={doZoomIn}
               disabled={zoomIndex === 0}
               className="w-8 h-8 bg-white rounded-lg border border-gray-200 flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed text-black"
             >
@@ -92,17 +91,11 @@ const DongMapPanel: React.FC<DongMapPanelProps> = ({
               {Math.round(currentScale * 100)}%
             </div>
             <button
-              onClick={handleZoomIn}
+              onClick={doZoomOut}
               disabled={zoomIndex === 6}
               className="w-8 h-8 bg-white rounded-lg border border-gray-200 flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed text-black"
             >
               +
-            </button>
-            <button
-              onClick={handleReset}
-              className="w-8 h-8 bg-white rounded-lg border border-gray-200 flex items-center justify-center hover:bg-gray-50 ml-2 text-black"
-            >
-              ↺
             </button>
           </div>
           <div className="py-[8px] pl-[16px]">

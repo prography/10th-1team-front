@@ -10,6 +10,9 @@ import GANGNAM_REGIONS from "@/constants/gangnamRegions";
 
 const ZOOM_LEVELS = [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
 
+const clamp = (value: number, min: number, max: number) =>
+  Math.min(Math.max(value, min), max);
+
 // 두 터치 포인트 간의 거리 계산
 const getTouchDistance = (touches: TouchList) => {
   const dx = touches[0].clientX - touches[1].clientX;
@@ -74,13 +77,26 @@ export function useDongMapPanel(
     onSelect(selectedDong);
   };
 
+  const doZoomIn = () => {
+    setZoomIndex((prev) => clamp(prev + 1, 0, ZOOM_LEVELS.length - 1));
+  };
+
+  const doZoomOut = () => {
+    setZoomIndex((prev) => clamp(prev - 1, 0, ZOOM_LEVELS.length - 1));
+  };
+
+  const resetZoom = () => {
+    setZoomIndex(2);
+    setPosition({ x: 0, y: 0 });
+  };
+
   const handleWheel = useCallback((e: WheelEvent) => {
     e.preventDefault();
     const delta = e.deltaY;
     if (delta > 0) {
-      setZoomIndex((prev) => Math.max(0, prev - 1));
+      doZoomOut();
     } else {
-      setZoomIndex((prev) => Math.min(ZOOM_LEVELS.length - 1, prev + 1));
+      doZoomIn();
     }
   }, []);
 
@@ -150,19 +166,6 @@ export function useDongMapPanel(
     [isDragging, dragStart.x, dragStart.y, lastTouchDistance]
   );
 
-  const handleZoomIn = () => {
-    setZoomIndex((prev) => Math.min(ZOOM_LEVELS.length - 1, prev + 1));
-  };
-
-  const handleZoomOut = () => {
-    setZoomIndex((prev) => Math.max(0, prev - 1));
-  };
-
-  const handleReset = () => {
-    setZoomIndex(2);
-    setPosition({ x: 0, y: 0 });
-  };
-
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
@@ -216,8 +219,8 @@ export function useDongMapPanel(
     handleMouseDown,
     handleMouseMove,
     handleMouseUp,
-    handleZoomIn,
-    handleZoomOut,
-    handleReset,
+    doZoomIn,
+    doZoomOut,
+    resetZoom,
   };
 }
