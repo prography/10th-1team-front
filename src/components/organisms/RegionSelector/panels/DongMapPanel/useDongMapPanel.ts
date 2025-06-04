@@ -10,15 +10,6 @@ import GANGNAM_REGIONS from "@/constants/gangnamRegions";
 
 const ZOOM_LEVELS = [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
 
-// 구별로 동 데이터 매핑
-const REGION_MAP: Record<string, Record<string, Region[]>> = {
-  서울특별시: {
-    강남구: GANGNAM_REGIONS,
-    // 서초구: SEOCHO_REGIONS,
-    // ...추가 가능
-  },
-};
-
 // 두 터치 포인트 간의 거리 계산
 const getTouchDistance = (touches: TouchList) => {
   const dx = touches[0].clientX - touches[1].clientX;
@@ -27,8 +18,6 @@ const getTouchDistance = (touches: TouchList) => {
 };
 
 export function useDongMapPanel(
-  selectedProvince: string,
-  selectedCity: string,
   selectedDong: DongInfo[],
   onChangeSelectedDong: (dong: DongInfo[]) => void,
   onSelect: (dong: DongInfo[]) => void
@@ -45,7 +34,6 @@ export function useDongMapPanel(
   const tagContainerRef = useRef<HTMLDivElement>(null);
 
   const currentScale = ZOOM_LEVELS[zoomIndex];
-  const currentRegions = REGION_MAP[selectedProvince][selectedCity];
 
   const handleRegionClick = (dong: DongInfo) => {
     if (!isDragging) {
@@ -220,7 +208,6 @@ export function useDongMapPanel(
     setIsOverflow,
     tagContainerRef,
     currentScale,
-    currentRegions,
     handleRegionClick,
     onToggleSelectAll,
     handleRemoveRegion,

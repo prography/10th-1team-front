@@ -1,7 +1,17 @@
 import { useState, useCallback } from "react";
-import { useRegionQueries } from "../../../hooks/queries/useRegionQueries";
+import { useRegionQuery } from "../../../hooks/queries/useRegionQuery";
 import useRegionStore from "@/store/useRegionStore";
-import { DongInfo } from "@/types/region";
+import { DongInfo, Region } from "@/types/region";
+import GANGNAM_REGIONS from "@/constants/gangnamRegions";
+
+// 구별로 동 데이터 매핑
+const REGION_MAP: Record<string, Record<string, Region[]>> = {
+  서울특별시: {
+    강남구: GANGNAM_REGIONS,
+    // 서초구: SEOCHO_REGIONS,
+    // ...추가 가능
+  },
+};
 
 export function useRegionSelector() {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,15 +28,15 @@ export function useRegionSelector() {
   const [tempCity, setTempCity] = useState<string>("");
   const [tempDong, setTempDong] = useState<DongInfo[]>([]);
 
-  const { data: regions, isLoading } = useRegionQueries();
-
+  const { data: regions, isLoading } = useRegionQuery();
+  const regionMapData = REGION_MAP[tempProvince]?.[tempCity];
   const openRegionSelector = useCallback(() => {
-    setTempProvince(storeProvince);
-    setTempCity(storeCity);
-    setTempDong(storeDong);
+    setTempProvince("");
+    setTempCity("");
+    setTempDong([]);
     setIsOpen(true);
     setHasSelectedRegion(false);
-  }, [storeProvince, storeCity, storeDong]);
+  }, []);
 
   const closeRegionSelector = useCallback(() => {
     setIsOpen(false);
@@ -76,5 +86,6 @@ export function useRegionSelector() {
     storeProvince,
     storeCity,
     storeDong,
+    regionMapData,
   };
 }

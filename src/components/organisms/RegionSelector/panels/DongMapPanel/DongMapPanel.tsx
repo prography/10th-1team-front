@@ -2,7 +2,7 @@
 
 import Button from "@/components/atoms/Button/Button";
 import RegionMapDisplay from "../../../../molecules/RegionMapDisplay/RegionMapDisplay";
-import { DongInfo } from "@/types/region";
+import { DongInfo, Region } from "@/types/region";
 import SelectedDongTags from "../../../../molecules/SelectedDongTags/SelectedDongTags";
 import { useDongMapPanel } from "./useDongMapPanel";
 
@@ -13,6 +13,7 @@ interface DongMapPanelProps {
   selectedProvince: string;
   selectedCity: string;
   onBack: () => void;
+  regionMapData: Region[];
 }
 
 const DongMapPanel: React.FC<DongMapPanelProps> = ({
@@ -22,6 +23,7 @@ const DongMapPanel: React.FC<DongMapPanelProps> = ({
   selectedProvince,
   selectedCity,
   onBack,
+  regionMapData,
 }) => {
   const {
     zoomIndex,
@@ -31,7 +33,6 @@ const DongMapPanel: React.FC<DongMapPanelProps> = ({
     isOverflow,
     tagContainerRef,
     currentScale,
-    currentRegions,
     handleRegionClick,
     onToggleSelectAll,
     handleRemoveRegion,
@@ -41,15 +42,9 @@ const DongMapPanel: React.FC<DongMapPanelProps> = ({
     handleZoomIn,
     handleZoomOut,
     handleReset,
-  } = useDongMapPanel(
-    selectedProvince,
-    selectedCity,
-    selectedDong,
-    onChangeSelectedDong,
-    onSelect
-  );
+  } = useDongMapPanel(selectedDong, onChangeSelectedDong, onSelect);
   const isAllDongSelected =
-    selectedDong.length === (currentRegions ? currentRegions.length : 0);
+    selectedDong.length === (regionMapData ? regionMapData.length : 0);
   return (
     <>
       <div className="px-[16px] py-[8px] bg-Surface-Normal-Container0 inline-flex justify-between items-center">
@@ -59,14 +54,14 @@ const DongMapPanel: React.FC<DongMapPanelProps> = ({
         <Button
           variant="neutral"
           onClick={onToggleSelectAll}
-          disabled={!currentRegions}
+          disabled={!regionMapData}
           isPressed={isAllDongSelected}
           className="button-s-medium rounded-[4px] px-[8px] py-[8px] gap-[10px]"
         >
           {isAllDongSelected ? "전체 해제" : "전체 선택"}
         </Button>
       </div>
-      {currentRegions ? (
+      {regionMapData ? (
         <>
           <div className="relative py-[15px] px-[6px] overflow-hidden">
             <div
@@ -76,7 +71,7 @@ const DongMapPanel: React.FC<DongMapPanelProps> = ({
               onMouseMove={handleMouseMove}
             >
               <RegionMapDisplay
-                regions={currentRegions}
+                regions={regionMapData}
                 selectedDong={selectedDong}
                 isDragging={isDragging}
                 position={position}
@@ -138,7 +133,7 @@ const DongMapPanel: React.FC<DongMapPanelProps> = ({
           className="flex-1 h-[56px]"
           variant="primary"
           onClick={handleConfirm}
-          disabled={!currentRegions}
+          disabled={!regionMapData}
         >
           완료
         </Button>
