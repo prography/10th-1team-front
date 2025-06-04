@@ -18,7 +18,7 @@ interface RegionSelectorProps {
   onSelect: (dongList: DongInfo[]) => void;
   onBack: () => void;
   onChangeSelectedDong: (dongList: DongInfo[]) => void;
-  isLoading: boolean;
+  isLoading?: boolean;
 }
 
 const RegionSelector: React.FC<RegionSelectorProps> = ({
@@ -36,7 +36,8 @@ const RegionSelector: React.FC<RegionSelectorProps> = ({
   isLoading = true,
 }) => {
   if (!isOpen) return null;
-
+  const showRegionListPanel = !isLoading && regions && !hasSelectedRegion;
+  const showDongMapPanel = !isLoading && regions && hasSelectedRegion;
   return (
     <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
       <div
@@ -49,16 +50,17 @@ const RegionSelector: React.FC<RegionSelectorProps> = ({
           <h2 className="body-m-regular text-black">검색 지역 설정</h2>
           <IconButton onClick={onClose} endIcon={<Icon icon="Exit" />} />
         </div>
-        {isLoading ? (
-          <div></div>
-        ) : !hasSelectedRegion && regions ? (
+        {/* TODO: 나중에 스켈레톤 처리예정 */}
+        {isLoading && <div>로딩중...</div>}
+        {showRegionListPanel && (
           <RegionListPanel
             regions={regions}
             selectedProvince={selectedProvince}
             selectedCity={selectedCity}
             onNext={onNext}
           />
-        ) : (
+        )}
+        {showDongMapPanel && (
           <DongMapPanel
             selectedProvince={selectedProvince}
             selectedCity={selectedCity}
