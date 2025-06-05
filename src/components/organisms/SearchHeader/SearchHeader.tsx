@@ -1,29 +1,27 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import IconButton from "@/components/molecules/IconButton/IconButton";
 import SearchForm from "@/components/molecules/SearchForm/SearchForm";
 import { cn } from "@/utils/cn";
 import Icon from "@/components/atoms/Icon/Icon";
-import { useCallback } from "react";
 
 interface SearchHeaderProps {
+  query: string;
+  onQueryChange: (value: string) => void;
   onSearch: (value: string) => void;
+  onBack: () => void;
   placeholder?: string;
   className?: string;
 }
 
 export default function SearchHeader({
+  query,
+  onQueryChange,
   onSearch,
+  onBack,
   placeholder = "검색어를 입력하세요",
   className,
 }: SearchHeaderProps) {
-  const router = useRouter();
-
-  const handleBack = useCallback(() => {
-    router.push("/");
-  }, [router]);
-
   return (
     <header
       className={cn(
@@ -31,9 +29,14 @@ export default function SearchHeader({
         className
       )}
     >
-      <IconButton startIcon={<Icon icon="Back" />} onClick={handleBack} />
+      <IconButton startIcon={<Icon icon="Back" />} onClick={onBack} />
       <div className="flex-1">
-        <SearchForm onSearch={onSearch} placeholder={placeholder} />
+        <SearchForm
+          query={query}
+          onQueryChange={onQueryChange}
+          onSearch={onSearch}
+          placeholder={placeholder}
+        />
       </div>
     </header>
   );

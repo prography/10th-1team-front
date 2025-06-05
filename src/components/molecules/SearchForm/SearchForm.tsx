@@ -1,31 +1,37 @@
-import { ChangeEvent, FormEvent, useCallback, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, useCallback, useRef } from "react";
+import { cn } from "@/utils/cn";
 import Input from "@/components/atoms/Input/Input";
 import IconButton from "@/components/molecules/IconButton/IconButton";
-import { cn } from "@/utils/cn";
 import Icon from "@/components/atoms/Icon/Icon";
 
 interface SearchFormProps {
+  query: string;
+  onQueryChange: (value: string) => void;
   onSearch: (value: string) => void;
   placeholder?: string;
   className?: string;
 }
 
 export default function SearchForm({
+  query,
+  onQueryChange,
   onSearch,
   placeholder = "검색어를 입력하세요",
   className,
 }: SearchFormProps) {
-  const [query, setQuery] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value);
-  }, []);
+  const handleChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      onQueryChange(e.target.value);
+    },
+    [onQueryChange]
+  );
 
   const handleClear = useCallback(() => {
-    setQuery("");
+    onQueryChange("");
     inputRef.current?.focus();
-  }, []);
+  }, [onQueryChange]);
 
   const handleSubmit = useCallback(
     (e: FormEvent) => {
@@ -41,6 +47,7 @@ export default function SearchForm({
     <form
       onSubmit={handleSubmit}
       className={cn("relative flex items-center", className)}
+      role="search"
     >
       <div className="flex-1 mr-[12px]">
         <Input
