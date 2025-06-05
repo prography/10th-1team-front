@@ -6,7 +6,6 @@ import {
   useCallback,
 } from "react";
 import type { DongInfo, Region } from "@/types/region";
-import GANGNAM_REGIONS from "@/constants/gangnamRegions";
 
 const ZOOM_LEVELS = [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
 
@@ -23,7 +22,8 @@ const getTouchDistance = (touches: TouchList) => {
 export function useDongMapPanel(
   selectedDong: DongInfo[],
   onChangeSelectedDong: (dong: DongInfo[]) => void,
-  onSelect: (dong: DongInfo[]) => void
+  onSelect: (dong: DongInfo[]) => void,
+  regionMapData: Region[]
 ) {
   const [zoomIndex, setZoomIndex] = useState(2);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -54,11 +54,11 @@ export function useDongMapPanel(
   };
 
   const onToggleSelectAll = () => {
-    if (selectedDong.length === GANGNAM_REGIONS.length) {
+    if (selectedDong.length === regionMapData.length) {
       onChangeSelectedDong([]);
     } else {
       onChangeSelectedDong(
-        GANGNAM_REGIONS.map((region: Region) => ({
+        regionMapData.map((region: Region) => ({
           name: region.name,
           dong_code: region.name,
         }))

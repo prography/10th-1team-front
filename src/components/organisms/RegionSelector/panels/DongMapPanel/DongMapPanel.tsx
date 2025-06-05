@@ -42,7 +42,12 @@ export default function DongMapPanel({
     doZoomIn,
     doZoomOut,
     handleTagContainerMouseDown,
-  } = useDongMapPanel(selectedDong, onChangeSelectedDong, onSelect);
+  } = useDongMapPanel(
+    selectedDong,
+    onChangeSelectedDong,
+    onSelect,
+    regionMapData
+  );
   const isAllDongSelected =
     selectedDong.length === (regionMapData ? regionMapData.length : 0);
   return (
