@@ -1,10 +1,10 @@
 import React from "react";
 import IconButton from "@/components/molecules/IconButton/IconButton";
 import Icon from "@/components/atoms/Icon/Icon";
-import RegionListPanel from "./panels/RegionListPanel/RegionListPanel";
-import DongMapPanel from "./panels/DongMapPanel/DongMapPanel";
-import { Province, DongInfo, Region } from "@/types/region";
+import RegionListPanel from "@/components/organisms/RegionSelector/panels/RegionListPanel/RegionListPanel";
+import DongMapPanel from "@/components/organisms/RegionSelector/panels/DongMapPanel/DongMapPanel";
 import clsx from "clsx";
+import type { Province, DongInfo, Region } from "@/types/region";
 
 interface RegionSelectorProps {
   isOpen: boolean;
@@ -22,7 +22,7 @@ interface RegionSelectorProps {
   isLoading?: boolean;
 }
 
-const RegionSelector: React.FC<RegionSelectorProps> = ({
+export default function RegionSelector({
   isOpen,
   hasSelectedRegion,
   regions,
@@ -36,7 +36,7 @@ const RegionSelector: React.FC<RegionSelectorProps> = ({
   onChangeSelectedDong,
   regionMapData,
   isLoading = true,
-}) => {
+}: RegionSelectorProps) {
   if (!isOpen) return null;
   const showRegionListPanel = !isLoading && regions && !hasSelectedRegion;
   const showDongMapPanel = !isLoading && regions && hasSelectedRegion;
@@ -76,6 +76,4 @@ const RegionSelector: React.FC<RegionSelectorProps> = ({
       </div>
     </div>
   );
-};
-
-export default RegionSelector;
+}

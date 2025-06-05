@@ -19,14 +19,14 @@ const COLORS = {
   defaultText: "#0048FF",
 };
 
-const RegionMapDisplay: React.FC<RegionMapDisplayProps> = ({
+export default function RegionMapDisplay({
   regions,
   selectedDong = [],
   isDragging = false,
   position = { x: 0, y: 0 },
   scale = 1,
   onRegionClick = () => {},
-}) => {
+}: RegionMapDisplayProps) {
   return (
     <svg
       viewBox="0 0 317 284"
@@ -94,6 +94,4 @@ const RegionMapDisplay: React.FC<RegionMapDisplayProps> = ({
       })}
     </svg>
   );
-};
-
-export default RegionMapDisplay;
+}

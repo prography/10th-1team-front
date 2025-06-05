@@ -1,10 +1,10 @@
 "use client";
 
 import Button from "@/components/atoms/Button/Button";
-import RegionMapDisplay from "../../../../molecules/RegionMapDisplay/RegionMapDisplay";
-import { DongInfo, Region } from "@/types/region";
-import SelectedDongTags from "../../../../molecules/SelectedDongTags/SelectedDongTags";
-import { useDongMapPanel } from "./useDongMapPanel";
+import RegionMapDisplay from "@/components/molecules/RegionMapDisplay/RegionMapDisplay";
+import SelectedDongTags from "@/components/molecules/SelectedDongTags/SelectedDongTags";
+import { useDongMapPanel } from "@/components/organisms/RegionSelector/panels/DongMapPanel/useDongMapPanel";
+import type { DongInfo, Region } from "@/types/region";
 
 interface DongMapPanelProps {
   selectedDong: DongInfo[];
@@ -16,7 +16,7 @@ interface DongMapPanelProps {
   regionMapData: Region[];
 }
 
-const DongMapPanel: React.FC<DongMapPanelProps> = ({
+export default function DongMapPanel({
   selectedDong,
   onChangeSelectedDong,
   onSelect,
@@ -24,7 +24,7 @@ const DongMapPanel: React.FC<DongMapPanelProps> = ({
   selectedCity,
   onBack,
   regionMapData,
-}) => {
+}: DongMapPanelProps) {
   const {
     zoomIndex,
     position,
@@ -140,6 +140,4 @@ const DongMapPanel: React.FC<DongMapPanelProps> = ({
       </div>
     </>
   );
-};
-
-export default DongMapPanel;
+}

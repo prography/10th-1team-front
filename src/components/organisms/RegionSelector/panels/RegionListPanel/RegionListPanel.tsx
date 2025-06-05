@@ -3,8 +3,9 @@ import React from "react";
 import Button from "@/components/atoms/Button/Button";
 import IconButton from "@/components/molecules/IconButton/IconButton";
 import Icon from "@/components/atoms/Icon/Icon";
-import { City, Province } from "@/types/region";
 import { useRegionListPanel } from "@/components/organisms/RegionSelector/panels/RegionListPanel/useRegionListPanel";
+import { cn } from "@/utils/cn";
+import type { City, Province } from "@/types/region";
 
 interface RegionListPanelProps {
   regions: Province[];
@@ -13,7 +14,7 @@ interface RegionListPanelProps {
   onNext: (province: string, city: string) => void;
 }
 
-function RegionListPanel({
+export default function RegionListPanel({
   regions,
   onNext,
   selectedProvince,
@@ -46,13 +47,17 @@ function RegionListPanel({
             cityList.map((cityObj: City) => (
               <div
                 key={cityObj.name}
-                className={`self-stretch min-h-[44px] pl-[20px] pr-[16px] py-[8px] inline-flex justify-between items-center body-s-regular ${
-                  !cityObj.is_searchable
-                    ? "bg-surface-normal-bg01 text-texticon-onnormal-lowemp"
-                    : city === cityObj.name
-                      ? "bg-surface-normal-container-b50 text-brand-primary-main"
-                      : "hover:bg-gray-50"
-                }`}
+                className={cn(
+                  "self-stretch min-h-[44px] pl-[20px] pr-[16px] py-[8px] inline-flex justify-between items-center body-s-regular",
+                  !cityObj.is_searchable &&
+                    "bg-surface-normal-bg01 text-texticon-onnormal-lowemp",
+                  cityObj.is_searchable &&
+                    city === cityObj.name &&
+                    "bg-surface-normal-container-b50 text-brand-primary-main",
+                  cityObj.is_searchable &&
+                    city !== cityObj.name &&
+                    "hover:bg-gray-50"
+                )}
                 onClick={() => {
                   if (!cityObj.is_searchable) return;
                   handleCitySelect(cityObj.name);
@@ -79,5 +84,3 @@ function RegionListPanel({
     </>
   );
 }
-
-export default RegionListPanel;

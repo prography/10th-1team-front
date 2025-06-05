@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Province } from "@/types/region";
+import type { Province } from "@/types/region";
 
 export function useRegionListPanel(
   regions: Province[],

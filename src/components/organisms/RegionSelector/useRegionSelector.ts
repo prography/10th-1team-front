@@ -1,8 +1,8 @@
 import { useState, useCallback } from "react";
-import { useRegionQuery } from "../../../hooks/queries/useRegionQuery";
+import { useRegionQuery } from "@/hooks/queries/useRegionQuery";
 import useRegionStore from "@/store/useRegionStore";
-import { DongInfo, Region } from "@/types/region";
 import GANGNAM_REGIONS from "@/constants/gangnamRegions";
+import type { DongInfo, Region } from "@/types/region";
 
 // 구별로 동 데이터 매핑
 const REGION_MAP: Record<string, Record<string, Region[]>> = {

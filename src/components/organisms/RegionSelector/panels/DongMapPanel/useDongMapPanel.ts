@@ -5,7 +5,7 @@ import {
   useLayoutEffect,
   useCallback,
 } from "react";
-import { DongInfo, Region } from "@/types/region";
+import type { DongInfo, Region } from "@/types/region";
 import GANGNAM_REGIONS from "@/constants/gangnamRegions";
 
 const ZOOM_LEVELS = [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
