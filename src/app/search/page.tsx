@@ -1,7 +1,7 @@
 "use client";
 
 import SearchHeader from "@/components/organisms/SearchHeader/SearchHeader";
-import MainLayout from "@/components/tamplates/MainLayout/MainLayout";
+import MainLayout from "@/components/templates/MainLayout/MainLayout";
 
 export default function Search() {
   return (
