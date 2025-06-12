@@ -22,7 +22,7 @@ jobs:
           pnpm install
 
       - name: Build Storybook
-        run: pnpm build-storybook
+        run: pnpm build-storybook --output-dir=storybook-static --public-path=/storybook/PR-${{ github.event.pull_request.number }}/
 
       - name: Archive
         run: tar -czf storybook.tar.gz -C storybook-static .
