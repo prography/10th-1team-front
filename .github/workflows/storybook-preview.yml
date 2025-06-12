@@ -45,7 +45,7 @@ jobs:
       - name: Upload to home then move
         run: |
           scp -P ${{ secrets.SERVER_PORT }} -O -i private_key -o StrictHostKeyChecking=no \
-            storybook.tar.gz ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:~/storybook.tar.gz
+            storybook.tar.gz ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/volume1/docker/storybook/preview/PR-${{ github.event.pull_request.number }}/storybook.tar.gz
 
       - name: Extract on NAS
         uses: appleboy/ssh-action@v0.1.6
