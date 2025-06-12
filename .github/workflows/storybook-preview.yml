@@ -38,7 +38,8 @@ jobs:
           ssh -i private_key -p ${{ secrets.SERVER_PORT }} -o StrictHostKeyChecking=no \
             ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} \
             "mkdir -p /volume1/docker/storybook/preview/PR-${{ github.event.pull_request.number }} && rm -rf /volume1/docker/storybook/preview/PR-${{ github.event.pull_request.number }}/*"
-
+      - name: Upload Storybook archive to NAS
+        run: |
           #  새로 압축 업로드
           scp -P ${{ secrets.SERVER_PORT }} -i private_key -o StrictHostKeyChecking=no \
             storybook.tar.gz \
