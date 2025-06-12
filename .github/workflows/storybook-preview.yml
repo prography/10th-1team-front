@@ -27,6 +27,10 @@ jobs:
       - name: Archive
         run: tar -czf storybook.tar.gz -C storybook-static .
 
+      - name: Check storybook.tar.gz existence
+        run: |
+          ls -lh storybook.tar.gz || (echo "❌ storybook.tar.gz not found!" && exit 1)
+
       - name: Prepare SSH key
         run: |
           echo "${{ secrets.SERVER_SSH_KEY }}" > private_key
