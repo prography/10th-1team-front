@@ -1,8 +1,13 @@
 interface HighlightQueryProps {
+  /** 하이라이트할 전체 텍스트 */
   text: string;
+  /** 하이라이트할 검색어 */
   query: string;
+  /** 전체 텍스트에 적용할 className */
   className?: string;
+  /** 하이라이트된 부분에 적용할 className */
   highlightClassName?: string;
+  /** 여러 개의 일치하는 부분을 모두 하이라이트할지 여부 */
   multiple?: boolean;
 }
 
