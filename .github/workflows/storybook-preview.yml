@@ -45,7 +45,7 @@ jobs:
       - name: Upload Storybook archive to NAS
         run: |
           #  새로 압축 업로드
-          scp -P ${{ secrets.SERVER_PORT }} -i private_key -o StrictHostKeyChecking=no \
+          scp -vvv -P ${{ secrets.SERVER_PORT }} -i private_key -o StrictHostKeyChecking=no \
             storybook.tar.gz \
             ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/volume1/docker/storybook/preview/PR-${{ github.event.pull_request.number }}/storybook.tar.gz
 
