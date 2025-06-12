@@ -35,17 +35,17 @@ jobs:
         run: |
           echo "${{ secrets.SERVER_SSH_KEY }}" > private_key
           chmod 600 private_key
-      - name: Upload to home then move
-        run: |
-          scp -P ${{ secrets.SERVER_PORT }} -i private_key -o StrictHostKeyChecking=no \
-            storybook.tar.gz ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/volume1/docker/storybook/storybook.tar.gz
+
       - name: Upload to NAS
         run: |
           #  PR 디렉토리 생성후 하위 파일만 삭제
           ssh -i private_key -p ${{ secrets.SERVER_PORT }} -o StrictHostKeyChecking=no \
             ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} \
             "mkdir -p /volume1/docker/storybook/preview/PR-${{ github.event.pull_request.number }} && rm -rf /volume1/docker/storybook/preview/PR-${{ github.event.pull_request.number }}/*"
-            mv /volume1/docker/storybook/storybook.tar.gz /volume1/docker/storybook/preview/PR-${{ github.event.pull_request.number }}/storybook.tar.gz
+      - name: Upload to home then move
+        run: |
+          scp -P ${{ secrets.SERVER_PORT }} -O -i private_key -o StrictHostKeyChecking=no \
+            storybook.tar.gz ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:~/storybook.tar.gz
 
       - name: Extract on NAS
         uses: appleboy/ssh-action@v0.1.6

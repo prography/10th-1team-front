@@ -33,7 +33,7 @@ jobs:
 
       - name: Upload to NAS
         run: |
-          scp -P ${{ secrets.SERVER_PORT }} -i private_key -o StrictHostKeyChecking=no \
+          scp -P ${{ secrets.SERVER_PORT }} -O -i private_key -o StrictHostKeyChecking=no \
             storybook.tar.gz \
             ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/volume1/docker/storybook/release/storybook.tar.gz
 
