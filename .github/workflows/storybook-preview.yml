@@ -55,5 +55,11 @@ jobs:
             tar -xzf /volume1/docker/storybook/preview/PR-${{ github.event.pull_request.number }}/storybook.tar.gz -C /volume1/docker/storybook/preview/PR-${{ github.event.pull_request.number }}
             rm /volume1/docker/storybook/preview/PR-${{ github.event.pull_request.number }}/storybook.tar.gz
 
-      - name: Output preview URL
-        run: echo "🔗 Preview: https://storybook.zeroirc.synology.me/storybook/PR-${{ github.event.pull_request.number }}/"
+      - name: Comment preview URL on PR
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            **Storybook Preview**
+            🔗 [Preview URL](https://storybook.zeroirc.synology.me/storybook/PR-${{ github.event.pull_request.number }}/)
