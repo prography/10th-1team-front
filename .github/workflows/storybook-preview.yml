@@ -65,4 +65,4 @@ jobs:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
             **Storybook Preview**
-            🔗 [Preview URL](https://storybook.zeroirc.synology.me/storybook/PR-${{ github.event.pull_request.number }}/)
+            🔗 [Preview URL](https://storybook.zeroirc.synology.me/storybook/PR-${{ github.event.pull_request.number }}/?path=/docs)
