@@ -45,9 +45,17 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
+            # 디렉토리 생성
             mkdir -p /volume1/docker/storybook/release
-            rm -rf /volume1/docker/storybook/release/*
+
+            # 기존 파일들 삭제 (압축 파일 제외)
+            find /volume1/docker/storybook/release -type f ! -name 'storybook.tar.gz' -delete
+            find /volume1/docker/storybook/release -type d -empty -delete
+
+            # 압축 파일 풀기
             tar -xzf /volume1/docker/storybook/release/storybook.tar.gz -C /volume1/docker/storybook/release
+
+            # 압축 파일 삭제
             rm -f /volume1/docker/storybook/release/storybook.tar.gz
 
       - name: Release URL
