@@ -1,0 +1,54 @@
+# .github/workflows/storybook-release.yml
+
+name: Deploy Final Storybook Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          corepack enable
+          pnpm install
+
+      - name: Build Storybook
+        run: pnpm build-storybook
+
+      - name: Archive
+        run: tar -czf storybook.tar.gz -C storybook-static .
+
+      - name: Prepare SSH key
+        run: |
+          echo "${{ secrets.SERVER_SSH_KEY }}" > private_key
+          chmod 600 private_key
+
+      - name: Upload to NAS
+        run: |
+          scp -P ${{ secrets.SERVER_PORT }} -O -i private_key -o StrictHostKeyChecking=no \
+            storybook.tar.gz \
+            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/volume1/docker/storybook/release/storybook.tar.gz
+
+      - name: Extract on NAS
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          port: ${{ secrets.SERVER_PORT }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            mkdir -p /volume1/docker/storybook/release
+            rm -rf /volume1/docker/storybook/release/*
+            tar -xzf /volume1/docker/storybook/release/storybook.tar.gz -C /volume1/docker/storybook/release
+            rm -f /volume1/docker/storybook/release/storybook.tar.gz
+
+      - name: Release URL
+        run: echo "✅ https://storybook.zeroirc.synology.me/storybook/"
