@@ -16,6 +16,8 @@ const meta: Meta<typeof Button> = {
         "brandNaver",
         "brandKakao",
         "filter",
+        "filterSingle",
+        "filterMulti",
         "text",
       ],
     },
@@ -97,5 +99,19 @@ export const Text: Story = {
   args: {
     children: "Button",
     variant: "text",
+  },
+};
+
+export const FilterSingle: Story = {
+  args: {
+    children: "Button",
+    variant: "filterSingle",
+  },
+};
+
+export const FilterMulti: Story = {
+  args: {
+    children: "Button",
+    variant: "filterMulti",
   },
 };
