@@ -88,11 +88,7 @@ export default function SearchPageTemplate({
         )}
         {mode === "results" && (
           <>
-            <SearchFilterTab
-              onOpenFilterModal={() => {
-                openSheet("filter");
-              }}
-            />
+            <SearchFilterTab />
             <Divider />
             <SearchListSortTab
               totalCount={total}
