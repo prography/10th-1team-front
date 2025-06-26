@@ -31,7 +31,7 @@ export default function SearchFilterBottomSheet({
 
   return (
     <BottomSheet title="검색 필터 설정" onClose={onClose} className="h-4/5">
-      <ScrollTabsContainer>
+      <ScrollTabsContainer defaultTab={state.initialTab || "foodType"}>
         <ScrollTabsList className="justify-between">
           <ScrollTab value="foodType" className="w-1/2">
             음식 종류

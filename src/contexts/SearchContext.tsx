@@ -10,12 +10,19 @@ interface SearchState {
     foodTypes: CategoryType | undefined;
   };
   currentSheet: "sort" | "filter" | null;
+  initialTab?: "foodType" | "region";
 }
 
 type SearchAction =
   | { type: "SET_SORT"; payload: SortType }
   | { type: "SET_FOOD_TYPES"; payload: CategoryType | undefined }
-  | { type: "OPEN_SHEET"; payload: "sort" | "filter" }
+  | {
+      type: "OPEN_SHEET";
+      payload: {
+        sheetType: "sort" | "filter";
+        initialTab?: "foodType" | "region";
+      };
+    }
   | { type: "CLOSE_SHEET" };
 
 const initialState: SearchState = {
@@ -24,6 +31,7 @@ const initialState: SearchState = {
     foodTypes: undefined,
   },
   currentSheet: null,
+  initialTab: undefined,
 };
 
 function searchReducer(state: SearchState, action: SearchAction): SearchState {
@@ -46,13 +54,15 @@ function searchReducer(state: SearchState, action: SearchAction): SearchState {
     case "OPEN_SHEET":
       return {
         ...state,
-        currentSheet: action.payload,
+        currentSheet: action.payload.sheetType,
+        initialTab: action.payload.initialTab,
       };
 
     case "CLOSE_SHEET":
       return {
         ...state,
         currentSheet: null,
+        initialTab: undefined,
       };
 
     default:
@@ -70,7 +80,10 @@ interface SearchContextType {
 
   updateSort: (sortType: SortType) => void;
   updateFoodTypes: (foodTypes: CategoryType | undefined) => void;
-  openSheet: (sheetType: "sort" | "filter") => void;
+  openSheet: (
+    sheetType: "sort" | "filter",
+    initialTab?: "foodType" | "region"
+  ) => void;
   closeSheet: () => void;
   isSheetOpen: (sheetType: "sort" | "filter") => boolean;
 }
@@ -91,8 +104,11 @@ export function SearchProvider({ children }: { children: ReactNode }) {
     dispatch({ type: "SET_FOOD_TYPES", payload: foodTypes });
   };
 
-  const openSheet = (sheetType: "sort" | "filter") => {
-    dispatch({ type: "OPEN_SHEET", payload: sheetType });
+  const openSheet = (
+    sheetType: "sort" | "filter",
+    initialTab?: "foodType" | "region"
+  ) => {
+    dispatch({ type: "OPEN_SHEET", payload: { sheetType, initialTab } });
   };
 
   const closeSheet = () => {

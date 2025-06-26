@@ -33,16 +33,18 @@ export const useScrollTabs = () => {
 interface ScrollTabsContainerProps {
   children: ReactNode;
   className?: string;
+  defaultTab?: string;
 }
 
 export default function ScrollTabsContainer({
   children,
   className = "",
+  defaultTab,
 }: ScrollTabsContainerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<Record<string, HTMLDivElement>>({});
   const tabOrder = useRef<string[]>([]);
-  const [activeTab, setActiveTab] = useState("");
+  const [activeTab, setActiveTab] = useState(defaultTab || "");
   const ticking = useRef(false);
 
   // 스크롤 이벤트 핸들러
@@ -113,10 +115,23 @@ export default function ScrollTabsContainer({
 
   useEffect(() => {
     if (!activeTab && tabOrder.current.length > 0) {
-      // 초깃값 세팅
-      setActiveTab(tabOrder.current[0]);
+      const initialTab =
+        defaultTab && tabOrder.current.includes(defaultTab)
+          ? defaultTab
+          : tabOrder.current[0];
+      setActiveTab(initialTab);
     }
-  }, [activeTab]);
+  }, [activeTab, defaultTab]);
+
+  // defaultTab이 설정되어 있으면 해당 탭으로 스크롤
+  useEffect(() => {
+    if (defaultTab && tabOrder.current.includes(defaultTab)) {
+      setActiveTab(defaultTab);
+      setTimeout(() => {
+        scrollToSection(defaultTab);
+      }, 100);
+    }
+  }, [defaultTab]);
 
   return (
     <ScrollTabsContext.Provider
