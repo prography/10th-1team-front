@@ -4,11 +4,13 @@ import IconButton from "@/components/molecules/IconButton/IconButton";
 interface SearchListSortTabProps {
   totalCount?: number;
   openSortSheet: () => void;
+  currentSortLabel: string;
 }
 
 export default function SearchListSortTab({
   totalCount = 0,
   openSortSheet,
+  currentSortLabel,
 }: SearchListSortTabProps) {
   return (
     <>
@@ -18,7 +20,7 @@ export default function SearchListSortTab({
         </span>
         <IconButton
           className="body-s-regular text-texticon-onnormal-midemp"
-          text={"관련순"}
+          text={currentSortLabel}
           gap={0}
           endIcon={<Icon icon="Dropdown" size={20} strokeWidth={1} />}
           onClick={openSortSheet}

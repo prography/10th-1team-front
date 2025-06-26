@@ -8,6 +8,12 @@ import {
   SearchHistoryList,
   SearchResultList,
 } from "@/components/organisms/SearchListContainer/lists";
+import {
+  SearchFilterBottomSheet,
+  SearchSortBottomSheet,
+} from "@/components/organisms/SearchBottomSheet";
+import { useSearchContext } from "@/contexts/SearchContext";
+import { usePortal } from "@/hooks/usePortal";
 
 import type {
   AutoCompleteItem,
@@ -25,6 +31,7 @@ export type ModePropsMap = {
     onItemClick: (item: AutoCompleteItem) => void;
   };
   results: {
+    total: number;
     items: SearchResultItem[];
     onItemClick: (item: SearchResultItem) => void;
   };
@@ -44,12 +51,14 @@ type SharedProps = {
 };
 
 type SearchPageTemplateProps = {
-  [K in Mode]: SharedProps & { mode: K } & ModePropsMap[K];
+  [K in Mode]: SharedProps & { mode: K } & ModePropsMap[K] &
+    (K extends "results" ? { total: number } : { total?: never });
 }[Mode];
 
 export default function SearchPageTemplate({
   mode,
   items,
+  total,
   query,
   setQuery,
   onSearch,
@@ -60,6 +69,9 @@ export default function SearchPageTemplate({
   observerRef,
   isLoading,
 }: SearchPageTemplateProps) {
+  const { currentSortLabel, openSheet, closeSheet, state } = useSearchContext();
+  const createPortal = usePortal();
+
   return (
     <div className="flex flex-col h-full w-full bg-surface-normal-container0">
       {/* 헤더 */}
@@ -78,13 +90,15 @@ export default function SearchPageTemplate({
           <>
             <SearchFilterTab
               onOpenFilterModal={() => {
-                /* TODO: 필터 모달 추가 */
+                openSheet("filter");
               }}
             />
             <Divider />
             <SearchListSortTab
+              totalCount={total}
+              currentSortLabel={currentSortLabel}
               openSortSheet={() => {
-                /* TODO: 정렬 모달 추가 */
+                openSheet("sort");
               }}
             />
           </>
@@ -116,6 +130,12 @@ export default function SearchPageTemplate({
           </>
         )}
       </div>
+
+      {/* 바텀시트 모달 */}
+      {state.currentSheet === "sort" &&
+        createPortal(<SearchSortBottomSheet onClose={closeSheet} />)}
+      {state.currentSheet === "filter" &&
+        createPortal(<SearchFilterBottomSheet onClose={closeSheet} />)}
     </div>
   );
 }
