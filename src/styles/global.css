@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "./colors.css";
 @import "./typography.css";
+@import "./utilities.css";
 
 :root {
   --font-family: "Pretendard", "Inter", sans-serif;
