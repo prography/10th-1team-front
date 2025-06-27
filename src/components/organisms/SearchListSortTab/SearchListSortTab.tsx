@@ -1,17 +1,18 @@
 import Icon from "@/components/atoms/Icon/Icon";
 import IconButton from "@/components/molecules/IconButton/IconButton";
+import { useSearchContext } from "@/contexts/SearchContext";
 
 interface SearchListSortTabProps {
   totalCount?: number;
   openSortSheet: () => void;
-  currentSortLabel: string;
 }
 
 export default function SearchListSortTab({
   totalCount = 0,
   openSortSheet,
-  currentSortLabel,
 }: SearchListSortTabProps) {
+  const { currentSortLabel } = useSearchContext();
+
   return (
     <>
       <div className="flex justify-between items-center px-[16px] py-[12px] border-b-[0.5px] border-border-normal-lowemp">

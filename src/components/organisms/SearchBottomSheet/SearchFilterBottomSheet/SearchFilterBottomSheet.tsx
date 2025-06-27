@@ -14,11 +14,15 @@ import { useSearchContext } from "@/contexts/SearchContext";
 import { useState } from "react";
 import type { CategoryType } from "@/types/search";
 
+interface SearchFilterBottomSheetProps {
+  onClose: () => void;
+  initialTab: "foodType" | "region";
+}
+
 export default function SearchFilterBottomSheet({
   onClose,
-}: {
-  onClose: () => void;
-}) {
+  initialTab,
+}: SearchFilterBottomSheetProps) {
   const { state, updateFoodTypes } = useSearchContext();
   const [selectedCategory, setSelectedCategory] = useState<
     CategoryType | undefined
@@ -31,7 +35,7 @@ export default function SearchFilterBottomSheet({
 
   return (
     <BottomSheet title="검색 필터 설정" onClose={onClose} className="h-4/5">
-      <ScrollTabsContainer defaultTab={state.initialTab || "foodType"}>
+      <ScrollTabsContainer defaultTab={initialTab}>
         <ScrollTabsList className="justify-between">
           <ScrollTab value="foodType" className="w-1/2">
             음식 종류

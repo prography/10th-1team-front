@@ -3,10 +3,18 @@ import Icon from "@/components/atoms/Icon/Icon";
 import IconButton from "@/components/molecules/IconButton/IconButton";
 import { getCategoryLabel } from "@/constants/categoryOptions";
 import { useSearchContext } from "@/contexts/SearchContext";
+
 import { colors } from "@/styles/colors";
 
-export default function SearchFilterTab() {
-  const { state, openSheet } = useSearchContext();
+interface SearchFilterTabProps {
+  openSheet: (
+    sheetType: "sort" | "filter",
+    initTab?: "foodType" | "region"
+  ) => void;
+}
+
+export default function SearchFilterTab({ openSheet }: SearchFilterTabProps) {
+  const { state } = useSearchContext();
 
   return (
     <div className="h-[52px] flex gap-[12px] items-center px-[16px] py-[12px] border-b-[0.5px] border-border-normal-lowemp overflow-x-auto scrollbar-hide">
@@ -15,7 +23,7 @@ export default function SearchFilterTab() {
         startIcon={<Icon icon="Filter" size={20} />}
         gap={2}
         variant="filter"
-        onClick={() => openSheet("filter")}
+        onClick={() => openSheet("filter", "foodType")}
         className="flex-shrink-0"
       />
       {state.filters.foodTypes && (

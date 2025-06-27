@@ -12,8 +12,8 @@ import {
   SearchFilterBottomSheet,
   SearchSortBottomSheet,
 } from "@/components/organisms/SearchBottomSheet";
-import { useSearchContext } from "@/contexts/SearchContext";
 import { usePortal } from "@/hooks/usePortal";
+import { useCallback, useState } from "react";
 
 import type {
   AutoCompleteItem,
@@ -69,8 +69,28 @@ export default function SearchPageTemplate({
   observerRef,
   isLoading,
 }: SearchPageTemplateProps) {
-  const { currentSortLabel, openSheet, closeSheet, state } = useSearchContext();
   const createPortal = usePortal();
+
+  const [currentSheet, setCurrentSheet] = useState<"sort" | "filter" | null>(
+    null
+  );
+  const [initialTab, setInitialTab] = useState<"foodType" | "region">(
+    "foodType"
+  );
+
+  const openSheet = useCallback(
+    (sheetType: "sort" | "filter", initTab?: "foodType" | "region") => {
+      setCurrentSheet(sheetType);
+      if (initTab) {
+        setInitialTab(initTab);
+      }
+    },
+    []
+  );
+
+  const closeSheet = useCallback(() => {
+    setCurrentSheet(null);
+  }, []);
 
   return (
     <div className="flex flex-col h-full w-full bg-surface-normal-container0">
@@ -88,11 +108,10 @@ export default function SearchPageTemplate({
         )}
         {mode === "results" && (
           <>
-            <SearchFilterTab />
+            <SearchFilterTab openSheet={openSheet} />
             <Divider />
             <SearchListSortTab
               totalCount={total}
-              currentSortLabel={currentSortLabel}
               openSortSheet={() => {
                 openSheet("sort");
               }}
@@ -128,10 +147,15 @@ export default function SearchPageTemplate({
       </div>
 
       {/* 바텀시트 모달 */}
-      {state.currentSheet === "sort" &&
+      {currentSheet === "sort" &&
         createPortal(<SearchSortBottomSheet onClose={closeSheet} />)}
-      {state.currentSheet === "filter" &&
-        createPortal(<SearchFilterBottomSheet onClose={closeSheet} />)}
+      {currentSheet === "filter" &&
+        createPortal(
+          <SearchFilterBottomSheet
+            onClose={closeSheet}
+            initialTab={initialTab}
+          />
+        )}
     </div>
   );
 }
