@@ -15,7 +15,6 @@ const meta: Meta<typeof ScrollTabsContainer> = {
     docs: {
       description: {
         component: `
-## 📝 ScrollTabs 사용법
 
 스크롤과 연동되는 탭 컴포넌트입니다.
 

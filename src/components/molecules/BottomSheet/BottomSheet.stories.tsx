@@ -10,7 +10,6 @@ const meta: Meta<typeof BottomSheet> = {
     docs: {
       description: {
         component: `
-## 📱 BottomSheet 사용법
 
 화면 하단에서 올라오는 모달 시트 컴포넌트입니다.
 
