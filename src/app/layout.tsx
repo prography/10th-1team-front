@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "@/styles/reset.css";
 import "@/styles/global.css";
 import Providers from "./providers";
+import Script from 'next/script';
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,6 +18,11 @@ export default function RootLayout({
     <html lang="ko">
       <body>
         <Providers> {children}</Providers>
+        <Script
+          type="text/javascript"
+          src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&autoload=false`}
+          strategy="beforeInteractive"
+        />
       </body>
     </html>
   );
