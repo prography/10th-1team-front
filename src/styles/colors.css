@@ -47,6 +47,8 @@
   --color-bg02: #f5f5f5;
   --color-bg03: #ffffff00;
   --color-bg04: #f7f7f9;
+  --color-bg06: #00000080;
+  --color-bg10: #f7f7f9;
 }
 
 /* Color Sementic */
@@ -89,6 +91,8 @@
   /* Surface */
   --color-surface-normal-bg01: var(--color-bg01);
   --color-surface-normal-bg02: var(--color-bg02);
+  --color-surface-normal-bg06: var(--color-bg06);
+  --color-surface-normal-bg10: var(--color-bg10);
   --color-surface-normal-container0: var(--color-bg01);
   --color-surface-normal-container10: var(--color-bg02);
   --color-surface-normal-container-b10: var(--color-bg04);
