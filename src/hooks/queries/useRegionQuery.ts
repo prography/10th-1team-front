@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { RegionData } from "@/types/region";
-import { API } from "@/apis";
+import { getRegion } from "@/apis/region";
 
 export const useRegionQuery = () => {
   const { data, isLoading } = useQuery<RegionData>({
     queryKey: ["regionList"],
     queryFn: async () => {
-      const res = await API.get("http://34.47.100.231:8080/regions");
+      const res = await getRegion();
       return res;
     },
   });
