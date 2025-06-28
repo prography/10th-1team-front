@@ -8,6 +8,12 @@ import {
   SearchHistoryList,
   SearchResultList,
 } from "@/components/organisms/SearchListContainer/lists";
+import {
+  SearchFilterBottomSheet,
+  SearchSortBottomSheet,
+} from "@/components/organisms/SearchBottomSheet";
+import { usePortal } from "@/hooks/usePortal";
+import { useCallback, useState } from "react";
 
 import type {
   AutoCompleteItem,
@@ -25,6 +31,7 @@ export type ModePropsMap = {
     onItemClick: (item: AutoCompleteItem) => void;
   };
   results: {
+    total: number;
     items: SearchResultItem[];
     onItemClick: (item: SearchResultItem) => void;
   };
@@ -44,12 +51,14 @@ type SharedProps = {
 };
 
 type SearchPageTemplateProps = {
-  [K in Mode]: SharedProps & { mode: K } & ModePropsMap[K];
+  [K in Mode]: SharedProps & { mode: K } & ModePropsMap[K] &
+    (K extends "results" ? { total: number } : { total?: never });
 }[Mode];
 
 export default function SearchPageTemplate({
   mode,
   items,
+  total,
   query,
   setQuery,
   onSearch,
@@ -60,6 +69,29 @@ export default function SearchPageTemplate({
   observerRef,
   isLoading,
 }: SearchPageTemplateProps) {
+  const createPortal = usePortal();
+
+  const [currentSheet, setCurrentSheet] = useState<"sort" | "filter" | null>(
+    null
+  );
+  const [initialTab, setInitialTab] = useState<"foodType" | "region">(
+    "foodType"
+  );
+
+  const openSheet = useCallback(
+    (sheetType: "sort" | "filter", initTab?: "foodType" | "region") => {
+      setCurrentSheet(sheetType);
+      if (initTab) {
+        setInitialTab(initTab);
+      }
+    },
+    []
+  );
+
+  const closeSheet = useCallback(() => {
+    setCurrentSheet(null);
+  }, []);
+
   return (
     <div className="flex flex-col h-full w-full bg-surface-normal-container0">
       {/* 헤더 */}
@@ -76,15 +108,12 @@ export default function SearchPageTemplate({
         )}
         {mode === "results" && (
           <>
-            <SearchFilterTab
-              onOpenFilterModal={() => {
-                /* TODO: 필터 모달 추가 */
-              }}
-            />
+            <SearchFilterTab openSheet={openSheet} />
             <Divider />
             <SearchListSortTab
+              totalCount={total}
               openSortSheet={() => {
-                /* TODO: 정렬 모달 추가 */
+                openSheet("sort");
               }}
             />
           </>
@@ -116,6 +145,17 @@ export default function SearchPageTemplate({
           </>
         )}
       </div>
+
+      {/* 바텀시트 모달 */}
+      {currentSheet === "sort" &&
+        createPortal(<SearchSortBottomSheet onClose={closeSheet} />)}
+      {currentSheet === "filter" &&
+        createPortal(
+          <SearchFilterBottomSheet
+            onClose={closeSheet}
+            initialTab={initialTab}
+          />
+        )}
     </div>
   );
 }

@@ -22,3 +22,8 @@ export { default as Rulet } from "./Rulet";
 export { default as BrandNaver } from "./BrandNaver";
 export { default as GraphicsNaver } from "./GraphicsNaver";
 export { default as GraphicsKakao } from "./GraphicsKakao";
+export { default as ServiceLogo } from "./ServiceLogo";
+export { default as MainCalandar } from "./MainCalandar";
+export { default as MainExplore } from "./MainExplore";
+export { default as MainRulet } from "./MainRulet";
+export { default as TapDelete } from "./TapDelete";

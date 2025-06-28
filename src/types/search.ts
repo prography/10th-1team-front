@@ -1,5 +1,32 @@
 export type SearchMode = "history" | "autocomplete" | "results";
 
+export type SortType =
+  | "RELATED"
+  | "AVERAGE_RATING_HIGH"
+  | "AVERAGE_RATING_LOW"
+  | "REVIEW_COUNT_HIGH"
+  | "REVIEW_COUNT_LOW";
+
+export type CategoryType =
+  | "UNDEFINED"
+  | "FD01"
+  | "FD02"
+  | "FD03"
+  | "FD04"
+  | "FD05"
+  | "FD06"
+  | "FD07"
+  | "FD08"
+  | "FD09"
+  | "FD10"
+  | "FD11"
+  | "FD12";
+
+export interface FilterOption<T> {
+  value: T;
+  label: string;
+}
+
 export type Region = {
   dong_name: string;
   dong_code: string;
@@ -40,8 +67,10 @@ export interface AutoCompleteResponse {
 
 export interface SearchResultResponse {
   data: {
+    total: number;
     content: SearchResultItem[];
     has_next: boolean;
+    cursor: string;
   };
   time: string;
 }
