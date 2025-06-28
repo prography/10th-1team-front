@@ -16,3 +16,4 @@ export { default as Share } from "./Share";
 export { default as Success } from "./Success";
 export { default as Time } from "./Time";
 export { default as Star } from "./Star";
+export { default as TapDelete } from "./TapDelete";

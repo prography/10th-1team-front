@@ -16,7 +16,15 @@ export const buttonVariants = cva(
         brandKakao:
           "rounded-[8px] bg-brand-kakao-light text-brand-kakao-deep button-l-semibold hover:border hover:border-brand-kakao-deep active:border active:border-brand-kakao-deep disabled:bg-button-neutral-bg_disabled disabled:text-button-neutral-text_disabled disabled:hover:border-none [&.pressed]:border [&.pressed]:border-brand-kakao-deep",
         filter:
-          "rounded-[4px] bg-button-secondary-bg_default text-button-secondary-text_default button-s-medium border border-brand-primary-main px-[7.5px] py-[4px]",
+          "rounded-[4px] bg-button-secondary-bg_default text-button-secondary-text_default button-s-medium border border-brand-primary-main px-[7.5px] h-[28px]",
+        filterSingle:
+          "rounded-[4px] bg-button-neutral-bg_default text-button-neutral-text_default caption-m-regular border border-button-neutral-border disabled:bg-button-secondary-bg_disabled disabled:text-button-secondary-text_disabled [&.pressed]:bg-button-secondary-bg_default [&.pressed]:text-button-secondary-text_default [&.pressed]:caption-m-semibold [&.pressed]:border-button-primary-bg_main py-[12px]",
+        filterMulti:
+          "rounded-[4px] bg-surface-normal-bg01 text-onnormal-highemp caption-m-regular [&.pressed]:border [&.pressed]:border-brand-primary-500 [&.pressed]:text-texticon-onnormal-main-500 [&.pressed]:caption-m-semibold py-[6px]",
+        filterLabel:
+          "rounded-[4px] bg-button-secondary-bg_pressed text-button-secondary-text_pressed button-s-medium px-[14px] py-[5px]",
+        filterLocationLabel:
+          "rounded-[4px] bg-etc-location-tab-button button-s-medium px-[14px] py-[5px] flex items-center gap-[2px]",
         text: "bg-transparent",
       },
       fullWidth: {
