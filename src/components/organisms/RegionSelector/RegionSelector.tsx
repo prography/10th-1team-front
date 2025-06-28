@@ -19,7 +19,7 @@ interface RegionSelectorProps {
   onBack: () => void;
   onChangeSelectedDong: (dongList: DongInfo[]) => void;
   regionMapData: Region[];
-  isLoading?: boolean;
+  isLoading: boolean;
 }
 
 export default function RegionSelector({
