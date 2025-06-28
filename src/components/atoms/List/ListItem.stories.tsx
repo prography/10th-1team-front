@@ -56,13 +56,6 @@ export const HistorySearch: Story = {
   },
 };
 
-export const SearchResult: Story = {
-  args: {
-    variant: "search-result",
-    children: "검색 결과 스타일",
-  },
-};
-
 export const CustomClass: Story = {
   args: {
     className: "bg-green-100 p-4 rounded",

@@ -1,8 +1,8 @@
 import Image from "next/image";
-import type { SearchResultItem } from "@/types/search";
 import PlatformScoreLabel from "./PlatformScoreLabel";
 import { cn } from "@/utils/cn";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
+import type { SearchResultItem } from "@/types/search";
 
 interface StoreInfoCardProps {
   item: SearchResultItem;
@@ -10,10 +10,19 @@ interface StoreInfoCardProps {
 }
 
 export default function StoreInfoCard({ item, className }: StoreInfoCardProps) {
-  const router = useRouter();
+  const [imageLoading, setImageLoading] = useState(true);
+  const [imageSrc, setImageSrc] = useState(
+    item.image_url && item.image_url !== ""
+      ? item.image_url
+      : "/images/fallback.webp"
+  );
 
-  const handleClick = () => {
-    router.push(`/place/${item.id}`);
+  const handleImageError = () => {
+    setImageSrc("/images/fallback.webp");
+  };
+
+  const handleImageLoad = () => {
+    setImageLoading(false);
   };
 
   return (
@@ -22,7 +31,6 @@ export default function StoreInfoCard({ item, className }: StoreInfoCardProps) {
         "flex-1 px-[16px] py-[12px] bg-surface-normal-bg01 cursor-pointer",
         className
       )}
-      onClick={handleClick}
     >
       <div className="flex items-center gap-[16px] mb-[4px]">
         <span className="body-l-semibold text-texticon-onnormal-highestemp">
@@ -49,17 +57,21 @@ export default function StoreInfoCard({ item, className }: StoreInfoCardProps) {
         />
       </div>
 
-      <div className="relative w-full aspect-[328/160] bg-gray-100 rounded-[4px] overflow-hidden">
+      <div
+        className={cn(
+          "relative w-full aspect-[328/160] bg-gray-100 rounded-[4px] overflow-hidden border-[0.5px] border-border-normal-lowemp",
+          imageLoading && "animate-pulse"
+        )}
+      >
         <Image
-          src={
-            item.image_url && item.image_url !== ""
-              ? item.image_url
-              : "/images/fallback.png"
-          }
+          src={imageSrc}
           alt={item.name}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="object-cover"
+          onError={handleImageError}
+          onLoad={handleImageLoad}
+          priority={false}
         />
       </div>
     </div>

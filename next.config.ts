@@ -8,6 +8,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "*.pstatic.net",
       },
+      {
+        protocol: "https",
+        hostname: "*.naver.net",
+      },
       // 카카오
       {
         protocol: "https",

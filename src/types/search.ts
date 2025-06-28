@@ -74,3 +74,8 @@ export interface SearchResultResponse {
   };
   time: string;
 }
+
+export interface SearchRecommendResponse {
+  data: SearchResultItem[];
+  time: string;
+}
