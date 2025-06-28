@@ -41,12 +41,12 @@ export default function StoreInfoCard({ item, className }: StoreInfoCardProps) {
         />
       </div>
 
-      <div className="relative w-full aspect-[328/160] bg-gray-100 rounded-[4px] overflow-hidden">
+      <div className="relative w-full aspect-[328/160] bg-gray-100 rounded-[4px] overflow-hidden border-[0.5px] border-border-normal-lowemp">
         <Image
           src={
             item.image_url && item.image_url !== ""
               ? item.image_url
-              : "/images/fallback.png"
+              : "/images/fallback.webp"
           }
           alt={item.name}
           fill
