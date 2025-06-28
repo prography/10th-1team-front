@@ -48,7 +48,7 @@ export default function RegionSelector({
           { "h-[546px]": !hasSelectedRegion }
         )}
       >
-        <div className="self-stretch pl-[16px] pr-[6px] pt-[14px] pb-[10px] border-b border-border-normal-lowemp inline-flex justify-between items-center">
+        <div className="self-stretch pl-[16px] pr-[16px] pt-[14px] pb-[10px] border-b border-border-normal-lowemp inline-flex justify-between items-center">
           <h2 className="body-m-regular text-black">검색 지역 설정</h2>
           <IconButton onClick={onClose} endIcon={<Icon icon="Exit" />} />
         </div>
