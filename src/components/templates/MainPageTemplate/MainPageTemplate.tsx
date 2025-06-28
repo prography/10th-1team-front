@@ -14,8 +14,17 @@ import { colors } from "@/styles/colors";
 import { useRouter } from "next/navigation";
 import { useRegionSelector } from "@/components/organisms/RegionSelector/useRegionSelector";
 import useRegionStore from "@/store/useRegionStore";
+import type { SearchResultItem } from "@/types/search";
 
-export default function MainPageTemplate() {
+interface MainPageTemplateProps {
+  items: SearchResultItem[];
+  isLoading: boolean;
+}
+
+export default function MainPageTemplate({
+  items,
+  isLoading,
+}: MainPageTemplateProps) {
   const router = useRouter();
   const { dong } = useRegionStore();
   const {
@@ -32,7 +41,7 @@ export default function MainPageTemplate() {
     handleBack,
     handleDongChange,
     regionMapData,
-    isLoading,
+    isLoading: isRegionSelectorLoading,
   } = useRegionSelector();
 
   return (
@@ -65,7 +74,7 @@ export default function MainPageTemplate() {
 
       <ExploreSection />
 
-      <RecommendedStores />
+      <RecommendedStores items={items} isLoading={isLoading} />
 
       <Footer />
 
@@ -83,7 +92,7 @@ export default function MainPageTemplate() {
           onBack: handleBack,
           onChangeSelectedDong: handleDongChange,
           regionMapData,
-          isLoading,
+          isLoading: isRegionSelectorLoading,
         }}
       />
     </div>

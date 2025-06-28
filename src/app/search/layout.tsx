@@ -9,7 +9,7 @@ export default function SearchLayout({
 }) {
   return (
     <ScreenHeightLayout>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense>
         <SearchProvider>{children}</SearchProvider>
       </Suspense>
     </ScreenHeightLayout>

@@ -1,10 +1,22 @@
-import MainLayout from "@/components/templates/MainLayout/MainLayout";
-import MainPageTemplate from "@/components/templates/MainPageTemplate/MainPageTemplate";
+import {
+  HydrationBoundary,
+  dehydrate,
+  QueryClient,
+} from "@tanstack/react-query";
 
-export default function Home() {
+import MainPage from "./main/MainPage";
+import { fetchRecommendList } from "@/apis/fetchRecommendList";
+
+export default async function Home() {
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: ["recommendList", { size: 3 }],
+    queryFn: () => fetchRecommendList({ size: 3 }),
+  });
+
   return (
-    <MainLayout>
-      <MainPageTemplate />
-    </MainLayout>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <MainPage />
+    </HydrationBoundary>
   );
 }
