@@ -50,6 +50,8 @@ const background = {
   Bg02: "#f5f5f5",
   Bg03: "#ffffff00",
   Bg04: "#f7f7f9",
+  Bg06: "#00000080",
+  Bg10: "#F7F7F9",
 } as const;
 
 const status = {
@@ -142,6 +144,8 @@ export const colors = {
     Normal: {
       Bg01: background.Bg01,
       Bg02: background.Bg02,
+      Bg06: background.Bg06,
+      Bg10: background.Bg10,
       Container0: background.Bg01,
       Container10: background.Bg02,
       ContainerB10: background.Bg04,
