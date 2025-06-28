@@ -17,9 +17,9 @@ export interface Province {
 }
 
 export interface RegionState {
-  selectedProvince: string;
-  selectedCity: string;
-  selectedDong: DongInfo[];
+  province: string;
+  city: string;
+  dong: DongInfo[];
   setRegion: (province: string, city: string, dong: DongInfo[]) => void;
 }
 
