@@ -17,9 +17,9 @@ export function useRegionSelector() {
   const [isOpen, setIsOpen] = useState(false);
   const [hasSelectedRegion, setHasSelectedRegion] = useState(false); // 시/구 선택 여부
   const {
-    selectedProvince: storeProvince,
-    selectedCity: storeCity,
-    selectedDong: storeDong,
+    province: storeProvince,
+    city: storeCity,
+    dong: storeDong,
     setRegion,
   } = useRegionStore();
 
