@@ -3,6 +3,7 @@ import SearchListSortTab from "@/components/organisms/SearchListSortTab/SearchLi
 import SearchHistoryHeader from "@/components/organisms/SearchHistoryHeader/SearchHistoryHeader";
 import SearchFilterTab from "@/components/organisms/SearchFilterTab/SearchFilterTab";
 import Divider from "@/components/atoms/Divider/Divider";
+import StoreInfoCardListSkeleton from "@/components/organisms/StoreInfoCard/StoreInfoCardListSkeleton";
 import {
   SearchAutoCompleteList,
   SearchHistoryList,
@@ -13,7 +14,7 @@ import {
   SearchSortBottomSheet,
 } from "@/components/organisms/SearchBottomSheet";
 import { usePortal } from "@/hooks/usePortal";
-import { useCallback, useState } from "react";
+import { RefObject, useCallback, useState } from "react";
 
 import type {
   AutoCompleteItem,
@@ -46,8 +47,9 @@ type SharedProps = {
   onDeleteHistory: (id: string) => void;
   onClearHistory: () => void;
   onBack: () => void;
-  observerRef: React.RefObject<HTMLDivElement>;
+  observerRef: RefObject<HTMLDivElement | null>;
   isLoading: boolean;
+  isFetchingNextPage: boolean;
 };
 
 type SearchPageTemplateProps = {
@@ -68,6 +70,7 @@ export default function SearchPageTemplate({
   onBack,
   observerRef,
   isLoading,
+  isFetchingNextPage,
 }: SearchPageTemplateProps) {
   const createPortal = usePortal();
 
@@ -104,7 +107,7 @@ export default function SearchPageTemplate({
         />
         {(mode === "autocomplete" || mode === "history") && <Divider />}
         {mode === "history" && (
-          <SearchHistoryHeader onClearHistory={onClearHistory} />
+          <SearchHistoryHeader onClearHistory={onClearHistory} items={items} />
         )}
         {mode === "results" && (
           <>
@@ -122,8 +125,6 @@ export default function SearchPageTemplate({
 
       {/* 리스트 */}
       <div className="flex-1 min-h-0 overflow-y-auto">
-        {isLoading && <p className="py-4 text-center">불러오는 중...</p>}
-
         {mode === "history" && (
           <SearchHistoryList
             items={items}
@@ -140,7 +141,12 @@ export default function SearchPageTemplate({
         )}
         {mode === "results" && (
           <>
-            <SearchResultList items={items} onItemClick={onItemClick} />
+            {isLoading ? (
+              <StoreInfoCardListSkeleton count={2} />
+            ) : (
+              <SearchResultList items={items} onItemClick={onItemClick} />
+            )}
+            {isFetchingNextPage && <StoreInfoCardListSkeleton count={2} />}
             {!isLoading && <div ref={observerRef} className="h-[1px]" />}
           </>
         )}
