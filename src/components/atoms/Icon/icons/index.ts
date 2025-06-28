@@ -16,4 +16,8 @@ export { default as Share } from "./Share";
 export { default as Success } from "./Success";
 export { default as Time } from "./Time";
 export { default as Star } from "./Star";
+export { default as ServiceLogo } from "./ServiceLogo";
+export { default as MainCalandar } from "./MainCalandar";
+export { default as MainExplore } from "./MainExplore";
+export { default as MainRulet } from "./MainRulet";
 export { default as TapDelete } from "./TapDelete";
