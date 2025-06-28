@@ -1,7 +1,7 @@
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { QueryClient } from "@tanstack/react-query";
 import PlaceDetail from "./PlaceDetail";
-import { getPlaceDetail } from '@/apis/place';
+import { getPlaceDetail } from "@/apis/place";
 
 interface Props {
   params: Promise<{ id: string }>;

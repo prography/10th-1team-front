@@ -1,7 +1,7 @@
-import React from 'react';
-import PlatformMoveButton from '@/components/molecules/PlatformMoveButton/PlatformMoveButton';
-import PlatformInfo from '@/components/molecules/PlatformInfo/PlatformInfo';
-import ReviewSwiper from '@/components/organisms/ReviewSwiper/ReviewSwiper';
+import React from "react";
+import PlatformMoveButton from "@/components/molecules/PlatformMoveButton/PlatformMoveButton";
+import PlatformInfo from "@/components/molecules/PlatformInfo/PlatformInfo";
+import ReviewSwiper from "@/components/organisms/ReviewSwiper/ReviewSwiper";
 
 interface Review {
   id: string;
@@ -20,7 +20,14 @@ interface ReviewMatchProps {
   naverReviews: Review[];
 }
 
-export default function ReviewMatch({ kakaoReviews, naverReviews, kakaoScore, naverScore, kakaoPlaceUri, naverPlaceUri }: ReviewMatchProps) {
+export default function ReviewMatch({
+  kakaoReviews,
+  naverReviews,
+  kakaoScore,
+  naverScore,
+  kakaoPlaceUri,
+  naverPlaceUri,
+}: ReviewMatchProps) {
   return (
     <div className="bg-surface-normal-bg01 py-[16px] w-full max-w-full overflow-hidden">
       <h2 className="body-m-semibold px-[16px]">리뷰 매치</h2>
@@ -58,4 +65,4 @@ export default function ReviewMatch({ kakaoReviews, naverReviews, kakaoScore, na
       </div>
     </div>
   );
-} 
+}

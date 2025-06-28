@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "@/styles/reset.css";
 import "@/styles/global.css";
 import Providers from "./providers";
-import Script from 'next/script';
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: "Create Next App",

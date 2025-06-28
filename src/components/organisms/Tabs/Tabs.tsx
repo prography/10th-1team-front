@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Button from '@/components/atoms/Button/Button';
+import Button from "@/components/atoms/Button/Button";
 
 export interface TabItem {
   label: string;
@@ -26,9 +26,11 @@ export default function Tabs({ items, initialValue, className }: TabsProps) {
           <Button
             key={tab.value}
             className={`px-[12px] h-[32px] rounded-[99px] caption-m-semibold transition
-              ${selected === tab.value
-                ? "bg-texticon-onnormal-highestemp text-texticon-onnormal-white"
-                : "bg-button-neutral-bg_default border border-border-normal-lowemp text-texticon-onnormal-midemp"}
+              ${
+                selected === tab.value
+                  ? "bg-texticon-onnormal-highestemp text-texticon-onnormal-white"
+                  : "bg-button-neutral-bg_default border border-border-normal-lowemp text-texticon-onnormal-midemp"
+              }
             `}
             onClick={() => setSelected(tab.value)}
           >
@@ -36,9 +38,7 @@ export default function Tabs({ items, initialValue, className }: TabsProps) {
           </Button>
         ))}
       </div>
-      <div>
-        {selectedTab?.content}
-      </div>
+      <div>{selectedTab?.content}</div>
     </div>
   );
-} 
+}

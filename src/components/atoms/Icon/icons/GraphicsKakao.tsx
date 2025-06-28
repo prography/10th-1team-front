@@ -26,7 +26,14 @@ export default function GraphicsNaver(props: SVGProps<SVGSVGElement>) {
             />
           </g>
         </g>
-        <rect x="0.5" y="0.5" width="49" height="49" rx="5.5" stroke="url(#paint0_linear_930_14264)" />
+        <rect
+          x="0.5"
+          y="0.5"
+          width="49"
+          height="49"
+          rx="5.5"
+          stroke="url(#paint0_linear_930_14264)"
+        />
       </g>
       <defs>
         <filter
@@ -48,21 +55,45 @@ export default function GraphicsNaver(props: SVGProps<SVGSVGElement>) {
           <feOffset dx="4" dy="4" />
           <feGaussianBlur stdDeviation="2" />
           <feComposite in2="hardAlpha" operator="out" />
-          <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
-          <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_930_14264" />
-          <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_930_14264" result="shape" />
+          <feColorMatrix
+            type="matrix"
+            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"
+          />
+          <feBlend
+            mode="normal"
+            in2="BackgroundImageFix"
+            result="effect1_dropShadow_930_14264"
+          />
+          <feBlend
+            mode="normal"
+            in="SourceGraphic"
+            in2="effect1_dropShadow_930_14264"
+            result="shape"
+          />
           <feColorMatrix
             in="SourceAlpha"
             type="matrix"
             values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
             result="hardAlpha"
           />
-          <feMorphology radius="4" operator="erode" in="SourceAlpha" result="effect2_innerShadow_930_14264" />
+          <feMorphology
+            radius="4"
+            operator="erode"
+            in="SourceAlpha"
+            result="effect2_innerShadow_930_14264"
+          />
           <feOffset />
           <feGaussianBlur stdDeviation="6" />
           <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1" />
-          <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 0.984756 0 0 0 0 0.847556 0 0 0 1 0" />
-          <feBlend mode="normal" in2="shape" result="effect2_innerShadow_930_14264" />
+          <feColorMatrix
+            type="matrix"
+            values="0 0 0 0 1 0 0 0 0 0.984756 0 0 0 0 0.847556 0 0 0 1 0"
+          />
+          <feBlend
+            mode="normal"
+            in2="shape"
+            result="effect2_innerShadow_930_14264"
+          />
           <feColorMatrix
             in="SourceAlpha"
             type="matrix"
@@ -72,20 +103,39 @@ export default function GraphicsNaver(props: SVGProps<SVGSVGElement>) {
           <feOffset dx="3" dy="2" />
           <feGaussianBlur stdDeviation="2.5" />
           <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1" />
-          <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0" />
-          <feBlend mode="normal" in2="effect2_innerShadow_930_14264" result="effect3_innerShadow_930_14264" />
+          <feColorMatrix
+            type="matrix"
+            values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0"
+          />
+          <feBlend
+            mode="normal"
+            in2="effect2_innerShadow_930_14264"
+            result="effect3_innerShadow_930_14264"
+          />
           <feColorMatrix
             in="SourceAlpha"
             type="matrix"
             values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
             result="hardAlpha"
           />
-          <feMorphology radius="3" operator="erode" in="SourceAlpha" result="effect4_innerShadow_930_14264" />
+          <feMorphology
+            radius="3"
+            operator="erode"
+            in="SourceAlpha"
+            result="effect4_innerShadow_930_14264"
+          />
           <feOffset dx="-1" dy="-2" />
           <feGaussianBlur stdDeviation="4" />
           <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1" />
-          <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 0.806263 0 0 0 0 0.105828 0 0 0 0.73 0" />
-          <feBlend mode="normal" in2="effect3_innerShadow_930_14264" result="effect4_innerShadow_930_14264" />
+          <feColorMatrix
+            type="matrix"
+            values="0 0 0 0 1 0 0 0 0 0.806263 0 0 0 0 0.105828 0 0 0 0.73 0"
+          />
+          <feBlend
+            mode="normal"
+            in2="effect3_innerShadow_930_14264"
+            result="effect4_innerShadow_930_14264"
+          />
           <feColorMatrix
             in="SourceAlpha"
             type="matrix"
@@ -95,8 +145,15 @@ export default function GraphicsNaver(props: SVGProps<SVGSVGElement>) {
           <feOffset dx="2" dy="2" />
           <feGaussianBlur stdDeviation="1.5" />
           <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1" />
-          <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0" />
-          <feBlend mode="normal" in2="effect4_innerShadow_930_14264" result="effect5_innerShadow_930_14264" />
+          <feColorMatrix
+            type="matrix"
+            values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0"
+          />
+          <feBlend
+            mode="normal"
+            in2="effect4_innerShadow_930_14264"
+            result="effect5_innerShadow_930_14264"
+          />
         </filter>
         <filter
           id="filter1_di_930_14264"
@@ -117,9 +174,21 @@ export default function GraphicsNaver(props: SVGProps<SVGSVGElement>) {
           <feOffset />
           <feGaussianBlur stdDeviation="4" />
           <feComposite in2="hardAlpha" operator="out" />
-          <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 0.683981 0 0 0 0 0.138129 0 0 0 1 0" />
-          <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_930_14264" />
-          <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_930_14264" result="shape" />
+          <feColorMatrix
+            type="matrix"
+            values="0 0 0 0 1 0 0 0 0 0.683981 0 0 0 0 0.138129 0 0 0 1 0"
+          />
+          <feBlend
+            mode="normal"
+            in2="BackgroundImageFix"
+            result="effect1_dropShadow_930_14264"
+          />
+          <feBlend
+            mode="normal"
+            in="SourceGraphic"
+            in2="effect1_dropShadow_930_14264"
+            result="shape"
+          />
           <feColorMatrix
             in="SourceAlpha"
             type="matrix"
@@ -129,8 +198,15 @@ export default function GraphicsNaver(props: SVGProps<SVGSVGElement>) {
           <feOffset />
           <feGaussianBlur stdDeviation="1.5" />
           <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1" />
-          <feColorMatrix type="matrix" values="0 0 0 0 0.779447 0 0 0 0 0.897075 0 0 0 0 1 0 0 0 1 0" />
-          <feBlend mode="normal" in2="shape" result="effect2_innerShadow_930_14264" />
+          <feColorMatrix
+            type="matrix"
+            values="0 0 0 0 0.779447 0 0 0 0 0.897075 0 0 0 0 1 0 0 0 1 0"
+          />
+          <feBlend
+            mode="normal"
+            in2="shape"
+            result="effect2_innerShadow_930_14264"
+          />
         </filter>
         <linearGradient
           id="paint0_linear_930_14264"
@@ -148,7 +224,5 @@ export default function GraphicsNaver(props: SVGProps<SVGSVGElement>) {
         </clipPath>
       </defs>
     </svg>
-
-    
   );
 }

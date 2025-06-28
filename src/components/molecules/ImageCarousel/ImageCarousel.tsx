@@ -42,7 +42,7 @@ export default function ImageCarousel({ images, alt }: ImageCarouselProps) {
           {/* 왼쪽 버튼 - 첫 번째 이미지가 아닐 때만 표시 */}
           {current > 0 && (
             <IconButton
-              className='absolute left-4 top-1/2 -translate-y-1/2 z-1 rotate-180'
+              className="absolute left-4 top-1/2 -translate-y-1/2 z-1 rotate-180"
               startIcon={<Icon icon="ImageNext" size={24} />}
               onClick={() => swiperRef.current?.slidePrev()}
               aria-label="이전 이미지"
@@ -53,7 +53,7 @@ export default function ImageCarousel({ images, alt }: ImageCarouselProps) {
           {/* 오른쪽 버튼 - 마지막 이미지가 아닐 때만 표시 */}
           {current < images.length - 1 && (
             <IconButton
-              className='absolute right-4 top-1/2 -translate-y-1/2 z-1'
+              className="absolute right-4 top-1/2 -translate-y-1/2 z-1"
               startIcon={<Icon icon="ImageNext" size={24} />}
               onClick={() => swiperRef.current?.slideNext()}
               aria-label="다음 이미지"
@@ -62,10 +62,10 @@ export default function ImageCarousel({ images, alt }: ImageCarouselProps) {
           )}
           {/* 인덱스 */}
           <div className="w-[48px] h-[20px] absolute right-[16px] bottom-[17px] text-texticon-onnormal-white bg-surface-normal-bg06 rounded-[99px] inline-flex justify-center items-center z-10 caption-m-regular">
-            {current + 1}/{images.length} 
+            {current + 1}/{images.length}
           </div>
         </>
       )}
     </div>
   );
-} 
+}

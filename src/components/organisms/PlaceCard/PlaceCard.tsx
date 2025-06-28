@@ -1,6 +1,6 @@
 import React from "react";
 import Icon from "@/components/atoms/Icon/Icon";
-import { colors } from '@/styles/colors';
+import { colors } from "@/styles/colors";
 import ImageCarousel from "@/components/molecules/ImageCarousel/ImageCarousel";
 
 interface PlaceCardProps {
@@ -47,25 +47,37 @@ export default function PlaceCard({
           <div className="bg-surface-normal-bg10 text-brand-kakao-main rounded px-[8px] py-[2px] caption-m-semibold h-[24px] flex items-center justify-center">
             카카오
             <div className="flex items-center ml-[2px] ">
-              <Icon size={16} icon="Star" fill={colors.TextIcon.OnNormal.HighEmp}/>
+              <Icon
+                size={16}
+                icon="Star"
+                fill={colors.TextIcon.OnNormal.HighEmp}
+              />
               <span className="text-texticon-onnormal-highemp caption-m-semibold">
                 {kakaoScore !== null ? `${kakaoScore}` : "--"}
               </span>
             </div>
             <span className="text-texticon-onnormal-lowemp ml-[2px] caption-s-regular h-5">
-              {kakaoReviewCount !== null ? `(${kakaoReviewCount >= 999 ? '999+' : kakaoReviewCount})` : "--"}
+              {kakaoReviewCount !== null
+                ? `(${kakaoReviewCount >= 999 ? "999+" : kakaoReviewCount})`
+                : "--"}
             </span>
           </div>
           <div className="bg-surface-normal-bg10 text-brand-naver-main rounded px-[8px] py-[2px] caption-m-semibold h-[24px] flex items-center justify-center">
             네이버
             <div className="flex items-center ml-[2px]">
-              <Icon size={16} icon="Star" fill={colors.TextIcon.OnNormal.HighEmp} />
+              <Icon
+                size={16}
+                icon="Star"
+                fill={colors.TextIcon.OnNormal.HighEmp}
+              />
               <span className="text-texticon-onnormal-highemp caption-m-semibold ">
                 {naverScore !== null ? `${naverScore}` : "--"}
               </span>
             </div>
             <span className="text-texticon-onnormal-lowemp ml-[2px] caption-s-regular h-5">
-              {naverReviewCount !== null ? `(${naverReviewCount >= 999 ? '999+' : naverReviewCount})` : "--"}
+              {naverReviewCount !== null
+                ? `(${naverReviewCount >= 999 ? "999+" : naverReviewCount})`
+                : "--"}
             </span>
           </div>
         </div>
@@ -77,23 +89,23 @@ export default function PlaceCard({
         </div>
         {/* 룰렛, 저장, 공유 */}
         <div className="flex justify-between gap-2 mt-[16px] pt-[12px] border-t border-border-normal-lowemp">
-          <div 
-            className="flex items-center flex-1 flex-col justify-center cursor-pointer gap-[4px]" 
-            onClick={onSave} 
+          <div
+            className="flex items-center flex-1 flex-col justify-center cursor-pointer gap-[4px]"
+            onClick={onSave}
           >
             <Icon size={24} icon="Rulet" />
             <span className="button-s-medium h-[18px]">룰렛</span>
           </div>
-          <div 
-            className="flex items-center flex-1 flex-col justify-center cursor-pointer gap-[4px] border-l border-border-normal-lowemp" 
-            onClick={onSave} 
+          <div
+            className="flex items-center flex-1 flex-col justify-center cursor-pointer gap-[4px] border-l border-border-normal-lowemp"
+            onClick={onSave}
           >
             <Icon size={24} icon="Save" />
             <span className="button-s-medium h-[18px]">저장</span>
           </div>
-          <div 
-            className="flex items-center flex-1 flex-col justify-center cursor-pointer gap-[4px] border-l border-border-normal-lowemp" 
-            onClick={onShare} 
+          <div
+            className="flex items-center flex-1 flex-col justify-center cursor-pointer gap-[4px] border-l border-border-normal-lowemp"
+            onClick={onShare}
           >
             <Icon size={24} icon="Share" />
             <span className="button-s-medium h-[18px]">공유</span>

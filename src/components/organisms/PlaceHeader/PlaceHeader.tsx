@@ -1,6 +1,6 @@
 "use client";
 import Icon from "@/components/atoms/Icon/Icon";
-import IconButton from '@/components/molecules/IconButton/IconButton';
+import IconButton from "@/components/molecules/IconButton/IconButton";
 
 interface PlaceHeaderProps {
   onHome?: () => void;

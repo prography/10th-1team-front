@@ -1,11 +1,10 @@
-import React from 'react';
+import React from "react";
 
 interface ReviewCardProps {
   author: string;
   registered_at: string;
   contents: string;
 }
-
 
 export default function ReviewCard({
   author,
@@ -15,13 +14,13 @@ export default function ReviewCard({
   // 날짜 포맷팅
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`;
+    return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, "0")}.${String(date.getDate()).padStart(2, "0")}`;
   };
 
-  // 이름 마스킹 처리 (앞글자 한 글자 제외하고 별표로) 
+  // 이름 마스킹 처리 (앞글자 한 글자 제외하고 별표로)
   const maskAuthorName = (name: string) => {
     if (name.length <= 1) return name;
-    return name.charAt(0) + '*'.repeat(name.length - 1);
+    return name.charAt(0) + "*".repeat(name.length - 1);
   };
 
   return (
@@ -30,7 +29,9 @@ export default function ReviewCard({
         <span className="body-s-semibold">{maskAuthorName(author)}</span>
         <div className="flex">
           <div className="flex items-end">
-            <span className="caption-s-regular text-texticon-onnormal-midemp">{formatDate(registered_at)}</span>
+            <span className="caption-s-regular text-texticon-onnormal-midemp">
+              {formatDate(registered_at)}
+            </span>
           </div>
         </div>
       </div>
@@ -39,4 +40,4 @@ export default function ReviewCard({
       </p>
     </div>
   );
-} 
+}

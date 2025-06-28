@@ -1,7 +1,7 @@
-import React from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import ReviewCard from '@/components/molecules/ReviewCard/ReviewCard';
+import React from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import ReviewCard from "@/components/molecules/ReviewCard/ReviewCard";
 
 interface Review {
   id: string;
@@ -34,8 +34,8 @@ export default function ReviewSwiper({ reviews }: ReviewSwiperProps) {
       slidesOffsetAfter={16}
     >
       {reviews.map((review) => (
-        <SwiperSlide key={review.id} style={{ width: '280px' }}>
-          <ReviewCard 
+        <SwiperSlide key={review.id} style={{ width: "280px" }}>
+          <ReviewCard
             author={review.author}
             registered_at={review.registered_at}
             contents={review.contents}
@@ -44,4 +44,4 @@ export default function ReviewSwiper({ reviews }: ReviewSwiperProps) {
       ))}
     </Swiper>
   );
-} 
+}

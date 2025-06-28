@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef, useCallback } from "react";
 
 interface MapProps {
   latitude: number;
@@ -56,7 +56,11 @@ interface KakaoMapType {
     LatLng: new (lat: number, lng: number) => KakaoLatLng;
     Map: new (container: HTMLElement, options: KakaoMapOptions) => KakaoMap;
     Marker: new (options: KakaoMarkerOptions) => KakaoMarker;
-    MarkerImage: new (src: string | HTMLImageElement, size: KakaoSize, options?: { offset: KakaoPoint }) => KakaoMarkerImage;
+    MarkerImage: new (
+      src: string | HTMLImageElement,
+      size: KakaoSize,
+      options?: { offset: KakaoPoint }
+    ) => KakaoMarkerImage;
     Size: new (width: number, height: number) => KakaoSize;
     Point: new (x: number, y: number) => KakaoPoint;
   };
@@ -88,40 +92,43 @@ export default function KakaoMap({
 }: MapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const markerRef = useRef<KakaoMarker | null>(null);
-  
-  const createMarker = useCallback((map: KakaoMap) => {
-    if (markerImage && markerSize) {
-      const imageSize = new window.kakao.maps.Size(
-        markerSize.width,
-        markerSize.height
-      );
-      const imageOptions = markerPosition
-        ? {
-            offset: new window.kakao.maps.Point(
-              markerPosition.x,
-              markerPosition.y
-            ),
-          }
-        : undefined;
 
-      const markerImageObj = new window.kakao.maps.MarkerImage(
-        markerImage,
-        imageSize,
-        imageOptions
-      );
+  const createMarker = useCallback(
+    (map: KakaoMap) => {
+      if (markerImage && markerSize) {
+        const imageSize = new window.kakao.maps.Size(
+          markerSize.width,
+          markerSize.height
+        );
+        const imageOptions = markerPosition
+          ? {
+              offset: new window.kakao.maps.Point(
+                markerPosition.x,
+                markerPosition.y
+              ),
+            }
+          : undefined;
 
-      markerRef.current = new window.kakao.maps.Marker({
-        position: new window.kakao.maps.LatLng(latitude, longitude),
-        image: markerImageObj,
-      });
-    } else {
-      markerRef.current = new window.kakao.maps.Marker({
-        position: new window.kakao.maps.LatLng(latitude, longitude),
-      });
-    }
+        const markerImageObj = new window.kakao.maps.MarkerImage(
+          markerImage,
+          imageSize,
+          imageOptions
+        );
 
-    markerRef.current.setMap(map);
-  }, [latitude, longitude, markerImage, markerSize, markerPosition]);
+        markerRef.current = new window.kakao.maps.Marker({
+          position: new window.kakao.maps.LatLng(latitude, longitude),
+          image: markerImageObj,
+        });
+      } else {
+        markerRef.current = new window.kakao.maps.Marker({
+          position: new window.kakao.maps.LatLng(latitude, longitude),
+        });
+      }
+
+      markerRef.current.setMap(map);
+    },
+    [latitude, longitude, markerImage, markerSize, markerPosition]
+  );
 
   const initializeMap = useCallback(() => {
     if (!mapRef.current) return;
@@ -164,9 +171,9 @@ export default function KakaoMap({
     <div
       ref={mapRef}
       style={{
-        width: '100%',
-        height: '100%',
-        minHeight: '300px',
+        width: "100%",
+        height: "100%",
+        minHeight: "300px",
       }}
     />
   );

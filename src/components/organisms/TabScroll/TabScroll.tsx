@@ -1,6 +1,6 @@
 "use client";
 import Button from "@/components/atoms/Button/Button";
-import Divider from '@/components/atoms/Divider/Divider';
+import Divider from "@/components/atoms/Divider/Divider";
 import React, { useCallback, useEffect, useMemo } from "react";
 import { useState } from "react";
 
@@ -16,7 +16,11 @@ interface TabScrollProps {
   navHeight?: number;
 }
 
-export default function TabScroll({ items, scrollTargetRef, navHeight = 0 }: TabScrollProps) {
+export default function TabScroll({
+  items,
+  scrollTargetRef,
+  navHeight = 0,
+}: TabScrollProps) {
   const [activeTab, setActiveTab] = useState("");
 
   // items 배열을 메모이제이션하여 불필요한 재렌더링 방지
@@ -89,13 +93,9 @@ export default function TabScroll({ items, scrollTargetRef, navHeight = 0 }: Tab
       {/* 섹션 콘텐츠 */}
       <div>
         {memoizedItems.map((item) => (
-          <section
-            key={item.id}
-            id={item.id}
-            className="scroll-mt-[48px]"
-          >
+          <section key={item.id} id={item.id} className="scroll-mt-[48px]">
             {item.content}
-            <Divider/>
+            <Divider />
           </section>
         ))}
       </div>

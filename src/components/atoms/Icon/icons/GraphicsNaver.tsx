@@ -13,7 +13,13 @@ export default function GraphicsNaver(props: SVGProps<SVGSVGElement>) {
         <g clip-path="url(#clip0_930_14263)">
           <rect y="0.212891" width="50" height="50" rx="6" fill="white" />
           <g filter="url(#filter1_d_930_14263)">
-            <rect x="20" y="31.7129" width="30.1667" height="8" fill="#256BFA" />
+            <rect
+              x="20"
+              y="31.7129"
+              width="30.1667"
+              height="8"
+              fill="#256BFA"
+            />
           </g>
           <g filter="url(#filter2_di_930_14263)">
             <path
@@ -95,7 +101,11 @@ export default function GraphicsNaver(props: SVGProps<SVGSVGElement>) {
             type="matrix"
             values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"
           />
-          <feBlend mode="normal" in2="shape" result="effect2_innerShadow_930_14263" />
+          <feBlend
+            mode="normal"
+            in2="shape"
+            result="effect2_innerShadow_930_14263"
+          />
           <feColorMatrix
             in="SourceAlpha"
             type="matrix"
@@ -197,7 +207,11 @@ export default function GraphicsNaver(props: SVGProps<SVGSVGElement>) {
             type="matrix"
             values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0"
           />
-          <feBlend mode="normal" in2="shape" result="effect2_innerShadow_930_14263" />
+          <feBlend
+            mode="normal"
+            in2="shape"
+            result="effect2_innerShadow_930_14263"
+          />
         </filter>
         <filter
           id="filter3_d_930_14263"
@@ -250,6 +264,5 @@ export default function GraphicsNaver(props: SVGProps<SVGSVGElement>) {
         </clipPath>
       </defs>
     </svg>
-    
   );
 }

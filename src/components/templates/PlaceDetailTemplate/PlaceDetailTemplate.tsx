@@ -3,7 +3,7 @@ import PlaceHeader from "@/components/organisms/PlaceHeader/PlaceHeader";
 import Divider from "@/components/atoms/Divider/Divider";
 import TabScroll from "@/components/organisms/TabScroll/TabScroll";
 import { ReactNode } from "react";
-import PlaceCard from '@/components/organisms/PlaceCard/PlaceCard';
+import PlaceCard from "@/components/organisms/PlaceCard/PlaceCard";
 
 interface PlaceDetailTemplateProps {
   placeName: string;
@@ -46,4 +46,4 @@ export default function PlaceDetailTemplate({
       <TabScroll items={tabItems} navHeight={navHeight} />
     </MainLayout>
   );
-} 
+}

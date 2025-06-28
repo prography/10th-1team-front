@@ -3,10 +3,10 @@ import { SVGProps } from "react";
 
 export default function Home(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg 
+    <svg
       width={props.width}
       height={props.height}
-      viewBox="0 0 24 24" 
+      viewBox="0 0 24 24"
       fill={props.fill || colors.Surface.Normal.Container0}
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -28,6 +28,5 @@ export default function Home(props: SVGProps<SVGSVGElement>) {
         strokeLinejoin="round"
       />
     </svg>
-
   );
 }

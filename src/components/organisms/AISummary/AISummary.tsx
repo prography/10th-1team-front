@@ -7,22 +7,38 @@ const tabItems = [
   {
     label: "음식만족도",
     value: "food",
-    content: <div className="flex justify-center items-center w-full"><Image src="/images/graph.svg" alt="food" width={328} height={260} /></div>
+    content: (
+      <div className="flex justify-center items-center w-full">
+        <Image src="/images/graph.svg" alt="food" width={328} height={260} />
+      </div>
+    ),
   },
   {
     label: "가격만족도",
     value: "price",
-    content: <div className="flex justify-center items-center w-full"><Image src="/images/graph.svg" alt="food" width={328} height={260} /></div>
+    content: (
+      <div className="flex justify-center items-center w-full">
+        <Image src="/images/graph.svg" alt="food" width={328} height={260} />
+      </div>
+    ),
   },
   {
     label: "서비스",
     value: "service",
-    content: <div className="flex justify-center items-center w-full"><Image src="/images/graph.svg" alt="food" width={328} height={260} /></div>
+    content: (
+      <div className="flex justify-center items-center w-full">
+        <Image src="/images/graph.svg" alt="food" width={328} height={260} />
+      </div>
+    ),
   },
   {
     label: "분위기",
     value: "atmosphere",
-    content: <div className="flex justify-center items-center w-full"><Image src="/images/graph.svg" alt="food" width={328} height={260} /></div>
+    content: (
+      <div className="flex justify-center items-center w-full">
+        <Image src="/images/graph.svg" alt="food" width={328} height={260} />
+      </div>
+    ),
   },
 ];
 
