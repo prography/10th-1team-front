@@ -2,7 +2,6 @@ import Image from "next/image";
 import type { SearchResultItem } from "@/types/search";
 import PlatformScoreLabel from "./PlatformScoreLabel";
 import { cn } from "@/utils/cn";
-import { useRouter } from "next/navigation";
 
 interface StoreInfoCardProps {
   item: SearchResultItem;
@@ -10,19 +9,12 @@ interface StoreInfoCardProps {
 }
 
 export default function StoreInfoCard({ item, className }: StoreInfoCardProps) {
-  const router = useRouter();
-
-  const handleClick = () => {
-    router.push(`/place/${item.id}`);
-  };
-
   return (
     <div
       className={cn(
         "flex-1 px-[16px] py-[12px] bg-surface-normal-bg01 cursor-pointer",
         className
       )}
-      onClick={handleClick}
     >
       <div className="flex items-center gap-[16px] mb-[4px]">
         <span className="body-l-semibold text-texticon-onnormal-highestemp">
