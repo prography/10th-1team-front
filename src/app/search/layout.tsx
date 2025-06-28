@@ -1,6 +1,6 @@
 import { SearchProvider } from "@/contexts/SearchContext";
 import { Suspense } from "react";
-import MainLayout from "@/components/templates/MainLayout/MainLayout";
+import ScreenHeightLayout from "@/components/templates/ScreenHeightLayout/ScreenHeightLayout";
 
 export default function SearchLayout({
   children,
@@ -8,10 +8,10 @@ export default function SearchLayout({
   children: React.ReactNode;
 }) {
   return (
-    <MainLayout>
+    <ScreenHeightLayout>
       <Suspense fallback={<div>Loading...</div>}>
         <SearchProvider>{children}</SearchProvider>
       </Suspense>
-    </MainLayout>
+    </ScreenHeightLayout>
   );
 }
