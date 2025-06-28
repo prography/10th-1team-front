@@ -1,7 +1,8 @@
 import Image from "next/image";
-import type { SearchResultItem } from "@/types/search";
 import PlatformScoreLabel from "./PlatformScoreLabel";
 import { cn } from "@/utils/cn";
+import { useState } from "react";
+import type { SearchResultItem } from "@/types/search";
 
 interface StoreInfoCardProps {
   item: SearchResultItem;
@@ -9,6 +10,21 @@ interface StoreInfoCardProps {
 }
 
 export default function StoreInfoCard({ item, className }: StoreInfoCardProps) {
+  const [imageLoading, setImageLoading] = useState(true);
+  const [imageSrc, setImageSrc] = useState(
+    item.image_url && item.image_url !== ""
+      ? item.image_url
+      : "/images/fallback.webp"
+  );
+
+  const handleImageError = () => {
+    setImageSrc("/images/fallback.webp");
+  };
+
+  const handleImageLoad = () => {
+    setImageLoading(false);
+  };
+
   return (
     <div
       className={cn(
@@ -41,17 +57,21 @@ export default function StoreInfoCard({ item, className }: StoreInfoCardProps) {
         />
       </div>
 
-      <div className="relative w-full aspect-[328/160] bg-gray-100 rounded-[4px] overflow-hidden border-[0.5px] border-border-normal-lowemp">
+      <div
+        className={cn(
+          "relative w-full aspect-[328/160] bg-gray-100 rounded-[4px] overflow-hidden border-[0.5px] border-border-normal-lowemp",
+          imageLoading && "animate-pulse"
+        )}
+      >
         <Image
-          src={
-            item.image_url && item.image_url !== ""
-              ? item.image_url
-              : "/images/fallback.webp"
-          }
+          src={imageSrc}
           alt={item.name}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="object-cover"
+          onError={handleImageError}
+          onLoad={handleImageLoad}
+          priority={false}
         />
       </div>
     </div>

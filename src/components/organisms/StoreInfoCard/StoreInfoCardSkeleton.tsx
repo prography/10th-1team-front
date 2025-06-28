@@ -10,7 +10,7 @@ export default function StoreInfoCardSkeleton({
   return (
     <div
       className={cn(
-        "flex-1 px-[16px] py-[12px] bg-surface-normal-bg01",
+        "flex-1 px-[16px] py-[12px] bg-surface-normal-bg01 rounded-[8px]",
         className
       )}
     >
