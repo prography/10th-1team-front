@@ -17,12 +17,14 @@ import useRegionStore from "@/store/useRegionStore";
 
 export default function MainPageTemplate() {
   const router = useRouter();
-  const { selectedDong } = useRegionStore();
+  const { dong } = useRegionStore();
   const {
     isOpen,
     hasSelectedRegion,
+    regions,
     selectedProvince,
     selectedCity,
+    selectedDong,
     openRegionSelector,
     closeRegionSelector,
     handleNext,
@@ -30,6 +32,7 @@ export default function MainPageTemplate() {
     handleBack,
     handleDongChange,
     regionMapData,
+    isLoading,
   } = useRegionSelector();
 
   return (
@@ -40,7 +43,7 @@ export default function MainPageTemplate() {
 
       <div className="flex flex-col py-[12px] px-[16px] gap-[12px]">
         <LocationSelectorSection
-          selectedDong={selectedDong}
+          selectedDong={dong}
           onClick={openRegionSelector}
         />
 
@@ -69,6 +72,7 @@ export default function MainPageTemplate() {
       <RegionSelector
         {...{
           isOpen,
+          regions,
           hasSelectedRegion,
           selectedProvince,
           selectedCity,
@@ -79,6 +83,7 @@ export default function MainPageTemplate() {
           onBack: handleBack,
           onChangeSelectedDong: handleDongChange,
           regionMapData,
+          isLoading,
         }}
       />
     </div>
