@@ -12,9 +12,9 @@ export const buttonVariants = cva(
         secondary:
           "rounded-[8px] bg-button-secondary-bg_main text-button-secondary-text_default button-l-semibold hover:bg-button-secondary-bg_pressed hover:text-button-secondary-text_pressed active:bg-button-secondary-bg_pressed active:text-button-secondary-text_pressed disabled:bg-button-secondary-bg_disabled disabled:text-button-secondary-text_disabled [&.pressed]:bg-button-secondary-bg_pressed [&.pressed]:text-button-secondary-text_pressed",
         brandNaver:
-          "rounded-[8px] bg-brand-naver-light text-brand-naver-main button-l-semibold hover:border hover:border-brand-naver-main active:border active:border-brand-naver-main disabled:bg-button-neutral-bg_disabled disabled:text-button-neutral-text_disabled disabled:hover:border-none [&.pressed]:border [&.pressed]:border-brand-naver-main",
+          "rounded-[8px] py-[16px] button-l-semibold text-button-primary-text_default bg-brand-naver-main",
         brandKakao:
-          "rounded-[8px] bg-brand-kakao-light text-brand-kakao-deep button-l-semibold hover:border hover:border-brand-kakao-deep active:border active:border-brand-kakao-deep disabled:bg-button-neutral-bg_disabled disabled:text-button-neutral-text_disabled disabled:hover:border-none [&.pressed]:border [&.pressed]:border-brand-kakao-deep",
+          "rounded-[8px] py-[16px] button-l-semibold text-[##3D1D1C] bg-brand-kakao-main",
         filter:
           "rounded-[4px] bg-button-secondary-bg_default text-button-secondary-text_default button-s-medium border border-brand-primary-main px-[7.5px] h-[28px]",
         filterSingle:

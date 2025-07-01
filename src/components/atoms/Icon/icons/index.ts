@@ -27,3 +27,5 @@ export { default as MainCalandar } from "./MainCalandar";
 export { default as MainExplore } from "./MainExplore";
 export { default as MainRulet } from "./MainRulet";
 export { default as TapDelete } from "./TapDelete";
+export { default as KakaoLogo } from "./KakaoLogo";
+export { default as NaverLogo } from "./NaverLogo";
