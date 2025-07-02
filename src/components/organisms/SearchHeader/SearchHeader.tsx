@@ -25,7 +25,7 @@ export default function SearchHeader({
   return (
     <header
       className={cn(
-        "flex items-center gap-[12px] w-full px-[16px] pt-[60px] pb-[16px] bg-surface-normal-bg01 border-b border-brand-primary-main",
+        "flex items-center gap-[12px] w-full px-[16px] pt-[24px] pb-[16px] bg-surface-normal-bg01 border-b border-brand-primary-main",
         className
       )}
     >

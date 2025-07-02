@@ -3,7 +3,7 @@ import IconButton from "@/components/molecules/IconButton/IconButton";
 
 export default function MainHeader() {
   return (
-    <header className="flex justify-between items-center px-[16px] pt-[60px] pb-[12px]">
+    <header className="flex justify-between items-center px-[16px] pt-[24px] pb-[12px]">
       <IconButton
         startIcon={<Icon icon="ServiceLogo" size={30} />}
         onClick={() => {
