@@ -1,7 +1,11 @@
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { QueryClient } from "@tanstack/react-query";
 import PlaceDetail from "./PlaceDetail";
-import { getPlaceDetail } from "@/apis/place";
+import {
+  getPlaceDetail,
+  getPlacePlatformMatchSummary,
+  getPlatformMatchResult,
+} from "@/apis/place";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -13,6 +17,14 @@ export default async function PlacePage({ params }: Props) {
   await queryClient.prefetchQuery({
     queryKey: ["place", id],
     queryFn: () => getPlaceDetail(id),
+  });
+  await queryClient.prefetchQuery({
+    queryKey: ["platformMatchSummary", id],
+    queryFn: () => getPlacePlatformMatchSummary(id),
+  });
+  await queryClient.prefetchQuery({
+    queryKey: ["platformMatchResult", id],
+    queryFn: () => getPlatformMatchResult(id),
   });
 
   const dehydratedState = dehydrate(queryClient);
