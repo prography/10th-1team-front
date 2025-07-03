@@ -46,7 +46,14 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
+            export PATH=$PATH:/usr/bin:/usr/local/bin
+
             IMAGE=${{ secrets.HARBOR_REGISTRY }}/${{ secrets.HARBOR_PROJECT }}/$IMAGE_NAME
+
+            echo "[0] 사용자 및 환경 확인"
+            whoami
+            which docker || echo "docker not found"
+            echo $PATH
 
             echo "[1] Docker login"
             docker login ${{ secrets.HARBOR_REGISTRY }} -u ${{ secrets.HARBOR_USER }} -p ${{ secrets.HARBOR_PASSWORD }}
