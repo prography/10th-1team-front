@@ -3,6 +3,7 @@ import "@/styles/reset.css";
 import "@/styles/global.css";
 import Providers from "./providers";
 import Script from "next/script";
+import ModalRenderer from "@/components/modals/ModalRenderer";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -25,6 +26,7 @@ export default function Layout({ children }: LayoutProps) {
         <Providers>
           {children}
           <div id="modal-root"></div>
+          <ModalRenderer />
         </Providers>
       </body>
     </html>

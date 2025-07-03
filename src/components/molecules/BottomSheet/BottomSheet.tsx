@@ -1,3 +1,5 @@
+"use client";
+
 import { ReactNode, useState } from "react";
 import IconButton from "@/components/molecules/IconButton/IconButton";
 import Icon from "@/components/atoms/Icon/Icon";
