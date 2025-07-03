@@ -1,30 +1,56 @@
 import Tabs from "@/components/organisms/Tabs/Tabs";
 import PlatformVote from "@/components/organisms/PlatformVote/PlatformVote";
 import PlatformMatchResult from "@/components/organisms/PlatformMatchResult/PlatformMatchResult";
-import PlatformMatchVoteModal from "@/components/organisms/PlatformMatchVoteModal/PlatformMatchVoteModal";
-import { useState } from "react";
+import {
+  PlatformMatchResultData,
+  PlatformMatchSummary,
+} from "@/types/platformMatch";
 
-export default function PlatformMatch() {
-  const [modalOpen, setModalOpen] = useState(false);
+interface PlatformMatchProps {
+  onSubmit: (platform: "KAKAO" | "NAVER", reasons: string[]) => void;
+  resultData: PlatformMatchResultData;
+  voteSummary: PlatformMatchSummary;
+  onVote: () => void;
+  hasZeroReviews: boolean;
+  handlePlatformVoteTabChange: (value: "vote" | "result") => void;
+  platformVoteTab: "vote" | "result";
+}
 
-  const handleVoteClick = () => {
-    setModalOpen(true);
-  };
-
+export default function PlatformMatch({
+  resultData,
+  onVote,
+  voteSummary,
+  hasZeroReviews,
+  handlePlatformVoteTabChange,
+  platformVoteTab,
+}: PlatformMatchProps) {
   const tabItems = [
     {
       label: "투표 참여하기",
       value: "vote",
-      content: <PlatformVote handleVoteClick={handleVoteClick} />,
+      content: (
+        <PlatformVote
+          participantCount={voteSummary.total}
+          handleVoteClick={onVote}
+          isUserVoted={voteSummary.is_user_voted}
+          hasZeroReviews={hasZeroReviews}
+        />
+      ),
     },
-    {
-      label: "결과 확인하기",
-      value: "result",
-      content: <PlatformMatchResult handleVoteClick={handleVoteClick} />,
-    },
+    ...(!hasZeroReviews
+      ? [
+          {
+            label: "결과 확인하기",
+            value: "result",
+            content: (
+              <PlatformMatchResult data={resultData} handleVoteClick={onVote} />
+            ),
+          },
+        ]
+      : []),
   ];
   return (
-    <div className="bg-surface-normal-bg01 py-[16px] w-full max-w-full overflow-hidden">
+    <div className="bg-surface-normal-bg01 py-[24px] w-full max-w-full overflow-hidden">
       <div className="px-[16px] gap-[12px] flex flex-col">
         <h2 className="body-m-semibold ">플랫폼 매치</h2>
         <div className="gap-[4px] flex flex-col">
@@ -36,11 +62,12 @@ export default function PlatformMatch() {
           </p>
         </div>
       </div>
-      <Tabs items={tabItems} />
-      <PlatformMatchVoteModal
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        onSubmit={() => setModalOpen(false)}
+      <Tabs
+        items={tabItems}
+        value={platformVoteTab}
+        onChange={(value) =>
+          handlePlatformVoteTabChange(value as "vote" | "result")
+        }
       />
     </div>
   );

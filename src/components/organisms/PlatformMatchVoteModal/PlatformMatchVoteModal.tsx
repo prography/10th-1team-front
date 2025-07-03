@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import Icon from "@/components/atoms/Icon/Icon";
 import Image from "next/image";
@@ -7,36 +9,40 @@ import { List, ListItem } from "@/components/atoms/List";
 import { cn } from "@/utils/cn";
 
 interface PlatformMatchVoteModalProps {
-  open: boolean;
+  isOpen: boolean;
   onClose: () => void;
-  onSubmit: (platform: "kakao" | "naver", reasons: string[]) => void;
+  onSubmit: (platform: "KAKAO" | "NAVER", reasons: string[]) => void;
+  handleTabChange: (value: "vote" | "result") => void;
+  refetch: () => void;
 }
 
 const REASONS = [
-  "리뷰가 많아요",
-  "디테일한 설명이 많아요",
-  "리뷰가 솔직해요",
-  "설명이 정확해요",
+  { text: "리뷰가 많아요", value: "MANY_REVIEWS" },
+  { text: "디테일한 설명이 많아요", value: "DETAILED" },
+  { text: "리뷰가 솔직해요", value: "HONEST" },
+  { text: "설명이 정확해요", value: "ACCURATE" },
 ];
 
 export default function PlatformMatchVoteModal({
-  open,
+  isOpen,
   onClose,
   onSubmit,
+  handleTabChange,
+  refetch,
 }: PlatformMatchVoteModalProps) {
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [selectedPlatform, setSelectedPlatform] = useState<
-    "kakao" | "naver" | null
+    "KAKAO" | "NAVER" | null
   >(null);
   const [selectedReasons, setSelectedReasons] = useState<string[]>([]);
 
-  if (!open) return null;
+  if (!isOpen) return null;
 
-  const toggleReason = (reason: string) => {
+  const toggleReason = (reasonValue: string) => {
     setSelectedReasons((prev) =>
-      prev.includes(reason)
-        ? prev.filter((r) => r !== reason)
-        : [...prev, reason]
+      prev.includes(reasonValue)
+        ? prev.filter((r) => r !== reasonValue)
+        : [...prev, reasonValue]
     );
   };
 
@@ -45,6 +51,12 @@ export default function PlatformMatchVoteModal({
     setSelectedPlatform(null);
     setSelectedReasons([]);
     onClose();
+  };
+
+  const handleResult = () => {
+    refetch();
+    handleTabChange("result");
+    handleClose();
   };
 
   const handleSubmit = () => {
@@ -80,11 +92,11 @@ export default function PlatformMatchVoteModal({
               <Button
                 className={cn(
                   "flex-1 flex flex-col items-center justify-center border rounded-[8px] py-[43px] transition",
-                  selectedPlatform === "kakao"
+                  selectedPlatform === "KAKAO"
                     ? "bg-surface-normal-container-b50 border-brand-primary-main"
                     : "bg-surface-normal-container0 border border-border-normal-highemp text-texticon-onnormal-highemp"
                 )}
-                onClick={() => setSelectedPlatform("kakao")}
+                onClick={() => setSelectedPlatform("KAKAO")}
               >
                 <Icon icon="GraphicsKakao" size={60} />
                 <span className="mt-[12px] text-texticon-onnormal-highemp body-m-regular">
@@ -94,11 +106,11 @@ export default function PlatformMatchVoteModal({
               <Button
                 className={cn(
                   "flex-1 flex flex-col items-center justify-center border rounded-[8px] py-[43px] transition",
-                  selectedPlatform === "naver"
+                  selectedPlatform === "NAVER"
                     ? "bg-surface-normal-container-b50 border-brand-primary-main"
                     : "bg-surface-normal-container0 border border-border-normal-highemp text-texticon-onnormal-highemp"
                 )}
-                onClick={() => setSelectedPlatform("naver")}
+                onClick={() => setSelectedPlatform("NAVER")}
               >
                 <Icon icon="GraphicsNaver" size={60} />
                 <span className="mt-[12px] text-texticon-onnormal-highemp body-m-regular">
@@ -136,18 +148,18 @@ export default function PlatformMatchVoteModal({
               {REASONS.map((reason) => (
                 <ListItem
                   as="li"
-                  key={reason}
+                  key={reason.value}
                   variant="platform-vote"
                   className={cn(
                     "min-h-[44px] pl-[20px] pr-[16px] py-[8px] flex flex-row justify-between items-center body-s-regular cursor-pointer",
-                    selectedReasons.includes(reason)
+                    selectedReasons.includes(reason.value)
                       ? "bg-surface-normal-container-b50 text-texticon-onnormal-main-500 border-brand-primary-main"
                       : "bg-button-neutral-bg_default border border-button-neutral-border text-button-neutral-text_default"
                   )}
-                  onClick={() => toggleReason(reason)}
+                  onClick={() => toggleReason(reason.value)}
                 >
-                  {reason}
-                  {selectedReasons.includes(reason) && (
+                  {reason.text}
+                  {selectedReasons.includes(reason.value) && (
                     <IconButton
                       className="flex"
                       endIcon={<Icon size={20} icon="Check" />}
@@ -161,7 +173,7 @@ export default function PlatformMatchVoteModal({
                 className="flex-1 h-[56px]"
                 variant="primary"
                 disabled={selectedReasons.length === 0}
-                onClick={() => setStep(3)}
+                onClick={handleSubmit}
               >
                 완료
               </Button>
@@ -194,7 +206,7 @@ export default function PlatformMatchVoteModal({
             <div className="flex items-center justify-center h-[84px]">
               <IconButton
                 className="h-[36px] py-[8px] px-[14px] rounded-[99px] bg-black text-white font-bold text-lg flex items-center justify-center gap-2"
-                onClick={handleSubmit}
+                onClick={handleResult}
                 text="결과 확인하러 가기"
                 endIcon={<Icon icon="Success" />}
               />
