@@ -47,7 +47,7 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           script: |
             export PATH=$PATH:/usr/bin:/usr/local/bin
-
+            IMAGE_NAME=reviewmatch
             IMAGE=${{ secrets.HARBOR_REGISTRY }}/${{ secrets.HARBOR_PROJECT }}/$IMAGE_NAME
 
             echo "[0] 사용자 및 환경 확인"
