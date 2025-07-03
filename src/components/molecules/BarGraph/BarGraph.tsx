@@ -70,7 +70,7 @@ export default function BarGraph({
           </span>
         </div>
         {/* 네이버 */}
-        <div className="flex flex-1 flex-col items-cente">
+        <div className="flex flex-1 flex-col items-center">
           <div className="flex items-end" style={{ height: `${BAR_HEIGHT}px` }}>
             <div
               className="w-[44px] relative flex items-end justify-center rounded-t-[4px] border-2 border-t-brand-naver-deep border-l-brand-naver-deep border-r-brand-naver-deep border-b-transparent transition-[height] duration-300"
