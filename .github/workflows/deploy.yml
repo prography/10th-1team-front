@@ -1,47 +1,63 @@
-name: Next.js CI/CD with Docker Compose
+name: CI/CD to Harbor & Prod Server
 
 on:
   push:
     branches:
       - main
-  release:
-    types: [published]
-
-concurrency:
-  group: deploy-${{ github.ref }}
-  cancel-in-progress: true
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME: reviewmatch
+      ENV_TAG: prod
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Checkout source
+        uses: actions/checkout@v3
 
-      - name: Set deployment variables
-        id: vars
+      - name: Set version tag from commit
         run: |
-          if [ "${{ github.event_name }}" == "release" ]; then
-            echo "COMPOSE_FILE=docker-compose.prod.yml" >> $GITHUB_ENV
-          else
-            echo "COMPOSE_FILE=docker-compose.dev.yml" >> $GITHUB_ENV
-          fi
+          VERSION_TAG=sha-${GITHUB_SHA::7}
+          echo "VERSION_TAG=$VERSION_TAG" >> $GITHUB_ENV
 
-      - name: Deploy to NAS via SSH
-        uses: appleboy/ssh-action@v0.1.6
+      - name: Create .env file
+        run: |
+          echo "NODE_ENV=production" > .env
+          echo "NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }}" >> .env
+          echo "NEXT_PUBLIC_KAKAO_MAP_API_KEY=${{ secrets.NEXT_PUBLIC_KAKAO_MAP_API_KEY }}" >> .env
+
+      - name: Login to Harbor
+        run: |
+          echo "${{ secrets.HARBOR_PASSWORD }}" | docker login ${{ secrets.HARBOR_REGISTRY }} -u ${{ secrets.HARBOR_USER }} --password-stdin
+
+      - name: Build and Push Docker image with version & prod tag
+        run: |
+          IMAGE=${{ secrets.HARBOR_REGISTRY }}/${{ secrets.HARBOR_PROJECT }}/$IMAGE_NAME
+          docker build -t $IMAGE:$VERSION_TAG -t $IMAGE:$ENV_TAG .
+          docker push $IMAGE:$VERSION_TAG
+          docker push $IMAGE:$ENV_TAG
+
+      - name: SSH Deploy - Pull and Run latest prod
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
-          port: ${{ secrets.SERVER_PORT }}
-          envs: COMPOSE_FILE
           script: |
-            export PATH=$PATH:/usr/local/bin:/usr/bin:/bin
-            cd prography/10th-1team-front
-            git fetch --all
-            git reset --hard origin/main
+            IMAGE=${{ secrets.HARBOR_REGISTRY }}/${{ secrets.HARBOR_PROJECT }}/$IMAGE_NAME
 
-            docker-compose -f $COMPOSE_FILE down -v --remove-orphans
-            docker-compose -f $COMPOSE_FILE build --no-cache
-            docker-compose -f $COMPOSE_FILE up -d
+            echo "[1] Docker login"
+            docker login ${{ secrets.HARBOR_REGISTRY }} -u ${{ secrets.HARBOR_USER }} -p ${{ secrets.HARBOR_PASSWORD }}
+
+            echo "[2] Pull image"
+            docker pull $IMAGE:prod
+
+            echo "[3] Stop and remove old container"
+            docker rm -f $IMAGE_NAME || true
+
+            echo "[4] Run new container"
+            docker run -d \
+              --name $IMAGE_NAME \
+              -p 3000:3000 \
+              $IMAGE:prod
