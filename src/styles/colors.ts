@@ -78,6 +78,7 @@ const social = {
     Main: "#fee500",
     Deep: "#ffa435",
     Light: "#fffcdc",
+    Blue: "#007DFF",
   },
   Naver: {
     Main: "#03c75a",
