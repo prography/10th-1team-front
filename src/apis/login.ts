@@ -1,3 +1,4 @@
+import axios from "axios";
 import { publicAPI } from "./customAxios";
 import type { OAuthTokenResponse } from "@/types/login";
 
@@ -22,4 +23,8 @@ export async function getNewAccessToken(refreshToken: string) {
     }
   );
   return data.data;
+}
+
+export async function logout() {
+  await axios.post("/api/auth/logout");
 }
