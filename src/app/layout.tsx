@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import "@/styles/reset.css";
 import "@/styles/global.css";
-import Providers from "./providers";
+import Providers from "../providers/providers";
 import Script from "next/script";
+import { getMyInfo } from "@/apis/user";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -13,7 +14,15 @@ type LayoutProps = {
   children: React.ReactNode;
 };
 
-export default function Layout({ children }: LayoutProps) {
+export default async function Layout({ children }: LayoutProps) {
+  let user = null;
+  try {
+    user = await getMyInfo();
+  } catch {
+    user = null;
+  }
+
+  console.log("user", user);
   return (
     <html lang="ko">
       <body>
@@ -22,7 +31,7 @@ export default function Layout({ children }: LayoutProps) {
           src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&autoload=false`}
           strategy="beforeInteractive"
         />
-        <Providers>
+        <Providers user={user}>
           {children}
           <div id="modal-root"></div>
         </Providers>
