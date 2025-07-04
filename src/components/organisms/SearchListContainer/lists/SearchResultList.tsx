@@ -27,7 +27,7 @@ export default function SearchResultList({
       ))}
     </List>
   ) : (
-    <div className="flex flex-col items-center justify-center h-full">
+    <div className="flex flex-col items-center justify-center h-full mt-[100px]">
       <Icon icon="BrandNaver" size={40} />
       <span className="body-m-semibold text-texticon-onnormal-highestemp">
         검색 결과가 없습니다.

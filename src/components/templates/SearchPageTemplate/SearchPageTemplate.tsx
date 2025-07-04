@@ -96,7 +96,7 @@ export default function SearchPageTemplate({
   }, []);
 
   return (
-    <div className="flex flex-col h-full w-full bg-surface-normal-container0">
+    <div className="flex flex-col h-full min-h-screen w-full bg-surface-normal-container0">
       {/* 헤더 */}
       <div className="sticky top-0 z-10">
         <SearchHeader
@@ -124,7 +124,7 @@ export default function SearchPageTemplate({
       </div>
 
       {/* 리스트 */}
-      <div className="flex-1 min-h-0 overflow-y-auto">
+      <div className="flex-1">
         {mode === "history" && (
           <SearchHistoryList
             items={items}

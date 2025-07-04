@@ -17,7 +17,7 @@ export default function SearchFilterTab({ openSheet }: SearchFilterTabProps) {
   const { state } = useSearchContext();
 
   return (
-    <div className="h-[52px] flex gap-[12px] items-center px-[16px] py-[12px] border-b-[0.5px] border-border-normal-lowemp overflow-x-auto scrollbar-hide">
+    <div className="sticky top-0 z-10 h-[52px] flex items-center gap-[12px] px-[16px] py-[12px] bg-surface-normal-bg01 border-b-[0.5px] border-border-normal-lowemp overflow-x-auto scrollbar-hide">
       <IconButton
         text="필터"
         startIcon={<Icon icon="Filter" size={20} />}
