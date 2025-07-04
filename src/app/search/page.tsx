@@ -75,10 +75,15 @@ export default function Search() {
     router.push(`/place/${item.id}`);
   };
 
+  const handleSearchWithHistory = (value: string) => {
+    addToHistory(value);
+    handleSearch(value);
+  };
+
   const baseProps = {
     query,
     setQuery,
-    onSearch: handleSearch,
+    onSearch: handleSearchWithHistory,
     onDeleteHistory: removeFromHistory,
     onClearHistory: clearHistory,
     onBack: handleBack,
@@ -94,7 +99,9 @@ export default function Search() {
           {...baseProps}
           mode="history"
           items={searchHistory}
-          onItemClick={(item: SearchRecentItem) => handleSearch(item.query)}
+          onItemClick={(item: SearchRecentItem) =>
+            handleSearchWithHistory(item.query)
+          }
         />
       );
     case "autocomplete":
