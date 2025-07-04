@@ -3,6 +3,7 @@ import Icon from "@/components/atoms/Icon/Icon";
 import IconButton from "@/components/molecules/IconButton/IconButton";
 import { getCategoryLabel } from "@/constants/categoryOptions";
 import { useSearchContext } from "@/contexts/SearchContext";
+import useRegionStore from "@/store/useRegionStore";
 
 import { colors } from "@/styles/colors";
 
@@ -15,6 +16,7 @@ interface SearchFilterTabProps {
 
 export default function SearchFilterTab({ openSheet }: SearchFilterTabProps) {
   const { state } = useSearchContext();
+  const { province, city, dong, setRegion } = useRegionStore();
 
   return (
     <div className="sticky top-0 z-10 h-[52px] flex items-center gap-[12px] px-[16px] py-[12px] bg-surface-normal-bg01 border-b-[0.5px] border-border-normal-lowemp overflow-x-auto scrollbar-hide">
@@ -40,31 +42,37 @@ export default function SearchFilterTab({ openSheet }: SearchFilterTabProps) {
         onClick={() => openSheet("filter", "region")}
         className="flex-shrink-0"
       >
-        <span className="text-texticon-onnormal-highemp">대치동 외</span>
-        <span className="text-texticon-onnormal-main-500">99</span>
+        <span className="text-texticon-onnormal-highemp">
+          {dong.length > 0 ? dong[0].name : "행정동"}
+        </span>
+        <span className="text-texticon-onnormal-main-500">
+          {dong.length > 1 ? `외 ${dong.length - 1}` : ""}
+        </span>
       </Button>
 
-      {["대치동", "역삼동", "삼성동", "청담동", "논현동", "신사동"].map(
-        (location) => (
-          <IconButton
-            key={location}
-            endIcon={
-              <Icon
-                icon="TapDelete"
-                size={16}
-                stroke={colors.TextIcon.OnNormal.HighEmp}
-              />
-            }
-            text={location}
-            gap={4}
-            variant="filterLocationLabel"
-            className="flex-shrink-0"
-            onClick={() => {
-              /*TODO: 지역 필터 삭제 기능 구현 */
-            }}
-          />
-        )
-      )}
+      {dong.map((d) => (
+        <IconButton
+          key={d.dong_code}
+          endIcon={
+            <Icon
+              icon="TapDelete"
+              size={16}
+              stroke={colors.TextIcon.OnNormal.HighEmp}
+            />
+          }
+          text={d.name}
+          gap={4}
+          variant="filterLocationLabel"
+          className="flex-shrink-0"
+          onClick={() => {
+            setRegion(
+              province,
+              city,
+              dong.filter((item) => item.dong_code !== d.dong_code)
+            );
+          }}
+        />
+      ))}
     </div>
   );
 }
