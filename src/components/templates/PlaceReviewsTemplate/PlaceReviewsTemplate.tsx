@@ -61,6 +61,7 @@ export default function PlaceReviewsTemplate({
       {!isLoading && reviewPlatformLinksProps && (
         <ReviewPlatformLinks {...reviewPlatformLinksProps} />
       )}
+      <Divider />
       <Footer />
     </MainLayout>
   );
