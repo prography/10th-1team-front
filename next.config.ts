@@ -12,6 +12,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "*.naver.net",
       },
+      {
+        protocol: "http",
+        hostname: "*.naver.net",
+      },
       // 카카오
       {
         protocol: "https",

@@ -1,9 +1,13 @@
 import Icon from "@/components/atoms/Icon/Icon";
 import IconButton from "@/components/molecules/IconButton/IconButton";
 
-export default function MainHeader() {
+interface MainHeaderProps {
+  onSidebarOpen: () => void;
+}
+
+export default function MainHeader({ onSidebarOpen }: MainHeaderProps) {
   return (
-    <header className="flex justify-between items-center px-[16px] pt-[60px] pb-[12px]">
+    <header className="flex justify-between items-center px-[16px] pt-[24px] pb-[12px]">
       <IconButton
         startIcon={<Icon icon="ServiceLogo" size={30} />}
         onClick={() => {
@@ -13,7 +17,7 @@ export default function MainHeader() {
       <IconButton
         startIcon={<Icon icon="Menu" size={24} />}
         onClick={() => {
-          /** TODO: 사이드바 열기 */
+          onSidebarOpen();
         }}
       />
     </header>

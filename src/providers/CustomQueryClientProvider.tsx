@@ -1,5 +1,3 @@
-"use client";
-
 import {
   defaultShouldDehydrateQuery,
   isServer,
@@ -38,7 +36,11 @@ export const getQueryClient = (() => {
   };
 })();
 
-export default function Providers({ children }: { children: React.ReactNode }) {
+export default function CustomQueryClientProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const queryClient = getQueryClient();
 
   return (

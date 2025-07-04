@@ -1,9 +1,8 @@
-"use client";
-
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import IconButton from "@/components/molecules/IconButton/IconButton";
 import Icon from "@/components/atoms/Icon/Icon";
 import { cn } from "@/utils/cn";
+import { allowScroll, preventScroll } from "@/utils/modal";
 
 interface BottomSheetProps {
   onClose: () => void;
@@ -27,6 +26,13 @@ export default function BottomSheet({
   const handleAnimationEnd = () => {
     if (!open) onClose();
   };
+
+  useEffect(() => {
+    const prevScrollY = preventScroll();
+    return () => {
+      allowScroll(prevScrollY);
+    };
+  }, []);
 
   return (
     <>

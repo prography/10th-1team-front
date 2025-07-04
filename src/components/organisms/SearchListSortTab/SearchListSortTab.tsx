@@ -15,7 +15,7 @@ export default function SearchListSortTab({
 
   return (
     <>
-      <div className="flex justify-between items-center px-[16px] py-[12px] border-b-[0.5px] border-border-normal-lowemp">
+      <div className="flex justify-between items-center px-[16px] py-[12px] bg-surface-normal-bg01 border-b-[0.5px] border-border-normal-lowemp">
         <span className="body-s-regular text-texticon-onnormal-midemp">
           {totalCount} 건
         </span>
