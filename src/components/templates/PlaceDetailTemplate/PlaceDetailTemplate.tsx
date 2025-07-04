@@ -4,6 +4,7 @@ import Divider from "@/components/atoms/Divider/Divider";
 import TabScroll from "@/components/organisms/TabScroll/TabScroll";
 import { ReactNode } from "react";
 import PlaceCard from "@/components/organisms/PlaceCard/PlaceCard";
+import Footer from "@/components/molecules/Footer/Footer";
 
 interface PlaceDetailTemplateProps {
   placeName: string;
@@ -36,7 +37,7 @@ export default function PlaceDetailTemplate({
   onHome,
   placeCardProps,
   tabItems,
-  navHeight = 100,
+  navHeight = 108,
 }: PlaceDetailTemplateProps) {
   return (
     <MainLayout>
@@ -44,6 +45,7 @@ export default function PlaceDetailTemplate({
       <PlaceCard {...placeCardProps} />
       <Divider />
       <TabScroll items={tabItems} navHeight={navHeight} />
+      <Footer />
     </MainLayout>
   );
 }

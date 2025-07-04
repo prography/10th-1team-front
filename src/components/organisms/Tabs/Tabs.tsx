@@ -11,13 +11,31 @@ interface TabsProps {
   items: TabItem[];
   initialValue?: string;
   className?: string;
+  value?: string;
+  onChange?: (value: string) => void;
 }
 
-export default function Tabs({ items, initialValue, className }: TabsProps) {
-  const [selected, setSelected] = useState(
+export default function Tabs({
+  items,
+  initialValue,
+  className,
+  value,
+  onChange,
+}: TabsProps) {
+  const isControlled = value !== undefined && onChange !== undefined;
+  const [internalSelected, setInternalSelected] = useState(
     initialValue ?? items[0]?.value ?? ""
   );
+  const selected = isControlled ? value : internalSelected;
   const selectedTab = items.find((tab) => tab.value === selected);
+
+  const handleTabClick = (tabValue: string) => {
+    if (isControlled) {
+      onChange(tabValue);
+    } else {
+      setInternalSelected(tabValue);
+    }
+  };
 
   return (
     <div className={className}>
@@ -32,7 +50,7 @@ export default function Tabs({ items, initialValue, className }: TabsProps) {
                   : "bg-button-neutral-bg_default border border-border-normal-lowemp text-texticon-onnormal-midemp"
               }
             `}
-            onClick={() => setSelected(tab.value)}
+            onClick={() => handleTabClick(tab.value)}
           >
             {tab.label}
           </Button>

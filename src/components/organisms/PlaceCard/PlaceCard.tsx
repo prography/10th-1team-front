@@ -1,7 +1,7 @@
 import React from "react";
 import Icon from "@/components/atoms/Icon/Icon";
-import { colors } from "@/styles/colors";
 import ImageCarousel from "@/components/molecules/ImageCarousel/ImageCarousel";
+import PlatformScoreLabel from "@/components/organisms/StoreInfoCard/PlatformScoreLabel";
 
 interface PlaceCardProps {
   name: string;
@@ -44,42 +44,16 @@ export default function PlaceCard({
         </div>
         {/* 카카오, 네이버 리뷰 평점 */}
         <div className="flex items-center gap-[8px] mb-[14px]">
-          <div className="bg-surface-normal-bg10 text-brand-kakao-main rounded px-[8px] py-[2px] caption-m-semibold h-[24px] flex items-center justify-center">
-            카카오
-            <div className="flex items-center ml-[2px] ">
-              <Icon
-                size={16}
-                icon="Star"
-                fill={colors.TextIcon.OnNormal.HighEmp}
-              />
-              <span className="text-texticon-onnormal-highemp caption-m-semibold">
-                {kakaoScore !== null ? `${kakaoScore}` : "--"}
-              </span>
-            </div>
-            <span className="text-texticon-onnormal-lowemp ml-[2px] caption-s-regular h-5">
-              {kakaoReviewCount !== null
-                ? `(${kakaoReviewCount >= 999 ? "999+" : kakaoReviewCount})`
-                : "--"}
-            </span>
-          </div>
-          <div className="bg-surface-normal-bg10 text-brand-naver-main rounded px-[8px] py-[2px] caption-m-semibold h-[24px] flex items-center justify-center">
-            네이버
-            <div className="flex items-center ml-[2px]">
-              <Icon
-                size={16}
-                icon="Star"
-                fill={colors.TextIcon.OnNormal.HighEmp}
-              />
-              <span className="text-texticon-onnormal-highemp caption-m-semibold ">
-                {naverScore !== null ? `${naverScore}` : "--"}
-              </span>
-            </div>
-            <span className="text-texticon-onnormal-lowemp ml-[2px] caption-s-regular h-5">
-              {naverReviewCount !== null
-                ? `(${naverReviewCount >= 999 ? "999+" : naverReviewCount})`
-                : "--"}
-            </span>
-          </div>
+          <PlatformScoreLabel
+            platform="카카오"
+            score={kakaoScore ?? 0}
+            count={kakaoReviewCount ?? 0}
+          />
+          <PlatformScoreLabel
+            platform="네이버"
+            score={naverScore ?? 0}
+            count={naverReviewCount ?? 0}
+          />
         </div>
         {/* 주소 */}
         <div className="flex items-center body-s-regular gap-[4px]">

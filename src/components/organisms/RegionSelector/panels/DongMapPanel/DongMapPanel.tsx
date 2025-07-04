@@ -1,6 +1,8 @@
 "use client";
 
 import Button from "@/components/atoms/Button/Button";
+import Icon from "@/components/atoms/Icon/Icon";
+import IconButton from "@/components/molecules/IconButton/IconButton";
 import RegionMapDisplay from "@/components/molecules/RegionMapDisplay/RegionMapDisplay";
 import SelectedDongTags from "@/components/molecules/SelectedDongTags/SelectedDongTags";
 import { useDongMapPanel } from "@/components/organisms/RegionSelector/panels/DongMapPanel/useDongMapPanel";
@@ -84,25 +86,30 @@ export default function DongMapPanel({
                 onRegionClick={handleRegionClick}
               />
             </div>
-          </div>
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <button
-              onClick={doZoomOut}
-              disabled={zoomIndex === 0}
-              className="w-8 h-8 bg-white rounded-lg border border-gray-200 flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed text-black"
-            >
-              -
-            </button>
-            <div className="w-16 text-center text-sm text-black">
-              {Math.round(currentScale * 100)}%
+            <div className="absolute flex flex-col top-0 right-0 pt-[60px] pr-[16px] gap-[20px]">
+              <IconButton
+                startIcon={
+                  <Icon
+                    size={28}
+                    icon="Plus"
+                    stroke={zoomIndex === 6 ? "#CFD8E7" : undefined}
+                  />
+                }
+                onClick={doZoomIn}
+                disabled={zoomIndex === 6}
+              />
+              <IconButton
+                startIcon={
+                  <Icon
+                    size={28}
+                    icon="Minus"
+                    stroke={zoomIndex === 0 ? "#CFD8E7" : undefined}
+                  />
+                }
+                onClick={doZoomOut}
+                disabled={zoomIndex === 0}
+              />
             </div>
-            <button
-              onClick={doZoomIn}
-              disabled={zoomIndex === 6}
-              className="w-8 h-8 bg-white rounded-lg border border-gray-200 flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed text-black"
-            >
-              +
-            </button>
           </div>
           <div className="py-[8px] pl-[16px]">
             <div
