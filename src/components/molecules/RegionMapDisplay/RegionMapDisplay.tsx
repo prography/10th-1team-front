@@ -39,7 +39,7 @@ export default function RegionMapDisplay({
     >
       {regions.map((region: Region) => {
         const isSelected = selectedDong.some(
-          (d) => d.dong_code === region.name
+          (d) => d.dong_code === region.dong_code
         );
         return (
           <g key={region.name}>
@@ -71,7 +71,7 @@ export default function RegionMapDisplay({
                 onClick={() =>
                   onRegionClick({
                     name: region.name,
-                    dong_code: region.name,
+                    dong_code: region.dong_code,
                   })
                 }
                 data-region={region.name}

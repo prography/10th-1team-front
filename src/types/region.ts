@@ -25,6 +25,7 @@ export interface RegionState {
 
 export interface Region {
   name: string;
+  dong_code: string;
   fillPath: string;
   strokePath: string | null;
   label: {
