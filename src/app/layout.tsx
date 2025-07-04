@@ -4,6 +4,7 @@ import "@/styles/global.css";
 import Providers from "../providers/providers";
 import Script from "next/script";
 import { getMyInfo } from "@/apis/user";
+import ModalRenderer from "@/components/modals/ModalRenderer";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -34,6 +35,7 @@ export default async function Layout({ children }: LayoutProps) {
         <Providers user={user}>
           {children}
           <div id="modal-root"></div>
+          <ModalRenderer />
         </Providers>
       </body>
     </html>

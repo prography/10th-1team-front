@@ -9,6 +9,7 @@ interface Review {
   author_image_url: string;
   registered_at: string;
   contents: string;
+  star_rating: number;
 }
 
 interface ReviewMatchProps {
@@ -18,6 +19,7 @@ interface ReviewMatchProps {
   naverPlaceUri: string;
   kakaoReviews: Review[];
   naverReviews: Review[];
+  reviewDetailClick?: () => void;
 }
 
 export default function ReviewMatch({
@@ -27,9 +29,10 @@ export default function ReviewMatch({
   naverScore,
   kakaoPlaceUri,
   naverPlaceUri,
+  reviewDetailClick,
 }: ReviewMatchProps) {
   return (
-    <div className="bg-surface-normal-bg01 py-[16px] w-full max-w-full overflow-hidden">
+    <div className="bg-surface-normal-bg01 py-[24px] w-full max-w-full overflow-hidden">
       <h2 className="body-m-semibold px-[16px]">리뷰 매치</h2>
 
       <div className="py-[12px] px-[20px] mt-[12px] mb-[12px] mx-[16px] bg-white border border-gray-200 rounded-lg">
@@ -59,7 +62,10 @@ export default function ReviewMatch({
       </div>
 
       <div className="px-[16px] py-[14px] ">
-        <button className="w-full h-[56px] border border-button-neutral-border rounded-lg bg-surface-normal-bg01 button-l-semibold">
+        <button
+          className="w-full h-[56px] border border-button-neutral-border rounded-lg bg-surface-normal-bg01 button-l-semibold cursor-pointer"
+          onClick={reviewDetailClick}
+        >
           리뷰 상세 보기
         </button>
       </div>

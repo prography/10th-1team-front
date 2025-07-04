@@ -3,6 +3,7 @@ import Button from "@/components/atoms/Button/Button";
 import Divider from "@/components/atoms/Divider/Divider";
 import React, { useCallback, useEffect, useMemo } from "react";
 import { useState } from "react";
+import { cn } from "@/utils/cn";
 
 interface TabItem {
   id: string;
@@ -21,7 +22,7 @@ export default function TabScroll({
   scrollTargetRef,
   navHeight = 0,
 }: TabScrollProps) {
-  const [activeTab, setActiveTab] = useState("");
+  const [activeTab, setActiveTab] = useState(items[0]?.id || "");
 
   // items 배열을 메모이제이션하여 불필요한 재렌더링 방지
   const memoizedItems = useMemo(() => items, [items]);
@@ -79,11 +80,12 @@ export default function TabScroll({
           <Button
             key={item.id}
             onClick={() => scrollToId(item.id)}
-            className={`flex-1 py-[14px] button-m-medium ${
+            className={cn(
+              "flex-1 py-[14px] button-m-medium",
               activeTab === item.id
                 ? "self-stretch border-b-2 text-texticon-onnormal-highestemp border-texticon-onnormal-highestemp inline-flex justify-center items-center gap-2.5"
                 : "text-texticon-onnormal-lowestemp"
-            }`}
+            )}
           >
             {item.label}
           </Button>

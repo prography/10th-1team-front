@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <div className="flex flex-col items-start bg-surface-normal-bg0 px-[16px] pt-[28px] pb-[112px] gap-[20px]">
+    <div className="flex flex-col items-start bg-surface-normal-container0 px-[16px] pt-[28px] pb-[112px] gap-[20px] w-full">
       <Icon icon="ServiceLogo" size={24} />
       <div className="flex gap-[24px] text-texticon-onnormal-midemp caption-m-regular">
         {/* TODO: 기획 후 링크 추가 필요 */}

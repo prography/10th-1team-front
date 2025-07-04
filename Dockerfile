@@ -1,18 +1,24 @@
-# Build stage
+# 1단계: 빌드 단계
 FROM node:20 AS builder
 
 WORKDIR /app
-COPY package*.json ./
-RUN npm install
+
+# 모든 파일 복사
 COPY . .
+
+# 의존성 설치 및 빌드
+RUN npm ci
 RUN npm run build
 
-# Production stage
-FROM node:20
+# 2단계: 실행 단계 (경량화)
+FROM node:20-alpine AS runner
 
 WORKDIR /app
-COPY --from=builder /app .
-RUN npm install --production
+
+# 모든 파일 복사
+COPY --from=builder /app ./
+
+ENV NODE_ENV=production
 
 EXPOSE 3000
 
