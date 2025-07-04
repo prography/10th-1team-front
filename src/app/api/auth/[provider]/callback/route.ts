@@ -4,9 +4,8 @@ import { fetchOAuthTokenFromServer } from "@/apis/login";
 
 export async function GET(
   req: NextRequest,
-  context: { params: { provider: string } }
+  { params }: { params: Promise<{ provider: string }> }
 ) {
-  const { params } = context;
   const { provider } = await params;
 
   const { searchParams } = new URL(req.url);
@@ -53,13 +52,13 @@ export async function GET(
       sameSite: "strict",
     });
 
-    // 🔹 신규 유저라면 가입 페이지로 리다이렉트
+    // 신규 유저라면 가입 페이지로 리다이렉트
     if (is_new_user) {
       response.headers.set("Location", "/onboarding");
       return response;
     }
 
-    // 🔹 기존 유저는 홈으로 리다이렉트
+    // 기존 유저는 홈으로 리다이렉트
     return response;
   } catch (error) {
     console.error(error);

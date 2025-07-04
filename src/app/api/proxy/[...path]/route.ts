@@ -3,15 +3,11 @@
  * 서버가 HttpOnly 쿠키에서 accessToken을 꺼내 Authorization 헤더를 주입하여 백엔드 API에 안전하게 요청을 전달하기 위해 사용됩니다.
  * authProxyAPI 인스턴스를 통해 백엔드 API에 요청을 전달하면, 해당 프록시 서버로 요청이 전달됩니다.
  */
+
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
-export async function handler(
-  req: NextRequest,
-  context: { params: { path: string[] } }
-) {
-  const { params } = context;
-  const { path } = await params;
+async function proxyHandler(req: NextRequest, path: string[]) {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get("accessToken")?.value;
 
@@ -40,8 +36,42 @@ export async function handler(
   return NextResponse.json(data, { status: backendRes.status });
 }
 
-export const GET = handler;
-export const POST = handler;
-export const PATCH = handler;
-export const PUT = handler;
-export const DELETE = handler;
+export async function GET(
+  req: NextRequest,
+  { params }: { params: Promise<{ path: string[] }> }
+) {
+  const { path } = await params;
+  return proxyHandler(req, path);
+}
+
+export async function POST(
+  req: NextRequest,
+  { params }: { params: Promise<{ path: string[] }> }
+) {
+  const { path } = await params;
+  return proxyHandler(req, path);
+}
+
+export async function PATCH(
+  req: NextRequest,
+  { params }: { params: Promise<{ path: string[] }> }
+) {
+  const { path } = await params;
+  return proxyHandler(req, path);
+}
+
+export async function PUT(
+  req: NextRequest,
+  { params }: { params: Promise<{ path: string[] }> }
+) {
+  const { path } = await params;
+  return proxyHandler(req, path);
+}
+
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: Promise<{ path: string[] }> }
+) {
+  const { path } = await params;
+  return proxyHandler(req, path);
+}

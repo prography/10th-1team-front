@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { provider: string } }
+  { params }: { params: Promise<{ provider: string }> }
 ) {
   const { provider } = await params;
   const state = crypto.randomUUID();
