@@ -1,9 +1,9 @@
 import { create } from "zustand";
-import type { UserState, UserInfoResponse } from "@/types/user";
+import type { UserState, UserInfo } from "@/types/user";
 
 const useUserStore = create<
   Omit<UserState, "setUser"> & {
-    setUser: (user: UserInfoResponse["data"] | null) => void;
+    setUser: (user: UserInfo | null) => void;
   }
 >((set) => ({
   user: null,
