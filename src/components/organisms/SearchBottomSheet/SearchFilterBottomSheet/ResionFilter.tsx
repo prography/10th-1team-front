@@ -1,7 +1,79 @@
 import Button from "@/components/atoms/Button/Button";
 import SelectButtonGroup from "@/components/molecules/SelectButtonGroup/SelectButtonGroup";
+import type { Province, DongInfo, City } from "@/types/region";
+import { useEffect, useState } from "react";
 
-export default function RegionFilter() {
+interface RegionFilterProps {
+  regions: Province[];
+  selectedProvince: string;
+  selectedCity: string;
+  selectedDong: DongInfo[];
+  onChange: (province: string, city: string, dongList: DongInfo[]) => void;
+  onReset?: () => void;
+}
+
+export default function RegionFilter({
+  regions,
+  selectedProvince: initialProvince,
+  selectedCity: initialCity,
+  selectedDong: initialDong,
+  onChange,
+  onReset,
+}: RegionFilterProps) {
+  const [province, setProvince] = useState(initialProvince);
+  const [city, setCity] = useState(initialCity);
+  const [dongList, setDongList] = useState<DongInfo[]>(initialDong);
+
+  useEffect(() => {
+    setProvince(initialProvince);
+    setCity(initialCity);
+    setDongList(initialDong);
+  }, [initialProvince, initialCity, initialDong]);
+
+  const handleProvinceSelect = (prov: string) => {
+    setProvince(prov);
+    setCity("");
+    setDongList([]);
+    onChange(prov, "", []);
+  };
+
+  const handleCitySelect = (ct: string) => {
+    setCity(ct);
+    setDongList([]);
+    onChange(province, ct, []);
+  };
+
+  const handleDongToggle = (dong: DongInfo) => {
+    let newDongList: DongInfo[];
+    if (dongList.some((d) => d.name === dong.name)) {
+      newDongList = dongList.filter((d) => d.name !== dong.name);
+    } else {
+      newDongList = [...dongList, dong];
+    }
+    setDongList(newDongList);
+    onChange(province, city, newDongList);
+  };
+
+  const provinceOptions = regions.map((p) => ({
+    value: p.name,
+    label: p.name,
+  }));
+  const cityList: City[] =
+    regions.find((p) => p.name === province)?.city_list ?? [];
+  const cityOptions = cityList.map((c) => ({
+    value: c.name,
+    label: c.name,
+    is_searchable: c.is_searchable,
+  }));
+  const dongOptions =
+    cityList
+      .find((c) => c.name === city)
+      ?.dong_list.map((d) => ({
+        value: d.name,
+        label: d.name,
+        dong_code: d.dong_code,
+      })) ?? [];
+
   return (
     <div className="space-y-[12px]">
       <div className="flex items-center justify-between">
@@ -11,51 +83,55 @@ export default function RegionFilter() {
         <Button
           variant="text"
           className="body-s-regular text-texticon-onnormal-midemp"
+          onClick={onReset}
         >
           초기화
         </Button>
       </div>
       <div className="space-y-[24px]">
-        {/* TODO : 재석님 지역 패칭 코드 참고해서 구현 예정. 아래는 임시 데이터 */}
         <SelectButtonGroup
-          options={[
-            { value: "서울", label: "서울" },
-            { value: "경기", label: "경기" },
-            { value: "인천", label: "인천" },
-            { value: "강원", label: "강원" },
-            { value: "대전", label: "대전" },
-            { value: "대구", label: "대구" },
-            { value: "부산", label: "부산" },
-            { value: "울산", label: "울산" },
-            { value: "세종", label: "세종" },
-            { value: "광주", label: "광주" },
-            { value: "전남", label: "전남" },
-          ]}
-          selectedValues={["서울"]}
-          onToggle={() => {}}
+          options={provinceOptions}
+          selectedValues={province ? [province] : []}
+          onToggle={handleProvinceSelect}
           multiple={false}
           columns={4}
           description="광역시도"
           buttonVariant="filterSingle"
         />
-        {/* <SelectButtonGroup
-          options={["서울", "경기", "인천", "강원"]}
-          selectedValues={["서울"]}
-          onToggle={() => {}}
-          columns={4}
-          description="시군구"
-          buttonVariant="filterSingle"
-        />
-        <SelectButtonGroup
-          options={["서울", "경기", "인천", "강원"]}
-          selectedValues={["서울"]}
-          onToggle={() => {}}
-          multiple={true}
-          columns={3}
-          description="동읍면 (복수 선택 가능)"
-          buttonVariant="filterMulti"
-          className="bg-brand-primary-surface px-[16px] py-[12px] rounded-[4px]"
-        /> */}
+        {province && (
+          <SelectButtonGroup
+            options={cityOptions}
+            selectedValues={city ? [city] : []}
+            onToggle={handleCitySelect}
+            multiple={false}
+            columns={4}
+            description="시군구"
+            buttonVariant="filterSingle"
+            getOptionDisabled={(cityName) => {
+              const cityObj = cityList.find((c) => c.name === cityName);
+              return cityObj ? !cityObj.is_searchable : false;
+            }}
+          />
+        )}
+        {city && (
+          <SelectButtonGroup
+            options={dongOptions}
+            selectedValues={dongList.map((d) => d.name)}
+            onToggle={(dongName) => {
+              const dong = dongOptions.find((d) => d.value === dongName);
+              if (dong)
+                handleDongToggle({
+                  name: dong.value,
+                  dong_code: dong.dong_code,
+                });
+            }}
+            multiple={true}
+            columns={3}
+            description="동읍면 (복수 선택 가능)"
+            buttonVariant="filterMulti"
+            className="bg-brand-primary-surface px-[16px] py-[12px] rounded-[4px]"
+          />
+        )}
       </div>
     </div>
   );
