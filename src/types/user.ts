@@ -3,6 +3,7 @@ export type Provider = "KAKAO" | "NAVER";
 export interface UserState {
   user: UserInfo | null;
   setUser: (user: UserInfo) => void;
+  clearUser: () => void;
 }
 
 export type UserInfo = {
