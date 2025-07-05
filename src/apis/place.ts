@@ -1,4 +1,4 @@
-import { API } from ".";
+import { publicAPI } from "./customAxios";
 
 interface PlacePlatformMatchSummaryResponse {
   data: {
@@ -30,7 +30,7 @@ interface PlaceReviewResponse {
 
 export const getPlaceDetail = async (id: string) => {
   try {
-    const response = await API.get(`/restaurant/detail/${id}`);
+    const response = await publicAPI.get(`/restaurant/detail/${id}`);
     return response.data.data;
   } catch (error) {
     console.error("Place 상세 정보 조회 실패:", error);
@@ -46,7 +46,7 @@ export const patchPlatformMatchVote = async (
   }
 ) => {
   try {
-    const response = await API.patch(`/vote/submit/${id}`, data);
+    const response = await publicAPI.patch(`/vote/submit/${id}`, data);
     return response.data.data;
   } catch (error) {
     console.error("Platform 투표하기 실패:", error);
@@ -56,7 +56,7 @@ export const patchPlatformMatchVote = async (
 
 export const getPlatformMatchResult = async (placeId: string) => {
   try {
-    const response = await API.get(`/vote/${placeId}`);
+    const response = await publicAPI.get(`/vote/${placeId}`);
     return response.data.data;
   } catch (error) {
     console.error("Platform 투표 결과 조회 실패:", error);
@@ -66,7 +66,7 @@ export const getPlatformMatchResult = async (placeId: string) => {
 
 export const getPlaceReview = async (placeId: string) => {
   try {
-    const { data } = await API.get<PlaceReviewResponse>(
+    const { data } = await publicAPI.get<PlaceReviewResponse>(
       `/restaurant/reviews/${placeId}`
     );
     return data.data;
@@ -78,7 +78,7 @@ export const getPlaceReview = async (placeId: string) => {
 
 export const getPlacePlatformMatchSummary = async (placeId: string) => {
   try {
-    const { data } = await API.get<PlacePlatformMatchSummaryResponse>(
+    const { data } = await publicAPI.get<PlacePlatformMatchSummaryResponse>(
       `/vote/summary/${placeId}`
     );
     return data.data;

@@ -11,8 +11,10 @@ import Divider from "@/components/atoms/Divider/Divider";
 import RegionFilter from "./ResionFilter";
 import Button from "@/components/atoms/Button/Button";
 import { useSearchContext } from "@/contexts/SearchContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRegionSelector } from "@/components/organisms/RegionSelector/useRegionSelector";
 import type { CategoryType } from "@/types/search";
+import { DongInfo } from "@/types/region";
 
 interface SearchFilterBottomSheetProps {
   onClose: () => void;
@@ -28,8 +30,44 @@ export default function SearchFilterBottomSheet({
     CategoryType | undefined
   >(state.filters.foodTypes);
 
+  // 지역 관련 상태 (store의 값으로 초기화)
+  const { regions, storeProvince, storeCity, storeDong, setRegion } =
+    useRegionSelector();
+
+  // 임시 선택값
+  const [tempProvince, setTempProvince] = useState(storeProvince);
+  const [tempCity, setTempCity] = useState(storeCity);
+  const [tempDong, setTempDong] = useState(storeDong);
+
+  // 초기값 동기화 (필요시)
+  useEffect(() => {
+    setTempProvince(storeProvince);
+    setTempCity(storeCity);
+    setTempDong(storeDong);
+  }, [storeProvince, storeCity, storeDong]);
+
+  // RegionFilter에서 선택이 바뀔 때마다 임시값 갱신
+  const handleRegionChange = (
+    province: string,
+    city: string,
+    dongList: DongInfo[]
+  ) => {
+    setTempProvince(province);
+    setTempCity(city);
+    setTempDong(dongList);
+  };
+
+  // 초기화 버튼
+  const handleRegionReset = () => {
+    setTempProvince("");
+    setTempCity("");
+    setTempDong([]);
+  };
+
+  // 완료 버튼
   const handleDone = () => {
     updateFoodTypes(selectedCategory);
+    setRegion(tempProvince, tempCity, tempDong); // store에 최종 적용
     onClose();
   };
 
@@ -55,7 +93,14 @@ export default function SearchFilterBottomSheet({
 
           <Divider />
           <ScrollTabPanel value="region" className="py-[24px] px-[16px]">
-            <RegionFilter />
+            <RegionFilter
+              regions={regions ?? []}
+              selectedProvince={tempProvince}
+              selectedCity={tempCity}
+              selectedDong={tempDong}
+              onChange={handleRegionChange}
+              onReset={handleRegionReset}
+            />
           </ScrollTabPanel>
         </ScrollTabsContent>
       </ScrollTabsContainer>

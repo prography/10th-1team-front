@@ -16,10 +16,9 @@ export default function LocationSelectorSection({
       <div className="flex items-center gap-[4px]">
         <Icon icon="Location" size={24} />
         <span className="body-s-regular text-texticon-onnormal-midemp">
-          {selectedDong[0]?.name}
-          {selectedDong.length > 1 && " 외"}
+          {selectedDong[0] ? selectedDong[0].name : "지역을 설정해주세요"}
           <span className="body-s-semibold text-texticon-onnormal-highestemp">
-            {selectedDong.length > 1 && ` ${selectedDong.length - 1}`}
+            {selectedDong.length > 1 && ` 외 ${selectedDong.length - 1}`}
           </span>
         </span>
       </div>

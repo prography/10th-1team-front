@@ -87,5 +87,6 @@ export function useRegionSelector() {
     storeCity,
     storeDong,
     regionMapData,
+    setRegion,
   };
 }

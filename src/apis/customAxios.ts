@@ -3,7 +3,7 @@ import axios, { AxiosRequestConfig } from "axios";
 const defaultConfig: AxiosRequestConfig = {
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
   headers: { Accept: "application/json" },
-  timeout: 10000,
+  timeout: 30000,
 };
 
 export function createCustomAxios(config?: AxiosRequestConfig) {

@@ -15,6 +15,7 @@ interface SelectButtonGroupProps<T> {
   maxSelection?: number;
   buttonVariant?: VariantProps<typeof buttonVariants>["variant"];
   className?: string;
+  getOptionDisabled?: (value: T) => boolean;
 }
 
 export default function SelectButtonGroup<T>({
@@ -27,6 +28,7 @@ export default function SelectButtonGroup<T>({
   description,
   multiple = true,
   maxSelection,
+  getOptionDisabled,
 }: SelectButtonGroupProps<T>) {
   const gridCols = {
     2: "grid-cols-2",
@@ -35,19 +37,28 @@ export default function SelectButtonGroup<T>({
   };
 
   const isDisabled = (value: T): boolean => {
-    const isAlreadySelected = selectedValues.includes(value);
-
+    if (getOptionDisabled && getOptionDisabled(value)) return true;
     if (!multiple) {
-      // 단일 선택 모드: 이미 하나가 선택된 상태에서 다른 것 선택 불가
-      return selectedValues.length > 0 && !isAlreadySelected;
+      return false;
     }
-
+    const isAlreadySelected = selectedValues.includes(value);
     if (maxSelection !== undefined) {
-      // 복수 선택 제한 모드: 최대 개수 도달 시 추가 선택 불가
       return selectedValues.length >= maxSelection && !isAlreadySelected;
     }
-
     return false;
+  };
+
+  const handleClick = (value: T) => {
+    const isAlreadySelected = selectedValues.includes(value);
+    if (!multiple) {
+      if (isAlreadySelected) {
+        onToggle(undefined as unknown as T);
+      } else {
+        onToggle(value);
+      }
+    } else {
+      onToggle(value);
+    }
   };
 
   return (
@@ -62,13 +73,20 @@ export default function SelectButtonGroup<T>({
       <div className={cn("grid gap-2", gridCols[columns], className)}>
         {options.map((option) => {
           const selected = selectedValues.includes(option.value);
+          const showDisabledStyle =
+            !multiple && selectedValues.length > 0 && !selected;
           return (
             <Button
-              key={String(option.value)} // value 기반으로 key 안정화
-              onClick={() => onToggle(option.value)}
+              key={String(option.value)}
+              onClick={() => handleClick(option.value)}
               disabled={isDisabled(option.value)}
               variant={buttonVariant}
               isPressed={selected}
+              className={
+                showDisabledStyle
+                  ? "bg-button-secondary-bg_disabled text-button-secondary-text_disabled"
+                  : undefined
+              }
             >
               {option.label}
             </Button>

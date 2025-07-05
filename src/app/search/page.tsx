@@ -7,6 +7,7 @@ import { useAutoCompleteQuery, useInfiniteSearchQuery } from "@/hooks/queries";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { useSearchHistory } from "@/hooks/useSearchHistory";
 import { useSearchState } from "@/hooks/useSearchState";
+import useRegionStore from "@/store/useRegionStore";
 
 import type {
   AutoCompleteItem,
@@ -16,6 +17,7 @@ import type {
 
 export default function Search() {
   const router = useRouter();
+  const { dong } = useRegionStore();
 
   const {
     query,
@@ -38,6 +40,7 @@ export default function Search() {
     keyword: query,
     enabled: isEditing,
     category: state.filters.foodTypes,
+    dong_code: dong.map((d) => d.dong_code),
     debounceMs: 300,
   });
 
@@ -51,6 +54,7 @@ export default function Search() {
     keyword: searchQuery,
     sort: state.currentSort,
     category: state.filters.foodTypes,
+    dong_code: dong.map((d) => d.dong_code),
     enabled: isSearching && !!searchQuery,
   });
 
@@ -71,10 +75,15 @@ export default function Search() {
     router.push(`/place/${item.id}`);
   };
 
+  const handleSearchWithHistory = (value: string) => {
+    addToHistory(value);
+    handleSearch(value);
+  };
+
   const baseProps = {
     query,
     setQuery,
-    onSearch: handleSearch,
+    onSearch: handleSearchWithHistory,
     onDeleteHistory: removeFromHistory,
     onClearHistory: clearHistory,
     onBack: handleBack,
@@ -90,7 +99,9 @@ export default function Search() {
           {...baseProps}
           mode="history"
           items={searchHistory}
-          onItemClick={(item: SearchRecentItem) => handleSearch(item.query)}
+          onItemClick={(item: SearchRecentItem) =>
+            handleSearchWithHistory(item.query)
+          }
         />
       );
     case "autocomplete":

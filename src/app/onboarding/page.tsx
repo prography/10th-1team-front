@@ -1,14 +1,15 @@
 "use client";
 
 import OnboardingPageTemplate from "@/components/templates/OnboardingPageTemplate/OnboardingPageTemplate";
+import AuthValidator from "@/providers/AuthValidator";
 import useUserStore from "@/store/useUserStore";
 
 export default function OnboardingPage() {
-  const user = useUserStore((state) => state.user ?? null);
+  const user = useUserStore((state) => state.user);
 
-  if (!user) {
-    return <div>Loading...</div>;
-  }
-
-  return <OnboardingPageTemplate user={user} />;
+  return (
+    <AuthValidator>
+      {user ? <OnboardingPageTemplate user={user} /> : <div>Loading...</div>}
+    </AuthValidator>
+  );
 }
