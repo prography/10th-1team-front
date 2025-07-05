@@ -1,5 +1,4 @@
 import * as icons from "./icons";
-import React from "react";
 
 export type IconName = keyof typeof icons;
 
@@ -18,8 +17,7 @@ interface IconProps {
   className?: string;
 }
 
-// 아이콘 컴포넌트를 미리 캐시하여 깜빡임 방지
-const IconComponent = React.memo(function IconComponent({
+export default function Icon({
   icon,
   size = 24,
   fill,
@@ -28,12 +26,6 @@ const IconComponent = React.memo(function IconComponent({
   className,
 }: IconProps) {
   const IconComponent = icons[icon];
-
-  if (!IconComponent) {
-    console.warn(`Icon component "${icon}" not found`);
-    return null;
-  }
-
   return (
     <IconComponent
       width={size}
@@ -44,6 +36,4 @@ const IconComponent = React.memo(function IconComponent({
       strokeWidth={strokeWidth}
     />
   );
-});
-
-export default IconComponent;
+}
