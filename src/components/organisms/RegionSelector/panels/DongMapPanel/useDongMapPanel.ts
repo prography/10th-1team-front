@@ -60,7 +60,7 @@ export function useDongMapPanel(
       onChangeSelectedDong(
         regionMapData.map((region: Region) => ({
           name: region.name,
-          dong_code: region.name,
+          dong_code: region.dong_code,
         }))
       );
     }
