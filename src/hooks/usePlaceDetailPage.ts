@@ -53,6 +53,7 @@ export function usePlaceDetailPage(placeId: string) {
       openModal("login", {
         onLogin: () => {
           router.push(`/login`);
+          openModal(null);
         },
       });
       return;
@@ -63,6 +64,7 @@ export function usePlaceDetailPage(placeId: string) {
       openModal("login", {
         onLogin: () => {
           router.push(`/login`);
+          openModal(null);
         },
       });
       return;
