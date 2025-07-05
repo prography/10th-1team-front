@@ -7,9 +7,14 @@ import type { SearchResultItem } from "@/types/search";
 interface StoreInfoCardProps {
   item: SearchResultItem;
   className?: string;
+  onClick?: () => void;
 }
 
-export default function StoreInfoCard({ item, className }: StoreInfoCardProps) {
+export default function StoreInfoCard({
+  item,
+  className,
+  onClick,
+}: StoreInfoCardProps) {
   const [imageLoading, setImageLoading] = useState(true);
   const [imageSrc, setImageSrc] = useState(
     item.image_url && item.image_url !== ""
@@ -31,6 +36,7 @@ export default function StoreInfoCard({ item, className }: StoreInfoCardProps) {
         "flex-1 px-[16px] py-[12px] bg-surface-normal-bg01 cursor-pointer",
         className
       )}
+      onClick={onClick}
     >
       <div className="flex items-center gap-[16px] mb-[4px]">
         <span className="body-l-semibold text-texticon-onnormal-highestemp">
