@@ -26,7 +26,6 @@ export default async function Layout({ children }: LayoutProps) {
     user = null;
   }
 
-  console.log("user", user);
   return (
     <html lang="ko">
       <body>

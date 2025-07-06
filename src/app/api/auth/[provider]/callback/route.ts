@@ -31,22 +31,24 @@ export async function GET(
     // 서버 API에 인가코드 전달
     const { access_token, refresh_token, is_new_user } =
       await fetchOAuthTokenFromServer({
-        provider,
+        provider: provider.toUpperCase(),
         code,
       });
 
-    // 전달받은 토큰을 쿠키에 저장
+    // 쿠키 설정
     const response = NextResponse.redirect(new URL("/", req.url));
-    cookieStore.set("accessToken", access_token, {
-      httpOnly: false,
-      secure: process.env.NODE_ENV === "production",
+
+    response.cookies.set("accessToken", access_token, {
+      httpOnly: true,
+      secure: true,
       path: "/",
       maxAge: 60 * 60 * 24,
       sameSite: "strict",
     });
-    cookieStore.set("refreshToken", refresh_token, {
-      httpOnly: false,
-      secure: process.env.NODE_ENV === "production",
+
+    response.cookies.set("refreshToken", refresh_token, {
+      httpOnly: true,
+      secure: true,
       path: "/",
       maxAge: 60 * 60 * 24 * 30,
       sameSite: "strict",
