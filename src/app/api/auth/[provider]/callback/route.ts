@@ -36,7 +36,7 @@ export async function GET(
       });
 
     // 쿠키 설정
-    const response = NextResponse.redirect(new URL("/", req.url));
+    const response = NextResponse.redirect("https://reviewmatch.co.kr/");
 
     response.cookies.set("accessToken", access_token, {
       httpOnly: true,
