@@ -3,6 +3,7 @@ import { usePlaceDetailQuery } from "@/hooks/queries/usePlaceDetailQuery";
 import { useRouter } from "next/navigation";
 import { useModalStore } from "@/store/useModalStore";
 import { patchPlatformMatchVote } from "@/apis/place";
+import useUserStore from "@/store/useUserStore";
 
 export function usePlaceDetailPage(placeId: string) {
   const {
@@ -14,6 +15,8 @@ export function usePlaceDetailPage(placeId: string) {
     refetchVoteSummary,
   } = usePlaceDetailQuery(placeId);
 
+  const { user: isLoggedIn } = useUserStore((state) => state);
+
   const hasZeroReviews =
     data?.kakao_review_count === 0 || data?.naver_review_count === 0;
   const pathname =
@@ -21,7 +24,6 @@ export function usePlaceDetailPage(placeId: string) {
   const currentUrl =
     typeof window !== "undefined" ? window.location.origin + pathname : "";
 
-  const isLoggedIn = false;
   const router = useRouter();
   const openModal = useModalStore((state) => state.openModal);
 

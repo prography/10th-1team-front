@@ -1,4 +1,4 @@
-import { publicAPI } from "./customAxios";
+import { authProxyAPI, publicAPI } from "./customAxios";
 
 interface PlacePlatformMatchSummaryResponse {
   data: {
@@ -46,7 +46,7 @@ export const patchPlatformMatchVote = async (
   }
 ) => {
   try {
-    const response = await publicAPI.patch(`/vote/submit/${id}`, data);
+    const response = await authProxyAPI.patch(`/vote/submit/${id}`, data);
     return response.data.data;
   } catch (error) {
     console.error("Platform 투표하기 실패:", error);
