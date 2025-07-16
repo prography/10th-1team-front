@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { allowScroll, preventScroll } from "@/utils/modal";
 import type { UserInfo } from "@/types/user";
 import Image from "next/image";
+import Link from "next/link";
 
 interface MainSidebarProps {
   onClose: () => void;
@@ -86,8 +87,8 @@ export default function MainSidebar({
                       활동 데이터
                     </h6>
                     <div className="flex flex-col items-start gap-[12px] text-texticon-onnormal-lowemp body-s-semibold">
-                      <Button variant="text">저장한 가게</Button>
-                      <Button variant="text">투표한 가게</Button>
+                      <Link href="/saved">저장한 가게</Link>
+                      <Link href="/voted">투표한 가게</Link>
                     </div>
                   </div>
                   <div className="flex flex-col gap-[16px]">
@@ -95,8 +96,8 @@ export default function MainSidebar({
                       알림
                     </h6>
                     <div className="flex flex-col items-start gap-[12px] text-texticon-onnormal-lowemp body-s-semibold">
-                      <Button variant="text">알림 내역</Button>
-                      <Button variant="text">알림 설정</Button>
+                      <Link href="/alerts">알림 내역</Link>
+                      <Link href="/alerts/settings">알림 설정</Link>
                     </div>
                   </div>
                   <div className="flex flex-col gap-[16px]">
@@ -104,8 +105,8 @@ export default function MainSidebar({
                       문의
                     </h6>
                     <div className="flex flex-col items-start gap-[12px] text-texticon-onnormal-lowemp body-s-semibold">
-                      <Button variant="text">자주 묻는 질문</Button>
-                      <Button variant="text">1:1 문의하기</Button>
+                      <Link href="/faqs">자주 묻는 질문</Link>
+                      <Link href="/inquiries">1:1 문의하기</Link>
                     </div>
                   </div>
                   <div className="flex flex-col gap-[16px]">
@@ -113,8 +114,8 @@ export default function MainSidebar({
                       약관 및 정책
                     </h6>
                     <div className="flex flex-col items-start gap-[12px] text-texticon-onnormal-lowemp body-s-semibold">
-                      <Button variant="text">개인정보 처리 방침</Button>
-                      <Button variant="text">이용약관</Button>
+                      <Link href="/privacy">개인정보 처리 방침</Link>
+                      <Link href="/terms">이용약관</Link>
                     </div>
                   </div>
                 </div>

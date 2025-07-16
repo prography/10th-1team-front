@@ -6,6 +6,7 @@ export const dividerVariants = cva("flex justify-between", {
       normal: "bg-surface-normal-container10",
       strong: "bg-surface-normal-container10",
       weak: "bg-surface-normal-container10",
+      border: "bg-border-normal-lowemp",
     },
   },
   defaultVariants: {

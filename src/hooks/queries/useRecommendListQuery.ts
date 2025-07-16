@@ -13,7 +13,6 @@ export const useRecommendListQuery = (params: FetchRecommendListParams) => {
         ...params,
         dong_code: normalizedDongCode,
       }),
-    staleTime: 10 * 1000,
-    gcTime: 60 * 1000,
+    staleTime: 120 * 1000,
   });
 };

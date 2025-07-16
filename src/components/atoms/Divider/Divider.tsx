@@ -3,10 +3,11 @@ import { dividerVariants } from "./dividerVariants";
 import { type VariantProps } from "class-variance-authority";
 
 type OrientationType = "horizontal" | "vertical";
-type Thickness = 1 | 2 | 4 | 8 | 12;
+type Thickness = 0.5 | 1 | 2 | 4 | 8 | 12;
 
 const thicknessClassMap: Record<OrientationType, Record<Thickness, string>> = {
   horizontal: {
+    0.5: "h-[0.5px]",
     1: "h-[1px]",
     2: "h-[2px]",
     4: "h-[4px]",
@@ -14,6 +15,7 @@ const thicknessClassMap: Record<OrientationType, Record<Thickness, string>> = {
     12: "h-[12px]",
   },
   vertical: {
+    0.5: "w-[0.5px]",
     1: "w-[1px]",
     2: "w-[2px]",
     4: "w-[4px]",

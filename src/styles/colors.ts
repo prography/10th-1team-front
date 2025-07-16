@@ -166,6 +166,13 @@ export const colors = {
     },
   },
   Etc: {
+    Color: {
+      Pink: "#FF7774",
+      Orange: "#FFB200",
+      Green: "#7ED743",
+      Blue: "#3FC6F0",
+      Purple: "#8A48E7",
+    },
     Location: {
       TabButton: grayscale["50"],
     },

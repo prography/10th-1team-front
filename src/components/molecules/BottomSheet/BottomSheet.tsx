@@ -9,6 +9,7 @@ interface BottomSheetProps {
   children: ReactNode;
   className?: string;
   title?: string;
+  scrollable?: boolean;
 }
 
 export default function BottomSheet({
@@ -16,6 +17,7 @@ export default function BottomSheet({
   children,
   className = "",
   title,
+  scrollable = false,
 }: BottomSheetProps) {
   const [open, setOpen] = useState(true);
 
@@ -28,11 +30,13 @@ export default function BottomSheet({
   };
 
   useEffect(() => {
-    const prevScrollY = preventScroll();
-    return () => {
-      allowScroll(prevScrollY);
-    };
-  }, []);
+    if (!scrollable) {
+      const prevScrollY = preventScroll();
+      return () => {
+        allowScroll(prevScrollY);
+      };
+    }
+  }, [scrollable]);
 
   return (
     <>

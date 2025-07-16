@@ -13,36 +13,37 @@ export async function GET(
   const returnedState = searchParams.get("state");
 
   if (!code || !returnedState) {
-    return NextResponse.json(
-      { error: "Missing code or state" },
-      { status: 400 }
+    return NextResponse.redirect(
+      new URL("/oauth/callback?error=missing-code", req.url)
     );
   }
 
-  // CSRF 방지를 위한 state 검증
   const cookieStore = await cookies();
   const storedState = cookieStore.get("oauth_state")?.value;
 
   if (!storedState || storedState !== returnedState) {
-    return NextResponse.json({ error: "Invalid state" }, { status: 400 });
+    return NextResponse.redirect(
+      new URL("/oauth/callback?error=invalid-state", req.url)
+    );
   }
 
   try {
-    // 서버 API에 인가코드 전달
     const { access_token, refresh_token, is_new_user } =
       await fetchOAuthTokenFromServer({
         provider: provider.toUpperCase(),
         code,
       });
 
-    // 쿠키 설정
-    const response = NextResponse.redirect(
-      process.env.NODE_ENV === "development"
-        ? new URL("/", req.url)
-        : "https://reviewmatch.co.kr/"
+    const redirectTo = is_new_user ? "/onboarding" : "/";
+
+    const res = NextResponse.redirect(
+      new URL(
+        `/oauth/callback?redirectTo=${encodeURIComponent(redirectTo)}`,
+        req.url
+      )
     );
 
-    response.cookies.set("accessToken", access_token, {
+    res.cookies.set("accessToken", access_token, {
       httpOnly: true,
       secure: true,
       path: "/",
@@ -50,7 +51,7 @@ export async function GET(
       sameSite: "strict",
     });
 
-    response.cookies.set("refreshToken", refresh_token, {
+    res.cookies.set("refreshToken", refresh_token, {
       httpOnly: true,
       secure: true,
       path: "/",
@@ -58,19 +59,16 @@ export async function GET(
       sameSite: "strict",
     });
 
-    // 신규 유저라면 가입 페이지로 리다이렉트
-    if (is_new_user) {
-      response.headers.set("Location", "/onboarding");
-      return response;
-    }
+    res.cookies.set("provider", provider, {
+      path: "/",
+      sameSite: "strict",
+    });
 
-    // 기존 유저는 홈으로 리다이렉트
-    return response;
+    return res;
   } catch (error) {
     console.error(error);
-    return NextResponse.json(
-      { error: "OAuth callback failed" },
-      { status: 500 }
+    return NextResponse.redirect(
+      new URL("/oauth/callback?error=server-error", req.url)
     );
   }
 }

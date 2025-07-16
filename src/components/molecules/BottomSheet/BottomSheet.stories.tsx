@@ -56,6 +56,10 @@ function MyComponent() {
       action: "closed",
       description: "닫기 콜백 함수",
     },
+    scrollable: {
+      control: "boolean",
+      description: "바텀시트 내용 스크롤 가능 여부",
+    },
   },
 };
 
@@ -80,7 +84,11 @@ export const Default: Story = {
           </button>
 
           {isOpen && (
-            <BottomSheet {...args} onClose={() => setIsOpen(false)}>
+            <BottomSheet
+              {...args}
+              onClose={() => setIsOpen(false)}
+              scrollable={true}
+            >
               <div className="p-4">
                 <p className="mb-4">바텀시트 내용입니다.</p>
                 <div className="space-y-2">
@@ -137,6 +145,7 @@ export const MultipleButtons: Story = {
               title="작은 바텀시트"
               className="h-1/3"
               onClose={() => setIsOpen1(false)}
+              scrollable={true}
             >
               <div className="p-4">
                 <p>작은 크기의 바텀시트입니다.</p>
@@ -150,6 +159,7 @@ export const MultipleButtons: Story = {
               title="중간 바텀시트"
               className="h-2/3"
               onClose={() => setIsOpen2(false)}
+              scrollable={true}
             >
               <div className="p-4">
                 <p>중간 크기의 바텀시트입니다.</p>
@@ -168,6 +178,7 @@ export const MultipleButtons: Story = {
               title="큰 바텀시트"
               className="h-4/5"
               onClose={() => setIsOpen3(false)}
+              scrollable={true}
             >
               <div className="flex-1 overflow-y-auto p-4">
                 <div className="space-y-4">
