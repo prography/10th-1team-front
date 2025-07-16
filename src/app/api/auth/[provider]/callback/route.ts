@@ -2,6 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { fetchOAuthTokenFromServer } from "@/apis/login";
 
+function getBaseUrl() {
+  return process.env.NODE_ENV === "production"
+    ? "https://reviewmatch.co.kr"
+    : "";
+}
+
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ provider: string }> }
@@ -14,7 +20,7 @@ export async function GET(
 
   if (!code || !returnedState) {
     return NextResponse.redirect(
-      new URL("/oauth/callback?error=missing-code", req.url)
+      new URL(`${getBaseUrl()}/oauth/callback?error=missing-code`, req.url)
     );
   }
 
@@ -23,7 +29,7 @@ export async function GET(
 
   if (!storedState || storedState !== returnedState) {
     return NextResponse.redirect(
-      new URL("/oauth/callback?error=invalid-state", req.url)
+      new URL(`${getBaseUrl()}/oauth/callback?error=invalid-state`, req.url)
     );
   }
 
@@ -38,7 +44,7 @@ export async function GET(
 
     const res = NextResponse.redirect(
       new URL(
-        `/oauth/callback?redirectTo=${encodeURIComponent(redirectTo)}`,
+        `${getBaseUrl()}/oauth/callback?redirectTo=${encodeURIComponent(redirectTo)}`,
         req.url
       )
     );
@@ -68,7 +74,7 @@ export async function GET(
   } catch (error) {
     console.error(error);
     return NextResponse.redirect(
-      new URL("/oauth/callback?error=server-error", req.url)
+      new URL(`${getBaseUrl()}/oauth/callback?error=server-error`, req.url)
     );
   }
 }
