@@ -14,12 +14,12 @@ export default function PlatformScoreLabel({
   count,
 }: PlatformScoreLabelProps) {
   return (
-    <div className="w-fit flex items-center bg-surface-normal-container-b10 rounded-[4px] py-[4px] px-[8px]">
+    <div className="w-fit flex items-center rounded-[4px] py-[4px] px-[8px] border-[0.5px] border-border-normal-lowemp">
       <span
         className={cn(
           "caption-m-semibold",
           platform === "네이버" && "text-brand-naver-main",
-          platform === "카카오" && "text-brand-kakao-main"
+          platform === "카카오" && "text-brand-kakao-blue"
         )}
       >
         {platform}
