@@ -1,3 +1,5 @@
+import { colors } from "@/styles/colors";
+
 interface MainRuletProps {
   size?: number;
 }
@@ -11,7 +13,12 @@ export default function MainRulet({ size = 48 }: MainRuletProps) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <rect width="48" height="48" rx="8" fill="#F5F5F5" />
+      <rect
+        width="48"
+        height="48"
+        rx="8"
+        fill={colors.Surface.Normal.ContainerB50}
+      />
       <circle cx="24" cy="25" r="16" fill="#99B6FF" />
       <path
         d="M39 25C39 27.5266 38.3618 30.0122 37.1446 32.2263C35.9274 34.4404 34.1707 36.3111 32.0374 37.6649L24 25H39Z"

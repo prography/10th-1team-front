@@ -15,9 +15,13 @@ const meta: Meta<typeof Button> = {
         "secondary",
         "brandNaver",
         "brandKakao",
-        "filter",
+        "filterDefault",
+        "filterActive",
+        "filterOption",
         "filterSingle",
         "filterMulti",
+        "filterLabel",
+        "filterLocationLabel",
         "text",
       ],
     },
@@ -88,17 +92,24 @@ export const BrandKakao: Story = {
   },
 };
 
-export const Filter: Story = {
+export const FilterDefault: Story = {
   args: {
     children: "Button",
-    variant: "filter",
+    variant: "filterDefault",
   },
 };
 
-export const Text: Story = {
+export const FilterActive: Story = {
   args: {
     children: "Button",
-    variant: "text",
+    variant: "filterActive",
+  },
+};
+
+export const FilterOption: Story = {
+  args: {
+    children: "Button",
+    variant: "filterOption",
   },
 };
 
@@ -113,5 +124,26 @@ export const FilterMulti: Story = {
   args: {
     children: "Button",
     variant: "filterMulti",
+  },
+};
+
+export const FilterLabel: Story = {
+  args: {
+    children: "Button",
+    variant: "filterLabel",
+  },
+};
+
+export const FilterLocationLabel: Story = {
+  args: {
+    children: "Button",
+    variant: "filterLocationLabel",
+  },
+};
+
+export const Text: Story = {
+  args: {
+    children: "Button",
+    variant: "text",
   },
 };

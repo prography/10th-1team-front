@@ -1,3 +1,5 @@
+import { colors } from "@/styles/colors";
+
 interface MainCalandarProps {
   size?: number;
 }
@@ -11,7 +13,12 @@ export default function MainCalandar({ size = 48 }: MainCalandarProps) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <rect width="48" height="48" rx="8" fill="#F5F5F5" />
+      <rect
+        width="48"
+        height="48"
+        rx="8"
+        fill={colors.Surface.Normal.ContainerB50}
+      />
       <rect x="10" y="16" width="28" height="22" rx="2" fill="#99B6FF" />
       <path
         d="M10 14C10 12.8954 10.8954 12 12 12H36C37.1046 12 38 12.8954 38 14V20H10V14Z"

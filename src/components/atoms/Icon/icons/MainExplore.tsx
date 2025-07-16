@@ -1,3 +1,5 @@
+import { colors } from "@/styles/colors";
+
 interface MainExploreProps {
   size?: number;
 }
@@ -11,7 +13,12 @@ export default function MainExplore({ size = 48 }: MainExploreProps) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <rect width="48" height="48" rx="8" fill="#F5F5F5" />
+      <rect
+        width="48"
+        height="48"
+        rx="8"
+        fill={colors.Surface.Normal.ContainerB50}
+      />
       <mask
         id="path-2-outside-1_1398_36383"
         maskUnits="userSpaceOnUse"
