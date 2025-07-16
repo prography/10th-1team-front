@@ -114,6 +114,7 @@
 
   /* Border */
   --color-border-normal-lowemp: var(--color-grayscale-100);
+  --color-border-normal-lowestemp: var(--color-grayscale-50);
   --color-border-normal-midemp: var(--color-grayscale-200);
   --color-border-normal-highemp: var(--color-grayscale-400);
   --color-border-primary-300: var(--color-blue-300);
