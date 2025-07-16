@@ -92,7 +92,7 @@ export default function ReviewSwiper({ reviews }: ReviewSwiperProps) {
         preventInteractionOnTransition={true}
       >
         {reviews.map((review) => (
-          <SwiperSlide key={review.id} style={{ width: "280px" }}>
+          <SwiperSlide key={review.id} style={{ width: "300px" }}>
             <ReviewCard
               author={review.author}
               registered_at={review.registered_at}

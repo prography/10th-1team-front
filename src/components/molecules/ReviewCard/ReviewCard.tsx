@@ -13,6 +13,8 @@ interface ReviewCardProps {
   width?: string | number; // 카드 가로 길이 (px, %, rem 등)
   fullWidth?: boolean; // true면 width 100%
   platformColor?: "NAVER" | "KAKAO"; // 네이버/카카오 스타일 지정
+  showPlatformIcon?: boolean; // 플랫폼 아이콘 표시 여부
+  minHeight?: string; // 최소 높이 지정
 }
 
 export default function ReviewCard({
@@ -22,9 +24,11 @@ export default function ReviewCard({
   starRating,
   expandable = false,
   color,
-  width = 280,
+  width = 300,
   fullWidth = false,
   platformColor,
+  showPlatformIcon = false,
+  minHeight = "148",
 }: ReviewCardProps) {
   const [expanded, setExpanded] = useState(false);
   const [showToggle, setShowToggle] = useState(false);
@@ -54,7 +58,7 @@ export default function ReviewCard({
   const renderStars = () => {
     if (starRating === null) return null;
     return (
-      <div className="flex mr-[12px]">
+      <div className="flex mr-[-2px]">
         {Array.from({ length: 5 }).map((_, idx) => (
           <Icon
             key={idx}
@@ -71,6 +75,17 @@ export default function ReviewCard({
     );
   };
 
+  const renderPlatformIcon = () => {
+    if (!showPlatformIcon) return null;
+    return (
+      <Icon
+        className="flex items-end"
+        icon={platformColor === "NAVER" ? "Navermap" : "Kakaomap"}
+        size={24}
+      />
+    );
+  };
+
   // width 스타일 처리
   let cardWidth: string | undefined = undefined;
   if (fullWidth) {
@@ -79,37 +94,59 @@ export default function ReviewCard({
     cardWidth = typeof width === "number" ? `${width}px` : width;
   }
 
+  // 배경 및 보더 스타일 처리
   let cardBgClass = "bg-surface-normal-bg10";
-  let cardBgStyle = undefined;
+  let borderStyle = undefined;
   let buttonTextColor: string | undefined = undefined;
   if (platformColor === "NAVER") {
     cardBgClass = "";
-    cardBgStyle = { backgroundColor: colors.Brand.Naver.Light };
+    borderStyle = {
+      border: `1px solid ${colors.Brand.Naver.Main}`,
+      borderRadius: "8px",
+    };
     buttonTextColor = colors.Brand.Naver.Deep;
   } else if (platformColor === "KAKAO") {
     cardBgClass = "";
-    cardBgStyle = { backgroundColor: colors.Brand.KaKao.Light };
-    buttonTextColor = colors.Brand.KaKao.Deep;
+    borderStyle = {
+      border: `1px solid ${colors.Brand.KaKao.Blue}`,
+      borderRadius: "8px",
+    };
+    buttonTextColor = colors.Brand.KaKao.Blue;
   } else if (color) {
     cardBgClass = color;
   }
 
+  // 최소 높이 클래스 처리
+  const minHeightClass =
+    minHeight === "auto"
+      ? ""
+      : minHeight
+        ? `min-h-[${minHeight}px]`
+        : "min-h-[148px]";
+
   return (
     <div
       className={cn(
-        "p-[16px] min-h-[148px] rounded-lg flex flex-col gap-[12px] relative",
+        "p-[16px] rounded-lg flex flex-col gap-[12px] relative",
+        minHeightClass,
         cardBgClass
       )}
-      style={{ width: cardWidth, ...(cardBgStyle || {}) }}
+      style={{
+        width: cardWidth,
+        ...(borderStyle || {}),
+      }}
     >
-      <div className="flex flex-col gap-[8px]">
-        <span className="body-s-semibold">{maskAuthorName(author)}</span>
-        <div className="flex items-end">
-          {renderStars()}
-          <span className="caption-s-regular text-texticon-onnormal-midemp">
-            {formatDate(registered_at)}
-          </span>
+      <div className="flex justify-between">
+        <div className="flex flex-col gap-[8px]">
+          <span className="body-s-semibold">{maskAuthorName(author)}</span>
+          <div className="flex items-end gap-[12px]">
+            {renderStars()}
+            <span className="caption-s-regular text-texticon-onnormal-midemp">
+              {formatDate(registered_at)}
+            </span>
+          </div>
         </div>
+        {renderPlatformIcon()}
       </div>
       <p
         ref={contentRef}
@@ -130,10 +167,6 @@ export default function ReviewCard({
           role="button"
           tabIndex={0}
           onClick={() => setExpanded((prev) => !prev)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ")
-              setExpanded((prev) => !prev);
-          }}
         >
           {expanded ? "접기" : "더보기"}
         </div>

@@ -57,6 +57,8 @@ export default function ReviewsPage({ params }: ReviewsPageProps) {
               expandable={true}
               fullWidth={true}
               platformColor={review.review_platform}
+              showPlatformIcon={true}
+              minHeight="auto"
             />
           ))}
         </div>
@@ -78,6 +80,7 @@ export default function ReviewsPage({ params }: ReviewsPageProps) {
                 expandable={true}
                 fullWidth={true}
                 starRating={review.star_rating ?? 0}
+                minHeight="auto"
               />
             ))}
         </div>
@@ -99,6 +102,7 @@ export default function ReviewsPage({ params }: ReviewsPageProps) {
                 starRating={review.star_rating ?? 0}
                 expandable={true}
                 fullWidth={true}
+                minHeight="auto"
               />
             ))}
         </div>

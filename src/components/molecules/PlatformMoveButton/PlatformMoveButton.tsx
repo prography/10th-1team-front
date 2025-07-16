@@ -20,7 +20,7 @@ export default function PlatformMoveButton({
   return (
     <Button
       variant="secondary"
-      className="bg-button-secondary-bg_default px-[16px] py-[8px] button-s-medium min-w-[96px]"
+      className="bg-button-secondary-bg_default px-[16px] py-[8px] button-s-medium min-w-[96px] h-[28px]"
       onClick={handleMoveToPlatform}
     >
       {buttonText}
