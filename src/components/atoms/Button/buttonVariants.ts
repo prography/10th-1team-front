@@ -15,8 +15,12 @@ export const buttonVariants = cva(
           "rounded-[8px] py-[16px] button-l-semibold text-button-primary-text_default bg-brand-naver-main",
         brandKakao:
           "rounded-[8px] py-[16px] button-l-semibold text-[#3D1D1C] bg-brand-kakao-main",
-        filter:
-          "rounded-[4px] bg-button-secondary-bg_default text-button-secondary-text_default button-s-medium border border-brand-primary-main px-[7.5px] h-[28px]",
+        filterDefault:
+          "rounded-[4px] bg-button-neutral-bg_defualt text-texticon-onnormal-midemp caption-m-semibold border border-border-normal-lowemp px-[12px] h-[36px] rounded-[99px]",
+        filterActive:
+          "rounded-[4px] caption-m-semibold bg-texticon-onnormal-highestemp border-border-normal-highestemp text-texticon-onnormal-white px-[12px] h-[36px] rounded-[99px]",
+        filterOption:
+          "rounded-[4px] bg-button-secondary-bg_default text-button-secondary-text_default button-s-medium border border-brand-primary-main px-[12px] h-[36px] rounded-[99px]",
         filterSingle:
           "rounded-[4px] bg-button-neutral-bg_default text-button-neutral-text_default caption-m-regular border border-button-neutral-border disabled:bg-button-secondary-bg_disabled disabled:text-button-secondary-text_disabled py-[12px]",
         filterMulti:
