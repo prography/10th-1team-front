@@ -39,3 +39,6 @@ export { default as Complete } from "./Complete";
 export { default as More } from "./More";
 export { default as Radio } from "./Radio";
 export { default as Group } from "./Group";
+export { default as Empty } from "./Empty";
+export { default as VoteReslutLeft } from "./VoteReslutLeft";
+export { default as VoteReslutRight } from "./VoteReslutRight";

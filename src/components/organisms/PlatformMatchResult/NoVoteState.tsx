@@ -11,7 +11,7 @@ export default function NoVoteState({ handleVoteClick }: NoVoteStateProps) {
     <>
       <div className="flex flex-col py-[42px] px-[16px] items-center justify-center">
         <div className="mb-[12px]">
-          <Icon icon="BrandNaver" size={40} />
+          <Icon icon="Empty" size={40} />
         </div>
         <p className="mb-[8px] body-m-semibold text-texticon-onnormal-highemp">
           아직 투표가 없어요

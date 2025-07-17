@@ -29,7 +29,7 @@ export default function BarGraph({
     percent === 0 ? MIN_BAR_HEIGHT : (BAR_HEIGHT * percent) / 100;
 
   return (
-    <div className="relative w-[328px] h-[260px] flex flex-col justify-end items-center p-0">
+    <div className="relative w-full h-[260px] flex flex-col justify-end items-center ml-[20px] ">
       {/* y축 눈금선 (막대 영역 기준으로 위치 계산, TICK_OFFSET만큼만 아래로) */}
       {[100, 75, 50, 25, 0].map((v) => (
         <div
@@ -46,7 +46,7 @@ export default function BarGraph({
       ))}
 
       {/* 막대 그래프 */}
-      <div className="flex w-full h-full items-end justify-between px-8 pb-8 z-10 gap-[36px]">
+      <div className="flex w-full h-full items-end justify-center px-8 pb-8 z-10 gap-[36px]">
         {/* 카카오 */}
         <div className="flex flex-1 flex-col items-end">
           <div className="flex items-end" style={{ height: `${BAR_HEIGHT}px` }}>
@@ -70,7 +70,7 @@ export default function BarGraph({
           </span>
         </div>
         {/* 네이버 */}
-        <div className="flex flex-1 flex-col items-center">
+        <div className="flex flex-1 flex-col items-start">
           <div className="flex items-end" style={{ height: `${BAR_HEIGHT}px` }}>
             <div
               className="w-[44px] relative flex items-end justify-center rounded-t-[4px] border-2 border-t-brand-naver-deep border-l-brand-naver-deep border-r-brand-naver-deep border-b-transparent transition-[height] duration-300"

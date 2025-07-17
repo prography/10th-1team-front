@@ -44,7 +44,12 @@ export default function PlaceDetailTemplate({
       <PlaceHeader placeName={placeName} onBack={onBack} onHome={onHome} />
       <PlaceCard {...placeCardProps} />
       <Divider />
-      <TabScroll items={tabItems} navHeight={navHeight} />
+      <TabScroll
+        items={tabItems}
+        navHeight={navHeight}
+        hideLastDivider={true}
+      />
+      <Divider thickness={2} />
       <Footer />
     </MainLayout>
   );

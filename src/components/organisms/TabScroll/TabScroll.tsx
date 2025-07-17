@@ -15,12 +15,14 @@ interface TabScrollProps {
   items: TabItem[];
   scrollTargetRef?: React.RefObject<HTMLElement | Window>;
   navHeight?: number;
+  hideLastDivider?: boolean;
 }
 
 export default function TabScroll({
   items,
   scrollTargetRef,
   navHeight = 0,
+  hideLastDivider = false,
 }: TabScrollProps) {
   const [activeTab, setActiveTab] = useState(items[0]?.id || "");
 
@@ -94,10 +96,12 @@ export default function TabScroll({
 
       {/* 섹션 콘텐츠 */}
       <div>
-        {memoizedItems.map((item) => (
+        {memoizedItems.map((item, index) => (
           <section key={item.id} id={item.id} className="scroll-mt-[48px]">
             {item.content}
-            <Divider />
+            {!(hideLastDivider && index === memoizedItems.length - 1) && (
+              <Divider />
+            )}
           </section>
         ))}
       </div>

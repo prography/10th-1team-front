@@ -43,7 +43,7 @@ export default function Tabs({
         {items.map((tab) => (
           <Button
             key={tab.value}
-            className={`px-[12px] h-[32px] rounded-[99px] caption-m-semibold transition
+            className={`px-[12px] h-[36px] rounded-[99px] caption-m-semibold transition
               ${
                 selected === tab.value
                   ? "bg-texticon-onnormal-highestemp text-texticon-onnormal-white"

@@ -17,7 +17,7 @@ export default function ReviewPlatformLinks({
   return (
     <div className="bg-surface-normal-container0 flex flex-col items-center justify-center gap-[32px] px-[16px] py-[52px] w-full">
       <div className="flex flex-col gap-[8px] items-center justify-center">
-        <Icon className="mb-[12px]" icon="BrandNaver" size={40} />
+        <Icon className="mb-[12px]" icon="Empty" size={40} />
         <span className="body-l-semibold text-texticon-onnormal-highestemp">
           이 가게에 쌓인 리뷰, 더 궁금하신가요?
         </span>
