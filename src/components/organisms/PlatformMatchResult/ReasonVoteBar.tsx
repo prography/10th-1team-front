@@ -34,7 +34,7 @@ export default function ReasonVoteBar({
         className={cn(
           "absolute left-0 top-0 h-full transition-all",
           maxCountSelected
-            ? "bg-brand-primary-main"
+            ? "bg-brand-primary-light"
             : "bg-surface-normal-container-b10"
         )}
         style={{
@@ -45,40 +45,42 @@ export default function ReasonVoteBar({
         }}
       />
       {/* 내용 */}
-      <div className="relative flex-1 flex items-center px-[24px] z-10 min-w-0">
+      <div className="relative flex-1 flex justify-between items-center px-[24px] z-10 min-w-0">
+        <div className="flex items-center">
+          <span
+            className={cn(
+              "truncate body-s-semibold",
+              maxCountSelected
+                ? "text-texticon-onnormal-highemp"
+                : "text-texticon-onnormal-lowemp"
+            )}
+          >
+            {label}
+          </span>
+          <span
+            className={cn(
+              "ml-[12px] caption-s-regular",
+              maxCountSelected
+                ? "text-texticon-onnormal-highemp"
+                : "text-texticon-onnormal-lowemp"
+            )}
+          >
+            {countText}표
+          </span>
+        </div>
         {selected ? (
-          <div className="mr-[12px]">
+          <div className="w-[24px] h-[24px]">
             <Icon
               icon="Check"
               size={24}
               stroke={
                 maxCountSelected
-                  ? colors.TextIcon.OnNormal.White
-                  : colors.Brand.Primary.Main
+                  ? colors.TextIcon.OnNormal.HighEmp
+                  : colors.TextIcon.OnNormal.LowEmp
               }
             />
           </div>
         ) : null}
-        <span
-          className={cn(
-            "truncate body-s-semibold",
-            maxCountSelected
-              ? "text-texticon-onnormal-white"
-              : "text-texticon-onnormal-lowemp"
-          )}
-        >
-          {label}
-        </span>
-        <span
-          className={cn(
-            "ml-[12px] caption-s-regular",
-            maxCountSelected
-              ? "text-texticon-onnormal-white"
-              : "text-texticon-onnormal-lowemp"
-          )}
-        >
-          {countText}표
-        </span>
       </div>
     </div>
   );

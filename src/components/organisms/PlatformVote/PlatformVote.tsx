@@ -46,7 +46,7 @@ export default function PlatformVote({
           height={184}
         />
         <div className="absolute inset-0 flex flex-col items-center justify-start pt-[20px] text-white">
-          <span className="flex items-center justify-center text-white caption-s-semibold">
+          <span className="flex items-center justify-center text-texticon-onnormal-lowemp caption-s-semibold">
             {formattedCount}명의 유저들이 이 매치에 참여했어요
           </span>
           <div className="flex items-center justify-center mt-[6px] w-[148px] h-[28px]">
