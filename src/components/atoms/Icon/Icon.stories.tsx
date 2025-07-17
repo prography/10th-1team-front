@@ -1,5 +1,8 @@
 import React from "react";
 import Icon, { IconName } from "./Icon";
+import * as icons from "./icons";
+
+const iconNames = Object.keys(icons) as IconName[];
 
 const meta = {
   title: "Atoms/Icon",
@@ -11,49 +14,7 @@ const meta = {
   argTypes: {
     icon: {
       control: "select",
-      options: [
-        "Back",
-        "BackCircle",
-        "BrandKaKao",
-        "BrandNaver",
-        "Check",
-        "Complete",
-        "Delete",
-        "Dropdown",
-        "Exit",
-        "Filter",
-        "GraphicsNaver",
-        "GraphicsKakao",
-        "Group",
-        "Home",
-        "HomeCircle",
-        "ImageNext",
-        "KakaoLogo",
-        "Kakaomap",
-        "Location",
-        "MainCalandar",
-        "MainExplore",
-        "MainRulet",
-        "Menu",
-        "Minus",
-        "More",
-        "NaverLogo",
-        "Navermap",
-        "PageMove",
-        "Plus",
-        "Radio",
-        "Rulet",
-        "Save",
-        "Search",
-        "ServiceLogo",
-        "Share",
-        "Star",
-        "Success",
-        "Switch",
-        "TapDelete",
-        "Time",
-        "Vs",
-      ],
+      options: iconNames,
     },
     size: {
       control: { type: "number", min: 16, max: 64, step: 4 },
@@ -118,50 +79,6 @@ export const StrokeStyles = {
 // 모든 아이콘 갤러리
 export const AllIcons = {
   render: () => {
-    const iconNames: IconName[] = [
-      "Back",
-      "BackCircle",
-      "BrandKaKao",
-      "BrandNaver",
-      "Check",
-      "Complete",
-      "Delete",
-      "Dropdown",
-      "Exit",
-      "Filter",
-      "GraphicsNaver",
-      "GraphicsKakao",
-      "Group",
-      "Home",
-      "HomeCircle",
-      "ImageNext",
-      "KakaoLogo",
-      "Kakaomap",
-      "Location",
-      "MainCalandar",
-      "MainExplore",
-      "MainRulet",
-      "Menu",
-      "Minus",
-      "More",
-      "NaverLogo",
-      "Navermap",
-      "PageMove",
-      "Plus",
-      "Radio",
-      "Rulet",
-      "Save",
-      "Search",
-      "ServiceLogo",
-      "Share",
-      "Star",
-      "Success",
-      "Switch",
-      "TapDelete",
-      "Time",
-      "Vs",
-    ];
-
     return (
       <div
         style={{
