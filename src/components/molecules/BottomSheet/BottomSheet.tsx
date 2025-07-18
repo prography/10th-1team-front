@@ -10,6 +10,7 @@ interface BottomSheetProps {
   className?: string;
   title?: string;
   scrollable?: boolean;
+  showOverlay?: boolean;
 }
 
 export default function BottomSheet({
@@ -18,6 +19,7 @@ export default function BottomSheet({
   className = "",
   title,
   scrollable = false,
+  showOverlay = true,
 }: BottomSheetProps) {
   const [open, setOpen] = useState(true);
 
@@ -40,14 +42,16 @@ export default function BottomSheet({
 
   return (
     <>
-      <div
-        className={cn(
-          "fixed w-full max-w-[600px] left-1/2 transform -translate-x-1/2 inset-y-0 bg-black/60 z-40",
-          !open && "hidden"
-        )}
-        onClick={handleClose}
-        aria-label="닫기 오버레이"
-      />
+      {showOverlay && (
+        <div
+          className={cn(
+            "fixed w-full max-w-[600px] left-1/2 transform -translate-x-1/2 inset-y-0 bg-black/60 z-40",
+            !open && "hidden"
+          )}
+          onClick={handleClose}
+          aria-label="닫기 오버레이"
+        />
+      )}
       <div
         className={cn(
           "fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-[600px] bg-white rounded-t-xl z-50 shadow-lg flex flex-col",

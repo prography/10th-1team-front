@@ -2,6 +2,7 @@ import React from "react";
 import Icon from "@/components/atoms/Icon/Icon";
 import ImageCarousel from "@/components/molecules/ImageCarousel/ImageCarousel";
 import PlatformScoreLabel from "@/components/organisms/StoreInfoCard/PlatformScoreLabel";
+import { colors } from "@/styles/colors";
 
 interface PlaceCardProps {
   name: string;
@@ -15,6 +16,7 @@ interface PlaceCardProps {
   images: { url: string }[]; // url 속성을 가진 객체 배열로 변경
   onShare?: () => void;
   onSave?: () => void;
+  isPlaceSaved: boolean;
 }
 
 export default function PlaceCard({
@@ -29,6 +31,7 @@ export default function PlaceCard({
   onShare,
   onSave,
   images,
+  isPlaceSaved,
 }: PlaceCardProps) {
   return (
     <div className="bg-surface-normal-bg01 w-full shadow flex flex-col">
@@ -74,7 +77,20 @@ export default function PlaceCard({
             className="flex items-center flex-1 flex-col justify-center cursor-pointer gap-[4px] border-l border-border-normal-lowemp"
             onClick={onSave}
           >
-            <Icon size={24} icon="Save" />
+            <Icon
+              size={24}
+              icon="Save"
+              fill={
+                isPlaceSaved
+                  ? colors.Brand.Primary.Light
+                  : colors.TextIcon.OnNormal.White
+              }
+              stroke={
+                isPlaceSaved
+                  ? colors.TextIcon.OnNormal["Main 500"]
+                  : colors.TextIcon.OnNormal.Black
+              }
+            />
             <span className="button-s-medium h-[18px]">저장</span>
           </div>
           <div

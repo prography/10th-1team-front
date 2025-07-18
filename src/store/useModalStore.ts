@@ -1,6 +1,13 @@
 import { create } from "zustand";
 
-type ModalType = "login" | "share" | "toast" | "platformVote" | null;
+type ModalType =
+  | "login"
+  | "share"
+  | "toast"
+  | "platformVote"
+  | "groupSave"
+  | "levelUp"
+  | null;
 
 interface ModalState {
   type: ModalType;

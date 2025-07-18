@@ -6,8 +6,11 @@ import ReviewMatch from "@/components/organisms/ReviewMatch/ReviewMatch";
 import PlatformMatch from "@/components/organisms/PlatformMatch/PlatformMatch";
 import PlaceDetailTemplate from "@/components/templates/PlaceDetailTemplate/PlaceDetailTemplate";
 import PlaceLocation from "@/components/organisms/PlaceLocation/PlaceLocation";
-import { PlatformMatchSummary } from "@/types/platformMatch";
 import { usePlaceDetailPage } from "@/hooks/usePlaceDetailPage";
+import {
+  PlatformMatchSummary,
+  PlatformMatchResultData,
+} from "@/types/platformMatch";
 
 export default function PlaceDetail({ placeId }: { placeId: string }) {
   const {
@@ -24,6 +27,7 @@ export default function PlaceDetail({ placeId }: { placeId: string }) {
     onShare,
     onVote,
     onSave,
+    isPlaceSaved,
   } = usePlaceDetailPage(placeId);
 
   const tabItems = useMemo(
@@ -60,7 +64,7 @@ export default function PlaceDetail({ placeId }: { placeId: string }) {
           <PlatformMatch
             onSubmit={onVoteSubmit}
             onVote={onVote}
-            resultData={voteData}
+            resultData={voteData as PlatformMatchResultData}
             voteSummary={voteSummary as PlatformMatchSummary}
             hasZeroReviews={hasZeroReviews}
             handlePlatformVoteTabChange={handlePlatformVoteTabChange}
@@ -114,6 +118,7 @@ export default function PlaceDetail({ placeId }: { placeId: string }) {
         location: data.dong_name,
         onShare: onShare,
         onSave: onSave,
+        isPlaceSaved: isPlaceSaved || false,
       }}
       tabItems={tabItems}
       navHeight={108}

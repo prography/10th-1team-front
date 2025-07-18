@@ -7,10 +7,13 @@ import VoteDescription from "./VoteDescription";
 import VoteResultDisplay from "./VoteResultDisplay";
 import {
   PlatformMatchResultData,
-  PlatformResult,
+  PlatformResultItem,
   REASON_LABELS,
 } from "@/types/platformMatch";
 import Icon from "@/components/atoms/Icon/Icon";
+import IconButton from "@/components/molecules/IconButton/IconButton";
+import { cn } from "@/utils/cn";
+import PlatformTabButton from "@/components/molecules/PlatformTabButton/PlatformTabButton";
 
 interface PlatformMatchResultProps {
   data?: PlatformMatchResultData;
@@ -23,12 +26,13 @@ export default function PlatformMatchResult({
   handleVoteClick,
   data,
 }: PlatformMatchResultProps) {
-  let kakaoResult: PlatformResult | undefined = undefined;
-  let naverResult: PlatformResult | undefined = undefined;
+  let kakaoResult: PlatformResultItem | undefined = undefined;
+  let naverResult: PlatformResultItem | undefined = undefined;
   let winningPlatform: PlatformView = "DROW";
-  if (data && data.voted) {
-    kakaoResult = data.results.find((result) => result.platform === "KAKAO");
-    naverResult = data.results.find((result) => result.platform === "NAVER");
+  const userRecord = data?.record;
+  if (data) {
+    kakaoResult = data.results.KAKAO;
+    naverResult = data.results.NAVER;
     if (kakaoResult && naverResult) {
       if (kakaoResult.count > naverResult.count) {
         winningPlatform = "KAKAO";
@@ -46,7 +50,7 @@ export default function PlatformMatchResult({
     setPlatformView(winningPlatform);
   }, [winningPlatform]);
 
-  if (!data || !data.voted) {
+  if (!data || data.total === 0) {
     return <NoVoteState handleVoteClick={handleVoteClick} />;
   }
 
@@ -57,43 +61,33 @@ export default function PlatformMatchResult({
   const totalVotes = kakaoResult.count + naverResult.count;
 
   // platformView에 따라 winningPlatformReasons를 동적으로 선택
-  let winningPlatformReasons = [];
+  let winningPlatformReasons: Array<{ reason: string; count: number }> = [];
   if (platformView === "KAKAO") {
-    winningPlatformReasons = [...kakaoResult.reasons].sort(
-      (a, b) => b.count - a.count
-    );
+    winningPlatformReasons = Object.entries(kakaoResult.reasons)
+      .map(([reason, count]) => ({ reason, count }))
+      .sort((a, b) => b.count - a.count);
   } else if (platformView === "NAVER") {
-    winningPlatformReasons = [...naverResult.reasons].sort(
-      (a, b) => b.count - a.count
-    );
+    winningPlatformReasons = Object.entries(naverResult.reasons)
+      .map(([reason, count]) => ({ reason, count }))
+      .sort((a, b) => b.count - a.count);
   } else {
     // DROW: 동점이면 네이버 기준(기존 로직)
-    winningPlatformReasons = [...naverResult.reasons].sort(
-      (a, b) => b.count - a.count
-    );
+    winningPlatformReasons = Object.entries(naverResult.reasons)
+      .map(([reason, count]) => ({ reason, count }))
+      .sort((a, b) => b.count - a.count);
   }
 
   const maxReasonCount = Math.max(
     ...winningPlatformReasons.map((r) => r.count)
   );
 
-  // 버튼 텍스트/동작 분기
-  let buttonText = "";
-  let nextPlatform: PlatformView = "DROW";
-
-  if (platformView === "KAKAO") {
-    buttonText = "네이버 결과로 바꾸기";
-    nextPlatform = "NAVER";
-  } else if (platformView === "NAVER") {
-    buttonText = "카카오 결과로 바꾸기";
-    nextPlatform = "KAKAO";
-  } else {
-    buttonText = "카카오 결과로 바꾸기";
-    nextPlatform = "KAKAO";
-  }
-
-  const handleButtonClick = () => {
-    setPlatformView(nextPlatform);
+  const isReasonSelected = (reasonKey: string) => {
+    if (!userRecord) return false;
+    const platform = platformView === "DROW" ? "NAVER" : platformView;
+    return (
+      userRecord.platform === platform &&
+      userRecord.reason.includes(reasonKey as keyof typeof REASON_LABELS)
+    );
   };
 
   return (
@@ -125,27 +119,76 @@ export default function PlatformMatchResult({
           />
         </div>
       </div>
-      <div className="flex flex-col px-[16px] gap-[12px]">
-        {winningPlatformReasons.map((reason) => (
-          <ReasonVoteBar
-            key={reason.reason}
-            label={REASON_LABELS[reason.reason as keyof typeof REASON_LABELS]}
-            count={reason.count}
-            total={totalVotes}
-            maxCountSelected={reason.count === maxReasonCount}
-            selected={reason.is_user_voted}
+      <div className="flex flex-col px-[16px] mb-[24px]">
+        <div className="flex body-s-semibold text-texticon-onnormal-midemp mb-[-7px]">
+          <PlatformTabButton
+            platform="NAVER"
+            isSelected={platformView === "NAVER" || platformView === "DROW"}
+            onClick={() => setPlatformView("NAVER")}
           />
-        ))}
+          <PlatformTabButton
+            platform="KAKAO"
+            isSelected={platformView === "KAKAO"}
+            onClick={() => setPlatformView("KAKAO")}
+          />
+        </div>
+        <div className="flex flex-col gap-[20px] bg-surface-normal-container-b50 rounded-[8px] px-[12px] py-[16px] z-10">
+          <div className="flex items-center gap-[12px] body-l-medium">
+            <Icon
+              icon={platformView === "KAKAO" ? "Kakaomap" : "Navermap"}
+              size={24}
+            />
+            {platformView === "KAKAO"
+              ? "카카오 맵을 고른 이유"
+              : "네이버 지도를 고른 이유"}
+          </div>
+          <div className="flex flex-col gap-[12px]">
+            {winningPlatformReasons.map((reason) => (
+              <ReasonVoteBar
+                key={reason.reason}
+                label={
+                  REASON_LABELS[reason.reason as keyof typeof REASON_LABELS]
+                }
+                count={reason.count}
+                total={totalVotes}
+                maxCountSelected={
+                  maxReasonCount > 0 && reason.count === maxReasonCount
+                }
+                selected={isReasonSelected(reason.reason)}
+              />
+            ))}
+          </div>
+        </div>
       </div>
-      <div
-        className="flex justify-center items-center mt-[22px] cursor-pointer"
-        onClick={handleButtonClick}
-      >
-        <span className="body-s-regular text-texticon-onnormal-lowemp mr-[8px]">
-          {buttonText}
-        </span>
-        <Icon icon="Switch" size={24} />
-      </div>
+      {data.voted && userRecord && (
+        <div className="flex flex-col px-[16px] py-[12px]">
+          <div className="flex flex-col p-[20px] rounded-[8px] border border-border-normal-highemp bg-surface-normal-container0">
+            <span className="caption-m-regular text-texticon-onnormal-midemp mb-[4px]">
+              {userRecord.voted_date.split("T")[0].replace(/-/g, ".")}
+            </span>
+            <div className="body-m-semibold mb-[12px]">
+              <span
+                className={cn("text-brand-kakao-main", {
+                  "text-brand-naver-main": userRecord.platform === "NAVER",
+                })}
+              >
+                {userRecord.platform === "KAKAO" ? "카카오 맵" : "네이버 지도"}
+              </span>
+              <span className="text-texticon-onnormal-highestemp">
+                에 투표완료!
+              </span>
+            </div>
+            <div className="caption-m-regular text-texticon-onnormal-midemp">
+              캘린더에 투표가 기록되었어요!
+            </div>
+            <IconButton
+              className="bg-texticon-onnormal-highestemp rounded-[99px] px-[14px] py-[8px] w-fit text-texticon-onnormal-white caption-m-semibold mt-[20px]"
+              text="캘린더 이동"
+              endIcon={<Icon icon="PageMove" size={24} stroke="#fff" />}
+            />
+          </div>
+        </div>
+      )}
     </>
   );
 }

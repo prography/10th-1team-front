@@ -1,19 +1,19 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import Icon from "@/components/atoms/Icon/Icon";
 import Image from "next/image";
 import IconButton from "@/components/molecules/IconButton/IconButton";
 import Button from "@/components/atoms/Button/Button";
 import { List, ListItem } from "@/components/atoms/List";
 import { cn } from "@/utils/cn";
-
+import { useModalStore } from "@/store/useModalStore";
+import { getVoteCount } from "@/apis/place";
 interface PlatformMatchVoteModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (platform: "KAKAO" | "NAVER", reasons: string[]) => void;
   handleTabChange: (value: "vote" | "result") => void;
-  refetch: () => void;
 }
 
 const REASONS = [
@@ -23,48 +23,90 @@ const REASONS = [
   { text: "설명이 정확해요", value: "ACCURATE" },
 ];
 
+const LEVEL_UP_CONDITIONS = {
+  LEVEL_2: { voteCount: 1, level: 2 },
+  LEVEL_3: { voteCount: 4, level: 3 },
+  LEVEL_4: { voteCount: 11, level: 4 },
+  LEVEL_5: { voteCount: 20, level: 5 },
+} as const;
+
 export default function PlatformMatchVoteModal({
   isOpen,
   onClose,
   onSubmit,
   handleTabChange,
-  refetch,
 }: PlatformMatchVoteModalProps) {
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [selectedPlatform, setSelectedPlatform] = useState<
     "KAKAO" | "NAVER" | null
   >(null);
   const [selectedReasons, setSelectedReasons] = useState<string[]>([]);
+  const openModal = useModalStore((state) => state.openModal);
 
-  if (!isOpen) return null;
+  const getLevelUpImage = useCallback((level: number): string => {
+    switch (level) {
+      case 2:
+        return "/images/Level2.svg";
+      case 3:
+        return "/images/Level3.svg";
+      case 4:
+        return "/images/Level4.svg";
+      case 5:
+        return "/images/Level5.svg";
+      default:
+        return "/images/Level2.svg";
+    }
+  }, []);
 
-  const toggleReason = (reasonValue: string) => {
+  // 투표 수 확인 및 레벨업 모달 표시 로직을 추출한 헬퍼 함수
+  const checkVoteCountAndShowLevelUp = useCallback(async () => {
+    if (step === 3) {
+      try {
+        const voteCount = await getVoteCount();
+        const levelUpCondition = Object.values(LEVEL_UP_CONDITIONS).find(
+          (condition) => condition.voteCount === voteCount
+        );
+
+        if (levelUpCondition) {
+          openModal("levelUp", {
+            imageSrc: getLevelUpImage(levelUpCondition.level),
+          });
+        }
+      } catch (error) {
+        console.error("투표 수 조회 실패:", error);
+      }
+    }
+  }, [step, openModal, getLevelUpImage]);
+
+  const toggleReason = useCallback((reasonValue: string) => {
     setSelectedReasons((prev) =>
       prev.includes(reasonValue)
         ? prev.filter((r) => r !== reasonValue)
         : [...prev, reasonValue]
     );
-  };
+  }, []);
 
-  const handleClose = () => {
+  const handleClose = useCallback(async () => {
     setStep(1);
     setSelectedPlatform(null);
     setSelectedReasons([]);
     onClose();
-  };
+    await checkVoteCountAndShowLevelUp();
+  }, [onClose, checkVoteCountAndShowLevelUp]);
 
-  const handleResult = () => {
-    refetch();
+  const handleResult = useCallback(async () => {
     handleTabChange("result");
     handleClose();
-  };
+  }, [handleTabChange, handleClose]);
 
-  const handleSubmit = () => {
+  const handleSubmit = useCallback(async () => {
     if (selectedPlatform && selectedReasons.length > 0) {
       onSubmit(selectedPlatform, selectedReasons);
       setStep(3);
     }
-  };
+  }, [selectedPlatform, selectedReasons, onSubmit]);
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
