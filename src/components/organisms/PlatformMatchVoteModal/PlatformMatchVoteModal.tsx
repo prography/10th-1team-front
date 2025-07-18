@@ -27,7 +27,7 @@ const LEVEL_UP_CONDITIONS = {
   LEVEL_2: { voteCount: 1, level: 2 },
   LEVEL_3: { voteCount: 4, level: 3 },
   LEVEL_4: { voteCount: 11, level: 4 },
-  LEVEL_5: { voteCount: 23, level: 5 },
+  LEVEL_5: { voteCount: 20, level: 5 },
 } as const;
 
 export default function PlatformMatchVoteModal({
