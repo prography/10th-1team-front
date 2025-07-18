@@ -118,7 +118,7 @@ export default function PlaceDetail({ placeId }: { placeId: string }) {
         location: data.dong_name,
         onShare: onShare,
         onSave: onSave,
-        isPlaceSaved: isPlaceSaved,
+        isPlaceSaved: isPlaceSaved || false,
       }}
       tabItems={tabItems}
       navHeight={108}
