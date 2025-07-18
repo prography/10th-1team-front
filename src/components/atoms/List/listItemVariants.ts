@@ -11,6 +11,8 @@ export const listItemVariants = cva("flex justify-between", {
       "platform-vote":
         "bg-button-neutral-bg_default border border-button-neutral-border text-button-neutral-text_default hover:bg-surface-normal-container-b50 hover:text-texticon-onnormal-main-500 hover:border-brand-primary-main",
       "saved-group": "px-[16px] py-[12px] hover:bg-surface-normal-container10",
+      "place-save":
+        "bg-surface-normal-container0 hover:bg-surface-normal-container-b50",
       default: "flex-col",
     },
   },
