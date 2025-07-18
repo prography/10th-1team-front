@@ -32,7 +32,7 @@ export default function PlatformMatch({
         <PlatformVote
           participantCount={voteSummary.total}
           handleVoteClick={onVote}
-          isUserVoted={voteSummary.is_user_voted}
+          isUserVoted={voteSummary.voted}
           hasZeroReviews={hasZeroReviews}
         />
       ),
