@@ -22,7 +22,7 @@ interface PlaceDetailTemplateProps {
     location: string;
     onShare?: () => void;
     onSave?: () => void;
-    isPlaceSaved: boolean | undefined;
+    isPlaceSaved: boolean;
   };
   tabItems: Array<{
     id: string;
