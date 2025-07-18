@@ -6,6 +6,7 @@ import {
   getPlacePlatformMatchSummary,
   getPlatformMatchResult,
 } from "@/apis/place";
+import { checkPlaceSaved } from "@/apis/group";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -25,6 +26,10 @@ export default async function PlacePage({ params }: Props) {
   await queryClient.prefetchQuery({
     queryKey: ["platformMatchResult", id],
     queryFn: () => getPlatformMatchResult(id),
+  });
+  await queryClient.prefetchQuery({
+    queryKey: ["isPlaceSaved", id],
+    queryFn: () => checkPlaceSaved(id),
   });
 
   const dehydratedState = dehydrate(queryClient);

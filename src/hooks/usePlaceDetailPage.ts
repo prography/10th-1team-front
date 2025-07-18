@@ -3,20 +3,12 @@ import { usePlaceDetailQuery } from "@/hooks/queries/usePlaceDetailQuery";
 import { useRouter } from "next/navigation";
 import { useModalStore } from "@/store/useModalStore";
 import { patchPlatformMatchVote } from "@/apis/place";
-import useUserStore from "@/store/useUserStore";
+import { useGroupManagement } from "@/hooks/useGroupManagement";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export function usePlaceDetailPage(placeId: string) {
-  const {
-    data,
-    isLoading,
-    voteData,
-    refetch,
-    voteSummary,
-    refetchVoteSummary,
-  } = usePlaceDetailQuery(placeId);
-
-  const { user: isLoggedIn } = useUserStore((state) => state);
-
+  const { data, isLoading, voteData, voteSummary, isPlaceSaved } =
+    usePlaceDetailQuery(placeId);
   const hasZeroReviews =
     data?.kakao_review_count === 0 || data?.naver_review_count === 0;
   const pathname =
@@ -26,6 +18,12 @@ export function usePlaceDetailPage(placeId: string) {
 
   const router = useRouter();
   const openModal = useModalStore((state) => state.openModal);
+  const queryClient = useQueryClient();
+
+  const { onSave, isLoggedIn } = useGroupManagement({
+    placeName: data?.name,
+    placeId,
+  });
 
   const [platformVoteTab, setPlatformVoteTab] = useState<"vote" | "result">(
     "vote"
@@ -40,27 +38,38 @@ export function usePlaceDetailPage(placeId: string) {
   const reviewDetailClick = useCallback(() => {
     router.push(`/place/${placeId}/reviews`);
   }, [placeId, router]);
+
+  const { mutate: onVoteMutate } = useMutation({
+    mutationFn: ({
+      platform,
+      reasons,
+    }: {
+      platform: "KAKAO" | "NAVER";
+      reasons: string[];
+    }) => patchPlatformMatchVote(placeId, { platform, reasons }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["voteSummary", placeId] });
+    },
+  });
   const onVoteSubmit = useCallback(
     (platform: "KAKAO" | "NAVER", reasons: string[]) => {
-      patchPlatformMatchVote(placeId, { platform, reasons });
-      refetchVoteSummary();
+      onVoteMutate(
+        { platform, reasons },
+        {
+          onSuccess: () => {
+            queryClient.invalidateQueries({
+              queryKey: ["platformMatchResult", placeId],
+            });
+          },
+        }
+      );
     },
-    [placeId, refetchVoteSummary]
+    [onVoteMutate, queryClient, placeId]
   );
+
   const onShare = useCallback(() => {
     openModal("share", { url: currentUrl, placeName: data?.name });
   }, [openModal, currentUrl, data?.name]);
-  const onSave = useCallback(() => {
-    if (!isLoggedIn) {
-      openModal("login", {
-        onLogin: () => {
-          router.push(`/login`);
-          openModal(null);
-        },
-      });
-      return;
-    }
-  }, [isLoggedIn, openModal, router]);
   const onVote = useCallback(() => {
     if (!isLoggedIn) {
       openModal("login", {
@@ -73,13 +82,11 @@ export function usePlaceDetailPage(placeId: string) {
     }
     openModal("platformVote", {
       onSubmit: onVoteSubmit,
-      refetch: refetch,
       handleTabChange: handlePlatformVoteTabChange,
     });
   }, [
     openModal,
     onVoteSubmit,
-    refetch,
     isLoggedIn,
     handlePlatformVoteTabChange,
     router,
@@ -101,5 +108,6 @@ export function usePlaceDetailPage(placeId: string) {
     onShare,
     onVote,
     onSave,
+    isPlaceSaved,
   };
 }
