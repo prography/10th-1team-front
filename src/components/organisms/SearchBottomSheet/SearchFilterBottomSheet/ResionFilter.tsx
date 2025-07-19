@@ -9,6 +9,7 @@ interface RegionFilterProps {
   selectedCity: string;
   selectedDong: DongInfo[];
   onChange: (province: string, city: string, dongList: DongInfo[]) => void;
+  getDongListByCity: (city: string) => DongInfo[];
   onReset?: () => void;
 }
 
@@ -18,6 +19,7 @@ export default function RegionFilter({
   selectedCity: initialCity,
   selectedDong: initialDong,
   onChange,
+  getDongListByCity,
   onReset,
 }: RegionFilterProps) {
   const [province, setProvince] = useState(initialProvince);
@@ -65,14 +67,13 @@ export default function RegionFilter({
     label: c.name,
     is_searchable: c.is_searchable,
   }));
-  const dongOptions =
-    cityList
-      .find((c) => c.name === city)
-      ?.dong_list.map((d) => ({
+  const dongOptions = city
+    ? getDongListByCity(city).map((d) => ({
         value: d.name,
         label: d.name,
         dong_code: d.dong_code,
-      })) ?? [];
+      }))
+    : [];
 
   return (
     <div className="space-y-[12px]">

@@ -31,8 +31,14 @@ export default function SearchFilterBottomSheet({
   >(state.filters.foodTypes);
 
   // 지역 관련 상태 (store의 값으로 초기화)
-  const { regions, storeProvince, storeCity, storeDong, setRegion } =
-    useRegionSelector();
+  const {
+    regions,
+    storeProvince,
+    storeCity,
+    storeDong,
+    setRegion,
+    getDongListByCity,
+  } = useRegionSelector();
 
   // 임시 선택값
   const [tempProvince, setTempProvince] = useState(storeProvince);
@@ -100,6 +106,7 @@ export default function SearchFilterBottomSheet({
               selectedDong={tempDong}
               onChange={handleRegionChange}
               onReset={handleRegionReset}
+              getDongListByCity={getDongListByCity}
             />
           </ScrollTabPanel>
         </ScrollTabsContent>

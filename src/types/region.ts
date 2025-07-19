@@ -41,3 +41,9 @@ export type RegionData = {
     provinces: Province[];
   };
 };
+export interface RegionDongData {
+  [key: string]: Array<{
+    name: string;
+    dong_code: string;
+  }>;
+}
