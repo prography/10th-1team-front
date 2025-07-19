@@ -15,7 +15,11 @@ async function proxyHandler(req: NextRequest, path: string[]) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const backendUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/${path.join("/")}`;
+  const url = new URL(req.url);
+  const searchParams = url.searchParams.toString();
+
+  const decodedPath = path.map((segment) => decodeURIComponent(segment));
+  const backendUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/${decodedPath.join("/")}${searchParams ? `?${searchParams}` : ""}`;
 
   let body: string | undefined = undefined;
   if (["POST", "PATCH", "PUT"].includes(req.method)) {

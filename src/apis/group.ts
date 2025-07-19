@@ -22,7 +22,7 @@ export const getGroup = async (placeId: string) => {
 
 export const savePlaceGroup = async (placeId: string, groupIds: string[]) => {
   try {
-    const queryParams = groupIds.map((id) => `groupIds=${id}`).join("&");
+    const queryParams = groupIds.map((id) => `group_ids=${id}`).join("&");
     const response = await authProxyAPI.put(
       `/bookmark/place/${placeId}?${queryParams}`
     );
