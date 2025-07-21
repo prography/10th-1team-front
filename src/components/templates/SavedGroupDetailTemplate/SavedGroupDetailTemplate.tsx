@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
+import { usePortal } from "@/hooks/usePortal";
 import { colors } from "@/styles/colors";
 import Icon from "@/components/atoms/Icon/Icon";
 import Divider from "@/components/atoms/Divider/Divider";
@@ -9,6 +10,7 @@ import Button from "@/components/atoms/Button/Button";
 import DefaultHeader from "@/components/molecules/Header/DefaultHeader";
 import IconButton from "@/components/molecules/IconButton/IconButton";
 import { ContextMenu } from "@/components/molecules/ContextMenu";
+import { AlertModal } from "@/components/molecules/Modal";
 import { SavedGroupDetailList } from "@/components/organisms/ActivityList";
 import { sortByDate, sortByName } from "@/utils/sort";
 
@@ -26,6 +28,8 @@ interface SavedGroupDetailTemplateProps {
   groupName: string;
   total: number;
   groupIcon: string;
+  onDeleteClick: (items: string[]) => void;
+  onMoveClick: (items: string[]) => void;
 }
 
 export default function SavedGroupDetailTemplate({
@@ -33,11 +37,18 @@ export default function SavedGroupDetailTemplate({
   groupName,
   total,
   groupIcon,
+  onDeleteClick,
+  onMoveClick,
 }: SavedGroupDetailTemplateProps) {
+  const createPortal = usePortal();
   const router = useRouter();
+
   const [sortType, setSortType] = useState<SortType>("recent");
   const [isEditMode, setIsEditMode] = useState(false);
-  const [selectedItems, setSelectedItems] = useState<PlaceInfo[]>([]);
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const [currentSheet, setCurrentSheet] = useState<"move" | "delete" | null>(
+    null
+  );
 
   const sortMethods: Record<SortType, (arr: PlaceInfo[]) => PlaceInfo[]> = {
     recent: (arr) => sortByDate(arr, (p) => p.saved_at, "desc"),
@@ -48,24 +59,30 @@ export default function SavedGroupDetailTemplate({
     return sortMethods[sortType](items);
   }, [items, sortType]);
 
+  const openSheet = useCallback((sheetType: "move" | "delete") => {
+    setCurrentSheet(sheetType);
+  }, []);
+
+  const closeSheet = useCallback(() => {
+    setCurrentSheet(null);
+  }, []);
+
   const deleteEditMode = useCallback(() => {
-    setIsEditMode(false);
     setSelectedItems([]);
+    setIsEditMode(false);
   }, []);
 
   const toggleAllItemsSelection = useCallback(() => {
     setSelectedItems(
       selectedItems.length === items.length
         ? []
-        : items.map((item) => ({ ...item, isSelected: true }))
+        : items.map((item) => item.place_id)
     );
   }, [items, selectedItems]);
 
-  const toggleItemSelection = useCallback((item: PlaceInfo) => {
+  const toggleItemSelection = useCallback((item: string) => {
     setSelectedItems((prev) =>
-      prev.includes(item)
-        ? prev.filter((i) => i.place_id !== item.place_id)
-        : [...prev, item]
+      prev.includes(item) ? prev.filter((i) => i !== item) : [...prev, item]
     );
   }, []);
 
@@ -83,6 +100,7 @@ export default function SavedGroupDetailTemplate({
           className="border-b border-border-normal-lowemp"
         />
 
+        {/* 편집 모드 상단 전체선택 버튼 */}
         {isEditMode && (
           <div className="flex justify-between items-center px-[16px] py-[11px] border-b-[0.5px] border-border-normal-lowemp">
             <IconButton
@@ -109,6 +127,7 @@ export default function SavedGroupDetailTemplate({
           </div>
         )}
 
+        {/* 편집 모드 아닐 때의 상단 렌더링 */}
         {!isEditMode && (
           <>
             {/* 그룹 정보 */}
@@ -163,6 +182,7 @@ export default function SavedGroupDetailTemplate({
                 variant="neutral"
                 className="button-s-medium py-[5px] px-[8px]"
                 onClick={() => {
+                  setSelectedItems([]);
                   setIsEditMode(true);
                 }}
               >
@@ -174,21 +194,26 @@ export default function SavedGroupDetailTemplate({
       </div>
 
       {/* 저장 장소 리스트 */}
-      <div className="flex flex-col flex-1 px-[16px]">
+      <div className="flex flex-col flex-1">
         <SavedGroupDetailList
           items={sortedItems}
           selectedItems={selectedItems}
           isEditMode={isEditMode}
           onItemClick={(item) => {
             if (isEditMode) {
-              toggleItemSelection(item);
+              toggleItemSelection(item.place_id);
             } else {
               router.push(`/place/${item.place_id}`);
             }
           }}
+          onDeleteClick={(item) => {
+            toggleItemSelection(item.place_id);
+            openSheet("delete");
+          }}
         />
       </div>
 
+      {/* 편집 모드 하단 버튼 */}
       {isEditMode && (
         <div className="sticky bottom-0 z-10 flex justify-center items-center gap-[10px] pb-[38px] pt-[14px] px-[16px] bg-surface-normal-container0">
           <Button
@@ -197,7 +222,7 @@ export default function SavedGroupDetailTemplate({
             fullWidth
             disabled={selectedItems.length === 0}
             onClick={() => {
-              // TODO: 이동 바텀시트 추가 필요
+              onMoveClick(selectedItems);
             }}
           >
             이동
@@ -208,13 +233,29 @@ export default function SavedGroupDetailTemplate({
             fullWidth
             disabled={selectedItems.length === 0}
             onClick={() => {
-              // TODO: 삭제 모달
+              openSheet("delete");
             }}
           >
             삭제
           </Button>
         </div>
       )}
+
+      {/* 관련 모달 */}
+      {currentSheet === "delete" &&
+        createPortal(
+          <AlertModal
+            isOpen={currentSheet === "delete"}
+            onClose={closeSheet}
+            title="선택한 가게를 삭제할까요?"
+            leftButtonText="취소"
+            rightButtonText="삭제"
+            onLeftButtonClick={closeSheet}
+            onRightButtonClick={() => {
+              onDeleteClick(selectedItems);
+            }}
+          />
+        )}
     </div>
   );
 }
