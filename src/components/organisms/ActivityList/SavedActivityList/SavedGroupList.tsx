@@ -2,11 +2,11 @@ import Icon from "@/components/atoms/Icon/Icon";
 import { List, ListItem } from "@/components/atoms/List";
 import { ContextMenu } from "@/components/molecules/ContextMenu";
 import IconButton from "@/components/molecules/IconButton/IconButton";
-import { SavedGroupInfo } from "@/types/activity";
+import { GroupInfo } from "@/types/activity";
 
 interface SavedGroupListProps {
-  items: SavedGroupInfo[];
-  onItemClick: (item: SavedGroupInfo) => void;
+  items: GroupInfo[];
+  onItemClick: (item: GroupInfo) => void;
 }
 
 export default function SavedGroupList({
@@ -23,12 +23,7 @@ export default function SavedGroupList({
           onClick={() => onItemClick(item)}
         >
           <div className="flex gap-[8px]">
-            <Icon
-              icon="Group"
-              fill={
-                undefined /*TODO: 그룹 아이콘 색상 item 값에 맞춰서 수정 필요, item.icon*/
-              }
-            />
+            <Icon icon="Group" fill={item.icon} />
 
             <div className="flex flex-col gap-[12px]">
               <p className="body-s-semibold text-texticon-onnormal-highestemp">

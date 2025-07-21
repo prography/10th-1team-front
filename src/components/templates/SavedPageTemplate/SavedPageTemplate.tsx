@@ -10,7 +10,7 @@ import IconButton from "@/components/molecules/IconButton/IconButton";
 import { ContextMenu } from "@/components/molecules/ContextMenu";
 import { SavedGroupList } from "@/components/organisms/ActivityList";
 
-import type { SavedGroupInfo } from "@/types/activity";
+import type { GroupInfo } from "@/types/activity";
 
 type SortType = "recent" | "name" | "group";
 
@@ -21,10 +21,14 @@ const SORT_LABELS: Record<SortType, string> = {
 };
 
 interface SavedPageTemplateProps {
-  items: SavedGroupInfo[];
+  total: number;
+  groups: GroupInfo[];
 }
 
-export default function SavedPageTemplate({ items }: SavedPageTemplateProps) {
+export default function SavedPageTemplate({
+  total,
+  groups,
+}: SavedPageTemplateProps) {
   const router = useRouter();
   const [sortType, setSortType] = useState<SortType>("recent");
 
@@ -48,7 +52,7 @@ export default function SavedPageTemplate({ items }: SavedPageTemplateProps) {
         <div className="flex justify-between items-center px-[16px] pt-[24px] pb-[12px]">
           <div className="body-m-semibold text-texticon-onnormal-highestemp space-x-[8px]">
             <span>전체</span>
-            <span className="text-texticon-onnormal-main-500">99</span>
+            <span className="text-texticon-onnormal-main-500">{total}</span>
           </div>
           <ContextMenu
             align="right"
@@ -92,7 +96,7 @@ export default function SavedPageTemplate({ items }: SavedPageTemplateProps) {
 
       {/* 저장 그룹 리스트 */}
       <SavedGroupList
-        items={items}
+        items={groups}
         onItemClick={(item) => {
           router.push(`/saved/${item.group_id}`);
         }}

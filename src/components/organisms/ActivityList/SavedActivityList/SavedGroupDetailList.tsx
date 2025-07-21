@@ -2,11 +2,11 @@ import Icon from "@/components/atoms/Icon/Icon";
 import { List, ListItem } from "@/components/atoms/List";
 import { ContextMenu } from "@/components/molecules/ContextMenu";
 import IconButton from "@/components/molecules/IconButton/IconButton";
-import { SavedPlacesInfo } from "@/types/activity";
+import { PlaceInfo } from "@/types/activity";
 
 interface SavedGroupDetailListProps {
-  items: SavedPlacesInfo[];
-  onItemClick: (item: SavedPlacesInfo) => void;
+  items: PlaceInfo[];
+  onItemClick: (item: PlaceInfo) => void;
 }
 
 export default function SavedGroupDetailList({

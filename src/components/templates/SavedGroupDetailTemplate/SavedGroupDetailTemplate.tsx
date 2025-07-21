@@ -10,7 +10,7 @@ import IconButton from "@/components/molecules/IconButton/IconButton";
 import { ContextMenu } from "@/components/molecules/ContextMenu";
 import { SavedGroupDetailList } from "@/components/organisms/ActivityList";
 
-import type { SavedPlacesInfo } from "@/types/activity";
+import type { PlaceInfo } from "@/types/activity";
 import Button from "@/components/atoms/Button/Button";
 
 type SortType = "recent" | "name";
@@ -21,15 +21,17 @@ const SORT_LABELS: Record<SortType, string> = {
 };
 
 interface SavedGroupDetailTemplateProps {
-  items: SavedPlacesInfo[];
+  items: PlaceInfo[];
   groupName: string;
-  numberOfBookmark: number;
+  total: number;
+  groupIcon: string;
 }
 
 export default function SavedGroupDetailTemplate({
   items,
   groupName,
-  numberOfBookmark,
+  total,
+  groupIcon,
 }: SavedGroupDetailTemplateProps) {
   const router = useRouter();
   const [sortType, setSortType] = useState<SortType>("recent");
@@ -51,13 +53,13 @@ export default function SavedGroupDetailTemplate({
         />
         {/* 그룹 정보 */}
         <div className="flex flex-col px-[16px] py-[24px]">
-          <Icon icon="Group" />
+          <Icon icon="Group" fill={groupIcon} />
           <p className="body-l-semibold text-texticon-onnormal-highestemp mt-[12px] mb-[8px]">
             {groupName}
           </p>
           <p className="body-s-regular space-x-[4px] text-texticon-onnormal-lowemp">
             <span>저장된 가게</span>
-            <span className="body-s-semibold">{numberOfBookmark}</span>
+            <span className="body-s-semibold">{total}</span>
           </p>
         </div>
         <Divider />
@@ -110,8 +112,8 @@ export default function SavedGroupDetailTemplate({
       {/* 저장 장소 리스트 */}
       <SavedGroupDetailList
         items={items}
-        onItemClick={() => {
-          // TODO: 장소 상세 페이지로 이동
+        onItemClick={(item) => {
+          router.push(`/place/${item.place_id}`);
         }}
       />
     </div>
