@@ -15,6 +15,7 @@ import { sortByDate, sortByName } from "@/utils/sort";
 import { useMemo } from "react";
 
 import type { GroupInfo } from "@/types/activity";
+import GroupWithInputBottomSheet from "@/components/organisms/GroupBottomSheet/GroupWithInputBottomSheet/GroupWithInputBottomSheet";
 
 type SortType = "recent" | "name" | "group";
 
@@ -29,6 +30,7 @@ interface SavedPageTemplateProps {
   groups: GroupInfo[];
   onDeleteClick: (group_id: string) => void;
   onEdit: (item: GroupInfo) => void;
+  onCreate: (item: GroupInfo) => void;
 }
 
 export default function SavedPageTemplate({
@@ -40,10 +42,12 @@ export default function SavedPageTemplate({
   const createPortal = usePortal();
   const router = useRouter();
   const [sortType, setSortType] = useState<SortType>("recent");
-  const [currentSheet, setCurrentSheet] = useState<"delete" | "edit" | null>(
-    null
-  );
+  const [currentSheet, setCurrentSheet] = useState<
+    "delete" | "edit" | "create" | null
+  >(null);
   const [selectedItem, setSelectedItem] = useState<GroupInfo | null>(null);
+  const [groupName, setGroupName] = useState("");
+  const [selectedColor, setSelectedColor] = useState("");
 
   const sortMethods: Record<SortType, (arr: GroupInfo[]) => GroupInfo[]> = {
     recent: (arr) => sortByDate(arr, (g) => g.create_at, "desc"),
@@ -55,12 +59,22 @@ export default function SavedPageTemplate({
     return sortMethods[sortType](groups);
   }, [groups, sortType]);
 
-  const openSheet = useCallback((sheetType: "delete" | "edit") => {
+  const openSheet = useCallback((sheetType: "delete" | "edit" | "create") => {
     setCurrentSheet(sheetType);
   }, []);
 
   const closeSheet = useCallback(() => {
+    setGroupName("");
+    setSelectedColor("");
     setCurrentSheet(null);
+  }, []);
+
+  const handleGroupNameChange = useCallback((value: string) => {
+    setGroupName(value);
+  }, []);
+
+  const handleColorSelect = useCallback((color: string) => {
+    setSelectedColor(color);
   }, []);
 
   return (
@@ -132,23 +146,30 @@ export default function SavedPageTemplate({
             setSelectedItem(item);
             openSheet("delete");
           }}
-          onEdit={onEdit}
+          onEdit={(item) => {
+            setSelectedItem(item);
+            setGroupName(item.group_name);
+            setSelectedColor(item.icon);
+            openSheet("edit");
+          }}
         />
       </div>
 
+      {/* 새로운 그룹 만들기 버튼 */}
       <div className="sticky bottom-0 z-10 flex justify-center items-center pb-[38px] pt-[14px] px-[16px] bg-surface-normal-container0">
         <Button
           variant="neutral"
           className="button-l-semibold py-[16px]"
           fullWidth
           onClick={() => {
-            // TODO: 그룹 생성 바텀시트 추가 필요
+            openSheet("create");
           }}
         >
           새로운 그룹 만들기
         </Button>
       </div>
 
+      {/* 관련 모달 및 바텀시트 */}
       {currentSheet === "delete" &&
         createPortal(
           <AlertModal
@@ -161,6 +182,36 @@ export default function SavedPageTemplate({
             onLeftButtonClick={closeSheet}
             onRightButtonClick={() => {
               if (selectedItem) onDeleteClick(selectedItem.group_id);
+            }}
+          />
+        )}
+
+      {currentSheet === "edit" &&
+        createPortal(
+          <GroupWithInputBottomSheet
+            title="그룹 수정"
+            groupName={groupName}
+            selectedColor={selectedColor}
+            onGroupNameChange={handleGroupNameChange}
+            onColorSelect={handleColorSelect}
+            onClose={closeSheet}
+            onDone={() => {
+              if (selectedItem) onEdit(selectedItem);
+            }}
+          />
+        )}
+
+      {currentSheet === "create" &&
+        createPortal(
+          <GroupWithInputBottomSheet
+            title="새로운 그룹 만들기"
+            groupName={groupName}
+            selectedColor={selectedColor}
+            onGroupNameChange={handleGroupNameChange}
+            onColorSelect={handleColorSelect}
+            onClose={closeSheet}
+            onDone={() => {
+              // TODO: 그룹 생성 로직 추가 필요
             }}
           />
         )}
