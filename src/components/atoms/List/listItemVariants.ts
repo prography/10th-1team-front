@@ -13,6 +13,8 @@ export const listItemVariants = cva("flex justify-between", {
       "saved-group": "px-[16px] py-[12px] hover:bg-surface-normal-container10",
       "place-save":
         "bg-surface-normal-container0 hover:bg-surface-normal-container-b50",
+      "saved-group-detail":
+        "flex-row justify-between py-[20px] border-b-[0.5px] border-border-normal-lowestemp",
       default: "flex-col",
     },
   },
