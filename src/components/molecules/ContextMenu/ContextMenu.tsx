@@ -60,8 +60,8 @@ export default function ContextMenu({
             <React.Fragment key={item.label}>
               <MenuItem
                 label={item.label}
-                onClick={() => {
-                  item.onClick();
+                onClick={(e) => {
+                  item.onClick(e);
                   handleClose();
                 }}
                 selected={item.selected}
