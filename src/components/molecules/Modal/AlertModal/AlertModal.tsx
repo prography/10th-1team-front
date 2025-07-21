@@ -66,7 +66,7 @@ export default function AlertModal({
               {title}
             </div>
             {description && (
-              <div className="body-s-regular text-texticon-onnormal-midemp">
+              <div className="body-s-regular text-texticon-onnormal-midemp text-center whitespace-pre-line">
                 {description}
               </div>
             )}

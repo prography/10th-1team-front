@@ -8,11 +8,15 @@ import EmptyPlaceholder from "@/components/molecules/EmptyPlaceholder/EmptyPlace
 interface SavedGroupListProps {
   items: GroupInfo[];
   onItemClick: (item: GroupInfo) => void;
+  onDeleteClick: (item: GroupInfo) => void;
+  onEdit: (item: GroupInfo) => void;
 }
 
 export default function SavedGroupList({
   items,
   onItemClick,
+  onDeleteClick,
+  onEdit,
 }: SavedGroupListProps) {
   return items.length > 0 ? (
     <List className="flex flex-col pb-[100px]">
@@ -48,14 +52,13 @@ export default function SavedGroupList({
             className="w-[120px]"
             icon={<Icon icon="Check" size={20} />}
             items={[
-              // TODO: 동작 추가 필요
               {
                 label: "수정",
-                onClick: () => alert("수정"),
+                onClick: () => onEdit(item),
               },
               {
                 label: "삭제",
-                onClick: () => alert("삭제"),
+                onClick: () => onDeleteClick(item),
               },
             ]}
           />

@@ -1,12 +1,14 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import { usePortal } from "@/hooks/usePortal";
 import { colors } from "@/styles/colors";
 import Icon from "@/components/atoms/Icon/Icon";
 import Button from "@/components/atoms/Button/Button";
 import DefaultHeader from "@/components/molecules/Header/DefaultHeader";
 import IconButton from "@/components/molecules/IconButton/IconButton";
+import { AlertModal } from "@/components/molecules/Modal";
 import { ContextMenu } from "@/components/molecules/ContextMenu";
 import { SavedGroupList } from "@/components/organisms/ActivityList";
 import { sortByDate, sortByName } from "@/utils/sort";
@@ -25,14 +27,23 @@ const SORT_LABELS: Record<SortType, string> = {
 interface SavedPageTemplateProps {
   total: number;
   groups: GroupInfo[];
+  onDeleteClick: (group_id: string) => void;
+  onEdit: (item: GroupInfo) => void;
 }
 
 export default function SavedPageTemplate({
   total,
   groups,
+  onDeleteClick,
+  onEdit,
 }: SavedPageTemplateProps) {
+  const createPortal = usePortal();
   const router = useRouter();
   const [sortType, setSortType] = useState<SortType>("recent");
+  const [currentSheet, setCurrentSheet] = useState<"delete" | "edit" | null>(
+    null
+  );
+  const [selectedItem, setSelectedItem] = useState<GroupInfo | null>(null);
 
   const sortMethods: Record<SortType, (arr: GroupInfo[]) => GroupInfo[]> = {
     recent: (arr) => sortByDate(arr, (g) => g.create_at, "desc"),
@@ -43,6 +54,14 @@ export default function SavedPageTemplate({
   const sortedGroups = useMemo(() => {
     return sortMethods[sortType](groups);
   }, [groups, sortType]);
+
+  const openSheet = useCallback((sheetType: "delete" | "edit") => {
+    setCurrentSheet(sheetType);
+  }, []);
+
+  const closeSheet = useCallback(() => {
+    setCurrentSheet(null);
+  }, []);
 
   return (
     <div className="flex flex-col flex-1 h-full w-full bg-surface-normal-container0">
@@ -109,6 +128,11 @@ export default function SavedPageTemplate({
           onItemClick={(item) => {
             router.push(`/saved/${item.group_id}`);
           }}
+          onDeleteClick={(item) => {
+            setSelectedItem(item);
+            openSheet("delete");
+          }}
+          onEdit={onEdit}
         />
       </div>
 
@@ -124,6 +148,22 @@ export default function SavedPageTemplate({
           새로운 그룹 만들기
         </Button>
       </div>
+
+      {currentSheet === "delete" &&
+        createPortal(
+          <AlertModal
+            isOpen={currentSheet === "delete"}
+            onClose={closeSheet}
+            title="삭제할까요?"
+            description={`그룹을 삭제하면 \n 저장된 가게 정보도 함께 삭제돼요`}
+            leftButtonText="취소"
+            rightButtonText="삭제"
+            onLeftButtonClick={closeSheet}
+            onRightButtonClick={() => {
+              if (selectedItem) onDeleteClick(selectedItem.group_id);
+            }}
+          />
+        )}
     </div>
   );
 }
