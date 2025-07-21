@@ -3,6 +3,7 @@ import { List, ListItem } from "@/components/atoms/List";
 import { ContextMenu } from "@/components/molecules/ContextMenu";
 import IconButton from "@/components/molecules/IconButton/IconButton";
 import { PlaceInfo } from "@/types/activity";
+import EmptyPlaceholder from "@/components/molecules/EmptyPlaceholder/EmptyPlaceholder";
 
 interface SavedGroupDetailListProps {
   items: PlaceInfo[];
@@ -13,7 +14,7 @@ export default function SavedGroupDetailList({
   items,
   onItemClick,
 }: SavedGroupDetailListProps) {
-  return (
+  return items.length > 0 ? (
     <List className="flex flex-col pb-[100px]">
       {items.map((item) => (
         <ListItem
@@ -60,5 +61,11 @@ export default function SavedGroupDetailList({
         </ListItem>
       ))}
     </List>
+  ) : (
+    <EmptyPlaceholder
+      title="저장된 가게가 없어요"
+      description="가게 상세페이지 > ‘저장' 으로 가게를 저장해보세요"
+      className="py-[100px]"
+    />
   );
 }

@@ -3,6 +3,7 @@ import { List, ListItem } from "@/components/atoms/List";
 import { ContextMenu } from "@/components/molecules/ContextMenu";
 import IconButton from "@/components/molecules/IconButton/IconButton";
 import { GroupInfo } from "@/types/activity";
+import EmptyPlaceholder from "@/components/molecules/EmptyPlaceholder/EmptyPlaceholder";
 
 interface SavedGroupListProps {
   items: GroupInfo[];
@@ -13,7 +14,7 @@ export default function SavedGroupList({
   items,
   onItemClick,
 }: SavedGroupListProps) {
-  return (
+  return items.length > 0 ? (
     <List className="flex flex-col pb-[100px]">
       {items.map((item) => (
         <ListItem
@@ -61,5 +62,11 @@ export default function SavedGroupList({
         </ListItem>
       ))}
     </List>
+  ) : (
+    <EmptyPlaceholder
+      title="그룹이 없어요"
+      description="그룹 생성 후 가게를 저장해주세요"
+      className="py-[100px]"
+    />
   );
 }

@@ -95,12 +95,14 @@ export default function SavedPageTemplate({
       </div>
 
       {/* 저장 그룹 리스트 */}
-      <SavedGroupList
-        items={groups}
-        onItemClick={(item) => {
-          router.push(`/saved/${item.group_id}`);
-        }}
-      />
+      <div className="flex-1">
+        <SavedGroupList
+          items={groups}
+          onItemClick={(item) => {
+            router.push(`/saved/${item.group_id}`);
+          }}
+        />
+      </div>
 
       <div className="sticky bottom-0 z-10 flex justify-center items-center pb-[38px] pt-[14px] px-[16px] bg-surface-normal-container0">
         <Button
