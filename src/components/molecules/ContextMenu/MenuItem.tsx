@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 
 export interface MenuItemProps {
   label: string;
-  onClick: () => void;
+  onClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
   icon?: ReactNode;
   selected?: boolean;
 }
@@ -16,7 +16,10 @@ export default function MenuItem({
 }: MenuItemProps) {
   return (
     <div
-      onClick={onClick}
+      onClick={(e) => {
+        e.stopPropagation();
+        onClick(e);
+      }}
       className={cn(
         "flex w-full px-[24px] py-[12px] items-center justify-between cursor-pointer",
         selected && "text-texticon-onnormal-black body-s-semibold",

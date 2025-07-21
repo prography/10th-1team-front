@@ -2,7 +2,7 @@ import List from "@/components/atoms/List/List";
 import ListItem from "@/components/atoms/List/ListItem";
 import StoreInfoCard from "../../StoreInfoCard/StoreInfoCard";
 import type { SearchResultItem } from "@/types/search";
-import Icon from "@/components/atoms/Icon/Icon";
+import EmptyPlaceholder from "@/components/molecules/EmptyPlaceholder/EmptyPlaceholder";
 
 interface SearchResultListProps {
   items: SearchResultItem[];
@@ -27,14 +27,10 @@ export default function SearchResultList({
       ))}
     </List>
   ) : (
-    <div className="flex flex-col items-center justify-center h-full mt-[100px]">
-      <Icon icon="BrandNaver" size={40} />
-      <span className="body-m-semibold text-texticon-onnormal-highestemp">
-        검색 결과가 없습니다.
-      </span>
-      <span className="caption-m-regular text-texticon-onnormal-midemp">
-        매치하는 가게 정보가 없어요
-      </span>
-    </div>
+    <EmptyPlaceholder
+      title="검색 결과가 없어요"
+      description="매치하는 가게 정보가 없어요"
+      className="py-[160px]"
+    />
   );
 }
