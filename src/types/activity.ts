@@ -1,4 +1,4 @@
-export interface SavedGroupInfo {
+export interface GroupInfo {
   group_id: string;
   group_name: string;
   icon: string;
@@ -8,8 +8,7 @@ export interface SavedGroupInfo {
   saved_at: string;
 }
 
-export interface SavedPlacesInfo {
-  group_id: string;
+export interface PlaceInfo {
   place_id: string;
   place_name: string;
   road_address: string;
@@ -18,13 +17,21 @@ export interface SavedPlacesInfo {
   saved_at: string;
 }
 
-export interface SavedPlacesResponse {
-  data: SavedPlacesInfo[];
+export interface SavedGroupResponse {
+  data: {
+    total: number;
+    groups: GroupInfo[];
+  };
 }
 
-export interface SavedGroupResponse {
-  data: SavedGroupInfo[];
-  // 추후에 전체 북마크개수 필드 추가 제안 예정
+export interface SavedPlacesResponse {
+  data: {
+    group_id: string;
+    group_name: string;
+    icon: string;
+    total: number;
+    places: PlaceInfo[];
+  };
 }
 
 export interface VotedActivityInfo {
