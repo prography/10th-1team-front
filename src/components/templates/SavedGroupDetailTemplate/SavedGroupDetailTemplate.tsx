@@ -1,17 +1,18 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { colors } from "@/styles/colors";
 import Icon from "@/components/atoms/Icon/Icon";
 import Divider from "@/components/atoms/Divider/Divider";
+import Button from "@/components/atoms/Button/Button";
 import DefaultHeader from "@/components/molecules/Header/DefaultHeader";
 import IconButton from "@/components/molecules/IconButton/IconButton";
 import { ContextMenu } from "@/components/molecules/ContextMenu";
 import { SavedGroupDetailList } from "@/components/organisms/ActivityList";
+import { sortByDate, sortByName } from "@/utils/sort";
 
 import type { PlaceInfo } from "@/types/activity";
-import Button from "@/components/atoms/Button/Button";
 
 type SortType = "recent" | "name";
 
@@ -36,9 +37,14 @@ export default function SavedGroupDetailTemplate({
   const router = useRouter();
   const [sortType, setSortType] = useState<SortType>("recent");
 
-  /**
-   * TODO: 정렬 기준에 따라 데이터 정렬 useEffect 로직 추가
-   */
+  const sortMethods: Record<SortType, (arr: PlaceInfo[]) => PlaceInfo[]> = {
+    recent: (arr) => sortByDate(arr, (p) => p.saved_at, "desc"),
+    name: (arr) => sortByName(arr, (p) => p.place_name),
+  };
+
+  const sortedItems = useMemo(() => {
+    return sortMethods[sortType](items);
+  }, [items, sortType]);
 
   return (
     <div className="flex flex-col flex-1 h-full w-full bg-surface-normal-container0">
@@ -111,7 +117,7 @@ export default function SavedGroupDetailTemplate({
 
       {/* 저장 장소 리스트 */}
       <SavedGroupDetailList
-        items={items}
+        items={sortedItems}
         onItemClick={(item) => {
           router.push(`/place/${item.place_id}`);
         }}

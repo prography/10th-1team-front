@@ -9,6 +9,8 @@ import DefaultHeader from "@/components/molecules/Header/DefaultHeader";
 import IconButton from "@/components/molecules/IconButton/IconButton";
 import { ContextMenu } from "@/components/molecules/ContextMenu";
 import { SavedGroupList } from "@/components/organisms/ActivityList";
+import { sortByDate, sortByName } from "@/utils/sort";
+import { useMemo } from "react";
 
 import type { GroupInfo } from "@/types/activity";
 
@@ -32,9 +34,15 @@ export default function SavedPageTemplate({
   const router = useRouter();
   const [sortType, setSortType] = useState<SortType>("recent");
 
-  /**
-   * TODO: 정렬 기준에 따라 데이터 정렬 useEffect 로직 추가
-   */
+  const sortMethods: Record<SortType, (arr: GroupInfo[]) => GroupInfo[]> = {
+    recent: (arr) => sortByDate(arr, (g) => g.create_at, "desc"),
+    name: (arr) => sortByName(arr, (g) => g.group_name),
+    group: (arr) => sortByDate(arr, (g) => g.create_at),
+  };
+
+  const sortedGroups = useMemo(() => {
+    return sortMethods[sortType](groups);
+  }, [groups, sortType]);
 
   return (
     <div className="flex flex-col flex-1 h-full w-full bg-surface-normal-container0">
@@ -97,7 +105,7 @@ export default function SavedPageTemplate({
       {/* 저장 그룹 리스트 */}
       <div className="flex-1">
         <SavedGroupList
-          items={groups}
+          items={sortedGroups}
           onItemClick={(item) => {
             router.push(`/saved/${item.group_id}`);
           }}
