@@ -11,11 +11,11 @@ import IconButton from "@/components/molecules/IconButton/IconButton";
 import { AlertModal } from "@/components/molecules/Modal";
 import { ContextMenu } from "@/components/molecules/ContextMenu";
 import { SavedGroupList } from "@/components/organisms/ActivityList";
+import { GroupWithInputBottomSheet } from "@/components/organisms/GroupBottomSheet";
 import { sortByDate, sortByName } from "@/utils/sort";
 import { useMemo } from "react";
 
 import type { GroupInfo } from "@/types/activity";
-import GroupWithInputBottomSheet from "@/components/organisms/GroupBottomSheet/GroupWithInputBottomSheet/GroupWithInputBottomSheet";
 
 type SortType = "recent" | "name" | "group";
 
@@ -28,9 +28,8 @@ const SORT_LABELS: Record<SortType, string> = {
 interface SavedPageTemplateProps {
   total: number;
   groups: GroupInfo[];
-  onDeleteClick: (group_id: string) => void;
-  onEdit: (item: GroupInfo) => void;
-  onCreate: (item: GroupInfo) => void;
+  onDeleteClick?: (group_id: string) => void;
+  onEdit?: (item: GroupInfo) => void;
 }
 
 export default function SavedPageTemplate({
@@ -181,7 +180,7 @@ export default function SavedPageTemplate({
             rightButtonText="삭제"
             onLeftButtonClick={closeSheet}
             onRightButtonClick={() => {
-              if (selectedItem) onDeleteClick(selectedItem.group_id);
+              if (selectedItem) onDeleteClick?.(selectedItem.group_id);
             }}
           />
         )}
@@ -196,7 +195,8 @@ export default function SavedPageTemplate({
             onColorSelect={handleColorSelect}
             onClose={closeSheet}
             onDone={() => {
-              if (selectedItem) onEdit(selectedItem);
+              closeSheet();
+              if (selectedItem) onEdit?.(selectedItem);
             }}
           />
         )}
@@ -211,6 +211,7 @@ export default function SavedPageTemplate({
             onColorSelect={handleColorSelect}
             onClose={closeSheet}
             onDone={() => {
+              closeSheet();
               // TODO: 그룹 생성 로직 추가 필요
             }}
           />

@@ -4,6 +4,12 @@ import SavedPageTemplate from "@/components/templates/SavedPageTemplate/SavedPag
 export default async function SavedPage() {
   const data = await getBookmarkedGroups();
   return (
-    <SavedPageTemplate total={data?.total ?? 0} groups={data?.groups ?? []} />
+    <SavedPageTemplate
+      total={data?.total ?? 0}
+      groups={data?.groups ?? []}
+      // onDeleteClick={() => {}}
+      // onEdit={() => {}}
+      // onCreate={() => {}}
+    />
   );
 }

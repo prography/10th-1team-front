@@ -14,7 +14,8 @@ import { AlertModal } from "@/components/molecules/Modal";
 import { SavedGroupDetailList } from "@/components/organisms/ActivityList";
 import { sortByDate, sortByName } from "@/utils/sort";
 
-import type { PlaceInfo } from "@/types/activity";
+import type { GroupInfo, PlaceInfo } from "@/types/activity";
+import { GroupDefaultListBottomSheet } from "@/components/organisms/GroupBottomSheet";
 
 type SortType = "recent" | "name";
 
@@ -25,18 +26,26 @@ const SORT_LABELS: Record<SortType, string> = {
 
 interface SavedGroupDetailTemplateProps {
   items: PlaceInfo[];
+  groups: GroupInfo[];
+  groupId: string;
   groupName: string;
   total: number;
   groupIcon: string;
-  onDeleteClick: (items: string[]) => void;
-  onMoveClick: (items: string[]) => void;
+  onDeleteClick?: (items: string[]) => void;
+  onMoveClick?: (params: {
+    fromGroupId: string;
+    placeIds: string[];
+    toGroupId: string;
+  }) => void;
 }
 
 export default function SavedGroupDetailTemplate({
   items,
+  groups,
+  groupId,
   groupName,
-  total,
   groupIcon,
+  total,
   onDeleteClick,
   onMoveClick,
 }: SavedGroupDetailTemplateProps) {
@@ -222,7 +231,7 @@ export default function SavedGroupDetailTemplate({
             fullWidth
             disabled={selectedItems.length === 0}
             onClick={() => {
-              onMoveClick(selectedItems);
+              openSheet("move");
             }}
           >
             이동
@@ -252,7 +261,24 @@ export default function SavedGroupDetailTemplate({
             rightButtonText="삭제"
             onLeftButtonClick={closeSheet}
             onRightButtonClick={() => {
-              onDeleteClick(selectedItems);
+              onDeleteClick?.(selectedItems);
+            }}
+          />
+        )}
+
+      {currentSheet === "move" &&
+        createPortal(
+          <GroupDefaultListBottomSheet
+            title="그룹 선택"
+            groups={groups}
+            onClose={closeSheet}
+            onDone={(targetGroupId) => {
+              onMoveClick?.({
+                fromGroupId: groupId,
+                placeIds: selectedItems,
+                toGroupId: targetGroupId,
+              });
+              closeSheet();
             }}
           />
         )}
