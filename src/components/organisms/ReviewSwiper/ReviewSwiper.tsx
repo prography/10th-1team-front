@@ -3,6 +3,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import type { Swiper as SwiperType } from "swiper";
 import "swiper/css";
 import ReviewCard from "@/components/molecules/ReviewCard/ReviewCard";
+import Icon from "@/components/atoms/Icon/Icon";
 
 interface Review {
   id: string;
@@ -15,9 +16,15 @@ interface Review {
 
 interface ReviewSwiperProps {
   reviews: Review[];
+  showMoreReviews?: boolean; // 리뷰 더보기 버튼 표시 여부
+  reviewMoreClick?: () => void;
 }
 
-export default function ReviewSwiper({ reviews }: ReviewSwiperProps) {
+export default function ReviewSwiper({
+  reviews,
+  showMoreReviews = false,
+  reviewMoreClick,
+}: ReviewSwiperProps) {
   const swiperRef = useRef<SwiperType | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isInitialized, setIsInitialized] = useState(false);
@@ -59,6 +66,7 @@ export default function ReviewSwiper({ reviews }: ReviewSwiperProps) {
     };
   }, []);
 
+  // 리뷰가 없고 마지막 슬라이드 컨텐츠도 없는 경우
   if (reviews.length === 0) {
     return (
       <div className="text-center py-10 bg-surface-normal-bg10 rounded-lg mx-[16px] h-[148px] flex items-center justify-center">
@@ -101,6 +109,19 @@ export default function ReviewSwiper({ reviews }: ReviewSwiperProps) {
             />
           </SwiperSlide>
         ))}
+
+        {/* 마지막 슬라이드에 특정 카드 추가 */}
+        {showMoreReviews && reviews.length > 0 && (
+          <SwiperSlide style={{ width: "300px" }}>
+            <div
+              className="cursor-pointer body-s-semibold text-texticon-onnormal-lowemp min-h-[148px] flex  justify-center items-center bg-surface-normal-bg10 p-[16px] rounded-lg gap-[10px] relative"
+              onClick={reviewMoreClick}
+            >
+              리뷰더보기
+              <Icon icon="PageMove" size={20} />
+            </div>
+          </SwiperSlide>
+        )}
       </Swiper>
     </div>
   );

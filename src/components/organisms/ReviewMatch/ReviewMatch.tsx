@@ -44,13 +44,17 @@ export default function ReviewMatch({
       </div>
 
       {/* 카카오 리뷰 Section */}
-      <div className="mt-[12px]">
+      <div className="mt-[24px]">
         <div className="flex justify-between items-center py-[12px] px-[16px]">
           <PlatformInfo platform="kakao" score={kakaoScore} />
           <PlatformMoveButton platform="kakao" placeId={kakaoPlaceUri} />
         </div>
         <div className="py-[12px]">
-          <ReviewSwiper reviews={kakaoReviews} />
+          <ReviewSwiper
+            reviews={kakaoReviews}
+            showMoreReviews={true}
+            reviewMoreClick={reviewDetailClick}
+          />
         </div>
       </div>
 
@@ -61,7 +65,11 @@ export default function ReviewMatch({
           <PlatformMoveButton platform="naver" placeId={naverPlaceUri} />
         </div>
         <div className="py-[12px]">
-          <ReviewSwiper reviews={naverReviews} />
+          <ReviewSwiper
+            reviews={naverReviews}
+            showMoreReviews={true}
+            reviewMoreClick={reviewDetailClick}
+          />
         </div>
       </div>
 
