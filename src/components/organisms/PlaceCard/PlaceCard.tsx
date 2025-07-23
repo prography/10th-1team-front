@@ -66,15 +66,15 @@ export default function PlaceCard({
         </div>
         {/* 룰렛, 저장, 공유 */}
         <div className="flex justify-between gap-2 mt-[16px] pt-[12px] border-t border-border-normal-lowemp">
-          <div
+          {/* <div
             className="flex items-center flex-1 flex-col justify-center cursor-pointer gap-[4px]"
             onClick={onSave}
           >
             <Icon size={24} icon="Rulet" />
             <span className="button-s-medium h-[18px]">룰렛</span>
-          </div>
+          </div> */}
           <div
-            className="flex items-center flex-1 flex-col justify-center cursor-pointer gap-[4px] border-l border-border-normal-lowemp"
+            className="flex items-center flex-1 flex-col justify-center cursor-pointer gap-[4px] "
             onClick={onSave}
           >
             <Icon

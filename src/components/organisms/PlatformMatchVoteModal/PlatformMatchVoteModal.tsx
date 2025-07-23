@@ -135,13 +135,20 @@ export default function PlatformMatchVoteModal({
                 className={cn(
                   "flex-1 flex flex-col items-center justify-center border rounded-[8px] py-[43px] transition",
                   selectedPlatform === "KAKAO"
-                    ? "bg-surface-normal-container-b50 border-brand-primary-main"
+                    ? "bg-surface-normal-container-b50 border-brand-primary-main "
                     : "bg-surface-normal-container0 border border-border-normal-highemp text-texticon-onnormal-highemp"
                 )}
                 onClick={() => setSelectedPlatform("KAKAO")}
               >
                 <Icon icon="GraphicsKakao" size={60} />
-                <span className="mt-[12px] text-texticon-onnormal-highemp body-m-regular">
+                <span
+                  className={cn(
+                    "mt-[12px] body-m-regular",
+                    selectedPlatform === "KAKAO"
+                      ? "text-body-m-semibold text-texticon-onnormal-main-500"
+                      : "text-texticon-onnormal-highemp"
+                  )}
+                >
                   카카오 맵
                 </span>
               </Button>
@@ -155,7 +162,14 @@ export default function PlatformMatchVoteModal({
                 onClick={() => setSelectedPlatform("NAVER")}
               >
                 <Icon icon="GraphicsNaver" size={60} />
-                <span className="mt-[12px] text-texticon-onnormal-highemp body-m-regular">
+                <span
+                  className={cn(
+                    "mt-[12px] body-m-regular",
+                    selectedPlatform === "NAVER"
+                      ? "text-body-m-semibold text-texticon-onnormal-main-500"
+                      : "text-texticon-onnormal-highemp"
+                  )}
+                >
                   네이버 지도
                 </span>
               </Button>

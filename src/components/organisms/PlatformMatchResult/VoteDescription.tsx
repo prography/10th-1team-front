@@ -24,7 +24,7 @@ export default function VoteDescription({
           <div className="mb-[4px]">
             {displayVotes}명의 사용자들은{" "}
             {winningPlatform === "KAKAO" ? (
-              <span className="text-brand-kakao-main">카카오 맵</span>
+              <span className="text-brand-kakao-blue">카카오 맵</span>
             ) : (
               <span className="text-brand-naver-main">네이버 지도</span>
             )}{" "}

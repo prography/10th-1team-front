@@ -168,7 +168,7 @@ export default function PlatformMatchResult({
             </span>
             <div className="body-m-semibold mb-[12px]">
               <span
-                className={cn("text-brand-kakao-main", {
+                className={cn("text-brand-kakao-blue", {
                   "text-brand-naver-main": userRecord.platform === "NAVER",
                 })}
               >
