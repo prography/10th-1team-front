@@ -56,7 +56,7 @@ export default function ReviewCard({
   };
 
   const renderStars = () => {
-    if (starRating === null) return null;
+    if (starRating === null || starRating === 0) return null;
     return (
       <div className="flex mr-[-2px]">
         {Array.from({ length: 5 }).map((_, idx) => (

@@ -79,7 +79,7 @@ export default function ReviewsPage({ params }: ReviewsPageProps) {
                 contents={review.contents}
                 expandable={true}
                 fullWidth={true}
-                starRating={review.star_rating ?? 0}
+                starRating={review.star_rating || 0}
                 minHeight="auto"
               />
             ))}
