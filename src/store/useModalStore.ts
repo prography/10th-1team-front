@@ -5,8 +5,11 @@ type ModalType =
   | "share"
   | "toast"
   | "platformVote"
-  | "groupSave"
+  | "placeSave"
   | "levelUp"
+  | "confirm"
+  | "groupSave"
+  | "createGroup"
   | null;
 
 interface ModalState {

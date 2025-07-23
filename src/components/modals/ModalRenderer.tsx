@@ -7,8 +7,12 @@ import Toast from "@/components/atoms/Toast/Toast";
 import PlatformMatchVoteModal from "@/components/organisms/PlatformMatchVoteModal/PlatformMatchVoteModal";
 import { createPortal } from "react-dom";
 import { useEffect, useState } from "react";
-import GroupSaveModal from "../organisms/GroupSaveModal/GroupSaveModal";
+import PlaceSaveModal from "../organisms/PlaceSaveModal/PlaceSaveModal";
 import LevelUpModal from "../molecules/LevelUpModal/LevelUpModal";
+import BasicConfirmModal from "../molecules/BasicConfirmModal";
+import GroupSaveModal from "../organisms/PlaceSaveModal/GroupSaveModal";
+
+import CreateGroupModal from "../organisms/PlaceSaveModal/CreateGroupModal";
 
 export default function ModalRenderer() {
   const { type, props, closeModal } = useModalStore();
@@ -89,16 +93,75 @@ export default function ModalRenderer() {
         );
       }
 
-      case "groupSave": {
+      case "placeSave": {
         const groupSaveProps = props as {
           placeName: string;
           placeId: string;
         };
         return (
-          <GroupSaveModal
+          <PlaceSaveModal
             placeName={groupSaveProps?.placeName}
             placeId={groupSaveProps?.placeId}
             onClose={closeModal}
+          />
+        );
+      }
+
+      case "groupSave": {
+        const groupSaveProps = props as {
+          title: string;
+          placeName?: string;
+          newGroup?: string[] | null;
+          onSave: (selectedGroups: string[], isCancelled?: boolean) => void;
+          onCreateGroup?: () => void;
+          onClose: () => void;
+        };
+        return (
+          <GroupSaveModal
+            title={groupSaveProps?.title}
+            placeName={groupSaveProps?.placeName}
+            newGroup={groupSaveProps?.newGroup}
+            onSave={groupSaveProps?.onSave}
+            onCreateGroup={groupSaveProps?.onCreateGroup}
+            onClose={groupSaveProps?.onClose}
+          />
+        );
+      }
+
+      case "createGroup": {
+        const createGroupProps = props as {
+          isOpen: boolean;
+          onClose: () => void;
+          onCreateGroup: (groupName: string, selectedColor: string) => void;
+          title?: string;
+        };
+        return (
+          <CreateGroupModal
+            isOpen={true}
+            onClose={createGroupProps?.onClose || closeModal}
+            onCreateGroup={createGroupProps?.onCreateGroup}
+            title={createGroupProps?.title}
+          />
+        );
+      }
+
+      case "confirm": {
+        const confirmProps = props as {
+          isOpen?: boolean;
+          title: string;
+          description: React.ReactNode;
+          confirmText: string;
+          onCancel: () => void;
+          onConfirm: () => void;
+        };
+        return (
+          <BasicConfirmModal
+            isOpen={true}
+            title={confirmProps.title}
+            description={confirmProps.description}
+            confirmText={confirmProps.confirmText}
+            onCancel={confirmProps.onCancel || closeModal}
+            onConfirm={confirmProps.onConfirm}
           />
         );
       }

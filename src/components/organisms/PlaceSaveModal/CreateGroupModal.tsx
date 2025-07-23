@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import BottomSheet from "@/components/molecules/BottomSheet/BottomSheet";
 import Button from "@/components/atoms/Button/Button";
 import Input from "@/components/atoms/Input/Input";
@@ -8,14 +8,8 @@ import { cn } from "@/utils/cn";
 interface CreateGroupModalProps {
   isOpen: boolean;
   onClose: () => void;
-  groupName: string;
-  onGroupNameChange: (value: string) => void;
-  selectedColor: string;
-  onColorSelect: (color: string) => void;
-  iconColors: string[];
-  onCreateGroup: () => void;
-  isCreating: boolean;
-  showOverlay?: boolean;
+  title?: string;
+  onCreateGroup: (groupName: string, selectedColor: string) => void;
 }
 
 // 각 색상에 대한 선택된 상태의 border 클래스를 반환하는 함수
@@ -36,26 +30,53 @@ const getSelectedBorderClass = (color: string) => {
   }
 };
 
+const DEFAULT_ICON_COLORS = [
+  "#FF5252",
+  "#FFD600",
+  "#7ED957",
+  "#4FC3F7",
+  "#BA68C8",
+];
+
 export default function CreateGroupModal({
   isOpen,
+  title = "새로운 그룹 만들기",
   onClose,
-  groupName,
-  onGroupNameChange,
-  selectedColor,
-  onColorSelect,
-  iconColors,
   onCreateGroup,
-  isCreating,
-  showOverlay = true,
 }: CreateGroupModalProps) {
+  const [groupName, setGroupName] = useState("");
+  const [selectedColor, setSelectedColor] = useState("");
+  const [isCreating, setIsCreating] = useState(false);
+
+  const handleCreateGroup = async () => {
+    if (!groupName || !selectedColor) return;
+
+    setIsCreating(true);
+    try {
+      await onCreateGroup(groupName, selectedColor);
+      // 성공 후 상태 초기화
+      setGroupName("");
+      setSelectedColor("");
+      onClose();
+    } catch (error) {
+      console.error("그룹 생성 실패:", error);
+    } finally {
+      setIsCreating(false);
+    }
+  };
+
+  const handleClose = () => {
+    // 모달 닫을 때 상태 초기화
+    setGroupName("");
+    setSelectedColor("");
+    setIsCreating(false);
+    onClose();
+  };
+
   if (!isOpen) return null;
 
   return (
-    <BottomSheet
-      title="새로운 그룹 만들기"
-      onClose={onClose}
-      showOverlay={showOverlay}
-    >
+    <BottomSheet title={title} onClose={handleClose} showOverlay={true}>
       <div className="flex flex-col gap-[8px]">
         <div className="px-[16px] py-[12px] body-l-semibold text-texticon-onnormal-highestemp">
           그룹 이름
@@ -67,7 +88,7 @@ export default function CreateGroupModal({
                 <Input
                   type="text"
                   value={groupName}
-                  onChange={(e) => onGroupNameChange(e.target.value)}
+                  onChange={(e) => setGroupName(e.target.value)}
                   maxLength={20}
                   placeholder="새 그룹 명을 입력해주세요"
                   className="flex-1 body-m-semibold text-texticon-onnormal-highestemp"
@@ -90,7 +111,7 @@ export default function CreateGroupModal({
             아이콘
           </div>
           <div className="flex gap-[24px] mb-[33px]">
-            {iconColors.map((color) => (
+            {DEFAULT_ICON_COLORS.map((color) => (
               <div
                 key={color}
                 className={cn(
@@ -99,7 +120,7 @@ export default function CreateGroupModal({
                     ? getSelectedBorderClass(color)
                     : "hover:border hover:border-border-normal-midemp"
                 )}
-                onClick={() => onColorSelect(color)}
+                onClick={() => setSelectedColor(color)}
               >
                 <Icon icon="Group" size={24} fill={color} />
               </div>
@@ -111,8 +132,8 @@ export default function CreateGroupModal({
             variant="primary"
             fullWidth
             className="h-[56px]"
-            disabled={!groupName || isCreating}
-            onClick={onCreateGroup}
+            disabled={!groupName || selectedColor === "" || isCreating}
+            onClick={handleCreateGroup}
           >
             완료
           </Button>

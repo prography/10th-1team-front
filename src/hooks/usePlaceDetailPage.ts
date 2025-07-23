@@ -3,8 +3,9 @@ import { usePlaceDetailQuery } from "@/hooks/queries/usePlaceDetailQuery";
 import { useRouter } from "next/navigation";
 import { useModalStore } from "@/store/useModalStore";
 import { patchPlatformMatchVote } from "@/apis/place";
-import { useGroupManagement } from "@/hooks/useGroupManagement";
+
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import useUserStore from "@/store/useUserStore";
 
 export function usePlaceDetailPage(placeId: string) {
   const { data, isLoading, voteData, voteSummary, isPlaceSaved } =
@@ -19,12 +20,8 @@ export function usePlaceDetailPage(placeId: string) {
   const router = useRouter();
   const openModal = useModalStore((state) => state.openModal);
   const queryClient = useQueryClient();
-
-  const { onSave, isLoggedIn } = useGroupManagement({
-    placeName: data?.name,
-    placeId,
-  });
-
+  const { user: userInfo } = useUserStore((state) => state);
+  const isLoggedIn = !!userInfo;
   const [platformVoteTab, setPlatformVoteTab] = useState<"vote" | "result">(
     "vote"
   );
@@ -51,6 +48,7 @@ export function usePlaceDetailPage(placeId: string) {
       queryClient.invalidateQueries({ queryKey: ["voteSummary", placeId] });
     },
   });
+
   const onVoteSubmit = useCallback(
     (platform: "KAKAO" | "NAVER", reasons: string[]) => {
       onVoteMutate(
@@ -60,12 +58,30 @@ export function usePlaceDetailPage(placeId: string) {
             queryClient.invalidateQueries({
               queryKey: ["platformMatchResult", placeId],
             });
+            queryClient.invalidateQueries({
+              queryKey: ["platformMatchSummary", placeId],
+            });
           },
         }
       );
     },
     [onVoteMutate, queryClient, placeId]
   );
+  const onSave = useCallback(() => {
+    if (!isLoggedIn) {
+      openModal("login", {
+        onLogin: () => {
+          router.push(`/login`);
+          openModal(null);
+        },
+      });
+      return;
+    }
+    openModal("placeSave", {
+      placeName: data?.name,
+      placeId,
+    });
+  }, [isLoggedIn, openModal, router, data?.name, placeId]);
 
   const onShare = useCallback(() => {
     openModal("share", { url: currentUrl, placeName: data?.name });
