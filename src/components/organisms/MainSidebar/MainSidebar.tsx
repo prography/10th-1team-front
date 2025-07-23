@@ -3,11 +3,12 @@ import Icon from "@/components/atoms/Icon/Icon";
 import Footer from "@/components/molecules/Footer/Footer";
 import Divider from "@/components/atoms/Divider/Divider";
 import Button from "@/components/atoms/Button/Button";
+import LevelCard from "@/components/molecules/LevelCard";
 import { useEffect } from "react";
 import { allowScroll, preventScroll } from "@/utils/modal";
 import type { UserInfo } from "@/types/user";
-import Image from "next/image";
 import Link from "next/link";
+import { useVoteCountQuery } from "@/hooks/queries";
 
 interface MainSidebarProps {
   onClose: () => void;
@@ -22,6 +23,9 @@ export default function MainSidebar({
   onLogout,
   user,
 }: MainSidebarProps) {
+  const { data: voteCount = 0, isLoading: isVoteCountLoading } =
+    useVoteCountQuery(!!user);
+
   useEffect(() => {
     const prevScrollY = preventScroll();
     return () => {
@@ -43,20 +47,14 @@ export default function MainSidebar({
           {user ? (
             <div className="flex flex-col gap-[12px] px-[16px] py-[20px]">
               <p className="body-l-semibold text-texticon-onnormal-highestemp">
-                <span className="text-texticon-onnormal-main-500 underline underline-offset-3">
+                <span className="text-texticon-onnormal-main-500">
                   {user.nickname}
                 </span>
                 님,
                 <br />
                 다음 레벨 달성까지 얼마 안남았어요!
               </p>
-              <Image
-                src="/images/TestLevelGraphic.svg"
-                alt="level"
-                width={120}
-                height={120}
-                className="w-full h-full"
-              />
+              <LevelCard voteCount={voteCount} isLoading={isVoteCountLoading} />
             </div>
           ) : (
             <>
@@ -91,7 +89,7 @@ export default function MainSidebar({
                       <Link href="/voted">투표한 가게</Link>
                     </div>
                   </div>
-                  <div className="flex flex-col gap-[16px]">
+                  {/* <div className="flex flex-col gap-[16px]">
                     <h6 className="body-l-semibold text-texticon-onnormal-highestemp">
                       알림
                     </h6>
@@ -108,7 +106,7 @@ export default function MainSidebar({
                       <Link href="/faqs">자주 묻는 질문</Link>
                       <Link href="/inquiries">1:1 문의하기</Link>
                     </div>
-                  </div>
+                  </div> */}
                   <div className="flex flex-col gap-[16px]">
                     <h6 className="body-l-semibold text-texticon-onnormal-highestemp">
                       약관 및 정책
