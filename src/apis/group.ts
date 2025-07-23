@@ -15,8 +15,12 @@ export const createGroup = async (data: {
   }
 };
 
-export const getGroup = async (placeId: string) => {
+export const getPlaceGroup = async (placeId: string) => {
   const response = await authProxyAPI.get(`/bookmark/group/${placeId}`);
+  return response.data.data;
+};
+export const getGroup = async () => {
+  const response = await authProxyAPI.get(`/bookmark/group}`);
   return response.data.data;
 };
 
@@ -43,7 +47,7 @@ export const checkPlaceSaved = async (placeId: string): Promise<boolean> => {
       }
       // 엑세스 토큰이 있으면 authAPI로 요청
       const response = await authProxyAPI.get(`/bookmark/saved/${placeId}`);
-      return response.data[0]; // API 응답이 [true] 형태로 오므로 첫 번째 요소 반환
+      return response.data.data;
     } else {
       // 서버 컴포넌트에서 실행되는 경우
       const { cookies } = await import("next/headers");
@@ -53,7 +57,7 @@ export const checkPlaceSaved = async (placeId: string): Promise<boolean> => {
         return false;
       } else {
         const data = await fetchWithAuth(`/bookmark/saved/${placeId}`);
-        if (!(data as { data: unknown }).data) {
+        if (!(data as { data: boolean }).data) {
           return false;
         }
         return (data as { data: boolean }).data;
