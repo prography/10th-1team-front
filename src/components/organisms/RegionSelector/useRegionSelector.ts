@@ -7,7 +7,7 @@ import dongJsonData from "@/constants/regions.json";
 
 // 구별로 동 데이터 매핑
 const REGION_MAP: Record<string, Record<string, Region[]>> = {
-  서울특별시: {
+  서울: {
     강남구: GANGNAM_REGIONS,
     // 서초구: SEOCHO_REGIONS,
     // ...추가 가능
@@ -46,10 +46,10 @@ export function useRegionSelector() {
   }, []);
 
   // region JSON에서 동 리스트 가져오기
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const regionDongData = tempCity ? getDongListByCity(tempCity) : [];
-
   const openRegionSelector = useCallback(() => {
-    setTempProvince("");
+    setTempProvince("서울");
     setTempCity("");
     setTempDong([]);
     setIsOpen(true);
@@ -75,10 +75,15 @@ export function useRegionSelector() {
 
   const handleConfirm = useCallback(
     (dongList: DongInfo[]) => {
-      setRegion(tempProvince, tempCity, dongList);
+      setRegion(
+        tempProvince,
+        tempCity,
+        dongList,
+        dongList.length === (regionDongData.length || 0)
+      );
       closeRegionSelector();
     },
-    [tempProvince, tempCity, setRegion, closeRegionSelector]
+    [tempProvince, tempCity, setRegion, closeRegionSelector, regionDongData]
   );
 
   const handleBack = useCallback(() => {
@@ -132,5 +137,6 @@ export function useRegionSelector() {
     regionDongData,
     regionMapData,
     setRegion,
+    isDongAllSelected: storeDong.length === (regionDongData.length || 0),
   };
 }

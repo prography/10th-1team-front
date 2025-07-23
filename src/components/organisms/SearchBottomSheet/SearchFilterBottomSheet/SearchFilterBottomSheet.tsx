@@ -73,7 +73,13 @@ export default function SearchFilterBottomSheet({
   // 완료 버튼
   const handleDone = () => {
     updateFoodTypes(selectedCategory);
-    setRegion(tempProvince, tempCity, tempDong); // store에 최종 적용
+    const regionDongData = tempCity ? getDongListByCity(tempCity) : [];
+    setRegion(
+      tempProvince,
+      tempCity,
+      tempDong,
+      tempDong.length === (regionDongData.length || 0)
+    ); // store에 최종 적용
     onClose();
   };
 

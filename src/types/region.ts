@@ -20,7 +20,13 @@ export interface RegionState {
   province: string;
   city: string;
   dong: DongInfo[];
-  setRegion: (province: string, city: string, dong: DongInfo[]) => void;
+  isDongAllSelected: boolean;
+  setRegion: (
+    province: string,
+    city: string,
+    dong: DongInfo[],
+    isDongAllSelected: boolean
+  ) => void;
 }
 
 export interface Region {

@@ -16,7 +16,7 @@ interface SearchFilterTabProps {
 
 export default function SearchFilterTab({ openSheet }: SearchFilterTabProps) {
   const { state } = useSearchContext();
-  const { dong } = useRegionStore();
+  const { dong, isDongAllSelected, city } = useRegionStore();
 
   return (
     <div className="sticky top-0 z-10 flex items-center gap-[8px] px-[16px] py-[12px] bg-surface-normal-bg01 border-b-[0.5px] border-border-normal-lowemp overflow-x-auto scrollbar-hide">
@@ -55,8 +55,10 @@ export default function SearchFilterTab({ openSheet }: SearchFilterTabProps) {
       >
         {dong.length > 0 ? (
           <>
-            {dong[0].name}
-            {dong.length > 1 ? ` 외 ${dong.length - 1}개` : ""}
+            {isDongAllSelected && city ? city : dong[0].name}
+            {dong.length > 1 && !isDongAllSelected
+              ? ` 외 ${dong.length - 1}개`
+              : ""}
           </>
         ) : (
           "지역 설정"

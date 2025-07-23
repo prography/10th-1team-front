@@ -37,7 +37,7 @@ export default function MainPageTemplate({
   const router = useRouter();
   const createPortal = usePortal();
 
-  const { dong } = useRegionStore();
+  const { dong, isDongAllSelected, city } = useRegionStore();
   const {
     isOpen,
     hasSelectedRegion,
@@ -66,7 +66,9 @@ export default function MainPageTemplate({
       <div className="flex flex-col py-[12px] px-[16px] gap-[12px]">
         <LocationSelectorSection
           selectedDong={dong}
+          selectedCity={city}
           onClick={openRegionSelector}
+          isDongAllSelected={isDongAllSelected}
         />
 
         <IconButton
