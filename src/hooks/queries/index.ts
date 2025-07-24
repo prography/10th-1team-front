@@ -4,3 +4,5 @@ export * from "./useVoteCountQuery";
 export * from "./useBookmarkedGroupsQuery";
 export * from "./useCreateGroupMutation";
 export * from "./useDeleteGroupMutation";
+export * from "./useBookmarkedPlacesQuery";
+export * from "./useDeleteBookmarkedPlaceMutation";

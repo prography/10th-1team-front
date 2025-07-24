@@ -1,6 +1,7 @@
 import { authProxyAPI } from "./customAxios";
 import { fetchWithAuth } from "./fetchWithAuth";
 import type { SavedGroupResponse, SavedPlacesResponse } from "@/types/activity";
+import qs from "qs";
 
 export const getBookmarkedGroups = async () => {
   try {
@@ -35,6 +36,31 @@ export const getBookmarkedPlaces = async (group_id: string) => {
     }
   } catch (error) {
     console.error("Failed to fetch bookmarked places:", error);
-    return null;
+    return {
+      group_id: "",
+      group_name: "",
+      icon: "",
+      total: 0,
+      places: [],
+    };
+  }
+};
+
+export const deleteBookmarkedPlace = async (
+  groupId: string,
+  placeId: string[]
+) => {
+  try {
+    const queryString = qs.stringify(
+      { place_ids: placeId },
+      { arrayFormat: "repeat" }
+    );
+    const response = await authProxyAPI.delete(
+      `/bookmark/group/${groupId}/places?${queryString}`
+    );
+    return response.data.data;
+  } catch (error) {
+    console.error("Failed to delete bookmarked place:", error);
+    throw error;
   }
 };
