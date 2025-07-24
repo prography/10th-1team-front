@@ -3,11 +3,11 @@ import { persist } from "zustand/middleware";
 import { RegionState } from "@/types/region";
 import { getDongListByCity } from "@/utils/regionUtils";
 
-// 초기 상태를 null로 설정
+// 초기 상태를 빈 값으로 설정
 const initialState = {
-  province: null as string | null,
-  city: null as string | null,
-  dong: null as { name: string; dong_code: string }[] | null,
+  province: "",
+  city: "",
+  dong: [] as { name: string; dong_code: string }[],
   isDongAllSelected: false,
 };
 
@@ -30,7 +30,7 @@ const useRegionStore = create<RegionState>()(
       // 초기화 함수 추가
       initializeRegion: () => {
         const state = get();
-        if (!state.province || !state.city || !state.dong) {
+        if (!state.province || !state.city || state.dong.length === 0) {
           set({
             province: "서울",
             city: "강남구",
@@ -44,7 +44,10 @@ const useRegionStore = create<RegionState>()(
       name: "region-storage",
       // 초기값이 없을 때만 기본값 사용
       onRehydrateStorage: () => (state) => {
-        if (state && (!state.province || !state.city || !state.dong)) {
+        if (
+          state &&
+          (!state.province || !state.city || state.dong.length === 0)
+        ) {
           state.province = "서울";
           state.city = "강남구";
           state.dong = getDongListByCity("강남구");
