@@ -15,7 +15,7 @@ export const getBookmarkedGroups = async () => {
     }
   } catch (error) {
     console.error("Failed to fetch bookmarked groups:", error);
-    return null;
+    return { total: 0, groups: [] };
   }
 };
 
