@@ -1,10 +1,7 @@
-import Icon from "@/components/atoms/Icon/Icon";
-
 export default function RecommendedStoresHeader() {
   return (
-    <div className="flex flex-col items-center gap-[24px] mb-[80px]">
-      <Icon icon="ServiceLogo" size={48} />
-      <div className="flex flex-col items-center gap-[8px]">
+    <div className="mb-[20px]">
+      <div className="flex flex-col gap-[8px]">
         <span className="title-m-semibold text-texticon-onnormal-highestemp">
           저희가 추천하는 맛집이에요
         </span>

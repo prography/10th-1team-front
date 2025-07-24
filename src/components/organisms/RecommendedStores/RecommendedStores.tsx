@@ -13,7 +13,7 @@ export default function RecommendedStores({
   isLoading,
 }: RecommendedStoresProps) {
   return (
-    <section className="flex flex-col bg-surface-normal-container-b50 pt-[80px] pb-[160px] px-[16px]">
+    <section className="flex flex-col pt-[24px] pb-[160px] px-[16px]">
       <RecommendedStoresHeader />
       {isLoading ? (
         <StoreInfoCardListSkeleton count={3} />
