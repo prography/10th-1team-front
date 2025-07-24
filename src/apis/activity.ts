@@ -64,3 +64,21 @@ export const deleteBookmarkedPlace = async (
     throw error;
   }
 };
+
+export const moveBookmarkedPlace = async (
+  sourceGroupId: string,
+  targetGroupIds: string[],
+  placeId: string[]
+) => {
+  try {
+    const response = await authProxyAPI.patch(`/bookmark/place/move`, {
+      source_group: sourceGroupId,
+      target_groups: targetGroupIds,
+      place_id: placeId,
+    });
+    return response.data.data;
+  } catch (error) {
+    console.error("Failed to move bookmarked place:", error);
+    throw error;
+  }
+};

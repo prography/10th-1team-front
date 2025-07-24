@@ -6,3 +6,4 @@ export * from "./useCreateGroupMutation";
 export * from "./useDeleteGroupMutation";
 export * from "./useBookmarkedPlacesQuery";
 export * from "./useDeleteBookmarkedPlaceMutation";
+export * from "./useMoveBookmarkedPlaceMutation";
