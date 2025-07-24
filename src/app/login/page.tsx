@@ -6,13 +6,18 @@ import AlreadyLoginTemplate from "@/components/templates/AlreadyLoginTemplate/Al
 import AuthValidator from "@/providers/AuthValidator";
 import LocalStorage from "@/utils/localStorage";
 import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function LoginPage() {
   const user = useUserStore((state) => state.user);
-  const lastProvider = LocalStorage.getItem("lastProvider");
+  const [lastProvider, setLastProvider] = useState<string | null>(null);
 
   const searchParams = useSearchParams();
   const from = searchParams.get("from") ?? "/";
+
+  useEffect(() => {
+    setLastProvider(LocalStorage.getItem("lastProvider"));
+  }, []);
 
   return (
     <AuthValidator>
