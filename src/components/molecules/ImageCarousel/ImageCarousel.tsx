@@ -23,6 +23,17 @@ export default function ImageCarousel({ images, alt }: ImageCarouselProps) {
         slidesPerView={1}
         style={{ width: "100%", height: 200 }}
       >
+        {images.length === 0 && (
+          <SwiperSlide>
+            <Image
+              src="/images/fallback.webp"
+              alt={alt}
+              width={600}
+              height={200}
+              className="w-full h-[200px] object-cover"
+            />
+          </SwiperSlide>
+        )}
         {images.map((img, i) => (
           <SwiperSlide key={i}>
             <Image
