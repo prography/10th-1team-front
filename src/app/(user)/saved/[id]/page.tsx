@@ -5,6 +5,7 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 import { getBookmarkedGroups, getBookmarkedPlaces } from "@/apis/activity";
+import { requireLogin } from "../../requireLogin";
 
 export default async function SavedGroupDetailPage({
   params,
@@ -12,6 +13,8 @@ export default async function SavedGroupDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+  await requireLogin(`/saved`);
+
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     queryKey: ["bookmarkedGroups"],

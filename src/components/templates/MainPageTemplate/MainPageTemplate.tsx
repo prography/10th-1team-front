@@ -12,10 +12,9 @@ import ExploreSection from "./ExploreSection";
 import MainSidebar from "@/components/organisms/MainSidebar/MainSidebar";
 
 import { colors } from "@/styles/colors";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useRegionSelector } from "@/components/organisms/RegionSelector/useRegionSelector";
-import { usePortal } from "@/hooks/usePortal";
 import useRegionStore from "@/store/useRegionStore";
 
 import type { UserInfo } from "@/types/user";
@@ -35,7 +34,8 @@ export default function MainPageTemplate({
   onLogout,
 }: MainPageTemplateProps) {
   const router = useRouter();
-  const createPortal = usePortal();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
 
   const { dong, isDongAllSelected, city } = useRegionStore();
   const {
@@ -55,13 +55,34 @@ export default function MainPageTemplate({
     isLoading: isRegionSelectorLoading,
   } = useRegionSelector();
 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(
+    () => searchParams.get("sidebar") === "true"
+  );
+
+  useEffect(() => {
+    setIsSidebarOpen(searchParams.get("sidebar") === "true");
+  }, [searchParams]);
+
+  const handleSidebarOpen = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("sidebar", "true");
+    router.replace(`${pathname}?${params.toString()}`);
+  };
+
+  const handleSidebarClose = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("sidebar");
+    const query = params.toString();
+    router.replace(query ? `${pathname}?${query}` : pathname);
+  };
 
   return (
     <div className="flex flex-col w-full bg-surface-normal-container0">
-      <MainHeader onSidebarOpen={() => setIsSidebarOpen(true)} />
+      <MainHeader onSidebarOpen={handleSidebarOpen} />
 
-      <MainBannerSection />
+      <MainBannerSection
+        onClick={user ? () => {} : () => router.push("/login")}
+      />
 
       <div className="flex flex-col py-[12px] px-[16px] gap-[12px]">
         <LocationSelectorSection
@@ -93,15 +114,14 @@ export default function MainPageTemplate({
 
       <Footer />
 
-      {isSidebarOpen &&
-        createPortal(
-          <MainSidebar
-            onClose={() => setIsSidebarOpen(false)}
-            onStart={() => router.push("/login")}
-            onLogout={onLogout}
-            user={user}
-          />
-        )}
+      {isSidebarOpen && (
+        <MainSidebar
+          onClose={handleSidebarClose}
+          onStart={() => router.push("/login")}
+          onLogout={onLogout}
+          user={user}
+        />
+      )}
 
       <RegionSelector
         {...{

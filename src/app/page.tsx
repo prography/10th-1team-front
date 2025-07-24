@@ -6,9 +6,12 @@ import {
 
 import MainPage from "./main/MainPage";
 import { fetchRecommendList } from "@/apis/fetchRecommendList";
+import { getMyInfo } from "@/apis/user";
+import { Suspense } from "react";
 
 export default async function Home() {
   const queryClient = new QueryClient();
+  const user = await getMyInfo();
   await queryClient.prefetchQuery({
     queryKey: ["recommendList", { size: 3 }],
     queryFn: () => fetchRecommendList({ size: 3 }),
@@ -16,7 +19,9 @@ export default async function Home() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <MainPage />
+      <Suspense fallback={<></> /* TODO: 로딩 화면 추가 필요 */}>
+        <MainPage initialUser={user} />
+      </Suspense>
     </HydrationBoundary>
   );
 }

@@ -6,7 +6,15 @@ export async function GET(
   { params }: { params: Promise<{ provider: string }> }
 ) {
   const { provider } = await params;
-  const state = crypto.randomUUID();
+  const searchParams = req.nextUrl.searchParams;
+  const from = searchParams.get("from");
+
+  const rawState = {
+    id: crypto.randomUUID(),
+    from: from ?? "/",
+  };
+
+  const state = Buffer.from(JSON.stringify(rawState)).toString("base64url");
 
   let authURL = "";
 
@@ -30,7 +38,6 @@ export async function GET(
       );
   }
 
-  // CSRF를 방지하기 위해 state 쿠키 설정
   const cookieStore = await cookies();
   cookieStore.set("oauth_state", state, {
     httpOnly: true,
