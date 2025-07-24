@@ -20,6 +20,7 @@ import {
   useBookmarkedGroupsQuery,
   useBookmarkedPlacesQuery,
   useDeleteBookmarkedPlaceMutation,
+  useMoveBookmarkedPlaceMutation,
 } from "@/hooks/queries";
 
 type SortType = "recent" | "name";
@@ -58,6 +59,7 @@ export default function SavedGroupDetailTemplate({ id }: { id: string }) {
   const deleteBookmarkedPlaceMutation = useDeleteBookmarkedPlaceMutation(
     group_id ?? ""
   );
+  const moveBookmarkedPlaceMutation = useMoveBookmarkedPlaceMutation();
 
   const handleDelete = async () => {
     await deleteBookmarkedPlaceMutation.mutateAsync(selected);
@@ -241,7 +243,15 @@ export default function SavedGroupDetailTemplate({ id }: { id: string }) {
             title="그룹 선택"
             groups={groups?.groups ?? []}
             onClose={close}
-            onDone={() => {
+            onDone={async (targetGroupId) => {
+              if (!group_id || !targetGroupId || selected.length === 0) return;
+              await moveBookmarkedPlaceMutation.mutateAsync({
+                sourceGroupId: group_id,
+                targetGroupIds: [targetGroupId],
+                placeIds: selected,
+              });
+              reset();
+              setIsEditMode(false);
               close();
             }}
           />
