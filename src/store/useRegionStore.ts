@@ -1,11 +1,11 @@
 import { create } from "zustand";
 import { RegionState } from "@/types/region";
-
+import { getDongListByCity } from "@/utils/regionUtils";
 const useRegionStore = create<RegionState>((set) => ({
-  province: "",
-  city: "",
-  dong: [],
-  isDongAllSelected: false,
+  province: "서울",
+  city: "강남구",
+  dong: getDongListByCity("강남구"),
+  isDongAllSelected: true,
   setRegion: (
     province: string,
     city: string,
