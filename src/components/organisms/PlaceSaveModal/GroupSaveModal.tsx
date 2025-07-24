@@ -43,7 +43,6 @@ export default function GroupSaveModal({
       const savedGroups = groups
         .filter((group: Group) => group.is_saved)
         .map((group: Group) => group.group_id);
-      console.log(groups);
       setSelectedGroup(savedGroups);
 
       // 초기 선택 상태 설정

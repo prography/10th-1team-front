@@ -17,6 +17,7 @@ export function useGroupManagement() {
     onSuccess: () => {
       // 그룹 생성 성공 시 그룹 목록 쿼리 무효화
       queryClient.invalidateQueries({ queryKey: ["PlaceGroup"] });
+      queryClient.invalidateQueries({ queryKey: ["bookmarkedGroups"] });
       setShowCreate(false);
     },
   });
