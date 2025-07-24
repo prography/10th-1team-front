@@ -9,6 +9,8 @@ import { allowScroll, preventScroll } from "@/utils/modal";
 import type { UserInfo } from "@/types/user";
 import Link from "next/link";
 import { useVoteCountQuery } from "@/hooks/queries";
+import { usePortal, useSheetState } from "@/hooks";
+import { AlertModal } from "@/components/molecules/Modal";
 
 interface MainSidebarProps {
   onClose: () => void;
@@ -23,6 +25,9 @@ export default function MainSidebar({
   onLogout,
   user,
 }: MainSidebarProps) {
+  const createPortal = usePortal();
+  const { sheet, open, close } = useSheetState<"logout">();
+
   const { data: voteCount = 0, isLoading: isVoteCountLoading } =
     useVoteCountQuery(!!user);
 
@@ -34,7 +39,7 @@ export default function MainSidebar({
   }, []);
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-center items-start">
+    <div className="fixed inset-0 z-20 flex justify-center items-start">
       <div className="w-full max-w-[600px] h-full overflow-y-auto flex flex-col bg-surface-normal-bg01">
         <div className="flex justify-end border-b border-border-normal-lowemp pt-[24px] pb-[16px] px-[16px]">
           <IconButton
@@ -121,7 +126,7 @@ export default function MainSidebar({
                   <Button
                     variant="text"
                     className="text-texticon-onnormal-lowemp caption-m-regular"
-                    onClick={onLogout}
+                    onClick={() => open("logout")}
                   >
                     로그아웃
                   </Button>
@@ -138,6 +143,23 @@ export default function MainSidebar({
         </div>
 
         <Footer />
+
+        {sheet === "logout" &&
+          createPortal(
+            <AlertModal
+              isOpen={sheet === "logout"}
+              onClose={close}
+              title="로그아웃"
+              description={`정말로 로그아웃 하시겠어요?`}
+              leftButtonText="취소"
+              rightButtonText="로그아웃"
+              onLeftButtonClick={close}
+              onRightButtonClick={async () => {
+                onLogout();
+                close();
+              }}
+            />
+          )}
       </div>
     </div>
   );
