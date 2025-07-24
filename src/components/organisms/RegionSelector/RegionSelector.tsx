@@ -41,7 +41,7 @@ export default function RegionSelector({
   const showRegionListPanel = !isLoading && regions && !hasSelectedRegion;
   const showDongMapPanel = !isLoading && regions && hasSelectedRegion;
   return (
-    <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
+    <div className="fixed w-full max-w-[600px] left-1/2 transform -translate-x-1/2 inset-y-0 bg-black/60 flex justify-center items-center z-50">
       <div
         className={clsx(
           "bg-surface-normal-container0 rounded-xl w-[90%] max-w-[480px] text-black flex flex-col",

@@ -16,7 +16,7 @@ export default function LevelUpModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+    <div className="fixed w-full max-w-[600px] z-40 flex items-center justify-center left-1/2 transform -translate-x-1/2 inset-y-0 bg-black/60">
       <div className="relative w-full max-w-[528px] px-[16px]">
         {/* 헤더 */}
         <div className="text-center title-l-bold text-texticon-onnormal-white">

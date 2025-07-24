@@ -25,7 +25,7 @@ export default function BasicConfirmModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+    <div className="fixed w-full max-w-[600px] z-40 flex items-center justify-center left-1/2 transform -translate-x-1/2 inset-y-0 bg-black/60">
       <div className="bg-surface-normal-container0 rounded-[12px] flex flex-col items-center w-[304px]">
         <div className="title-m-semibold text-center mt-[24px]">{title}</div>
         {description && (
