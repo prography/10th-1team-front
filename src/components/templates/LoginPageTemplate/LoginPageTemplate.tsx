@@ -8,9 +8,11 @@ import { useRouter } from "next/navigation";
 
 interface LoginPageTemplateProps {
   lastProvider: string | null;
+  from: string;
 }
 export default function LoginPageTemplate({
   lastProvider,
+  from,
 }: LoginPageTemplateProps) {
   const router = useRouter();
 
@@ -43,13 +45,17 @@ export default function LoginPageTemplate({
             variant="brandNaver"
             startIcon={<Icon icon="NaverLogo" size={24} />}
             text="네이버로 계속하기"
-            onClick={() => (window.location.href = "/api/auth/naver")}
+            onClick={() =>
+              (window.location.href = `/api/auth/naver?from=${from}`)
+            }
           />
           <IconButton
             variant="brandKakao"
             startIcon={<Icon icon="KakaoLogo" size={24} />}
             text="카카오로 계속하기"
-            onClick={() => (window.location.href = "/api/auth/kakao")}
+            onClick={() =>
+              (window.location.href = `/api/auth/kakao?from=${from}`)
+            }
           />
         </div>
         <Button
