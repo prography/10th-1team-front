@@ -15,6 +15,32 @@ export const createGroup = async (data: {
   }
 };
 
+export const updateGroup = async (
+  groupId: string,
+  data: {
+    group_name: string;
+    icon: string;
+  }
+) => {
+  try {
+    const response = await authProxyAPI.put(`/bookmark/group/${groupId}`, data);
+    return response.data.data;
+  } catch (error) {
+    console.error("Group 수정 실패:", error);
+    throw error;
+  }
+};
+
+export const deleteGroup = async (groupId: string) => {
+  try {
+    const response = await authProxyAPI.delete(`/bookmark/group/${groupId}`);
+    return response.data.data;
+  } catch (error) {
+    console.error("Group 삭제 실패:", error);
+    throw error;
+  }
+};
+
 export const getPlaceGroup = async (placeId: string) => {
   const response = await authProxyAPI.get(`/bookmark/group/${placeId}`);
   return response.data.data;
