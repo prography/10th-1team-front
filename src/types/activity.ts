@@ -39,6 +39,10 @@ export interface VotedActivityInfo {
   place_name: string;
   category: string;
   platform: string;
-  reasons: string[];
+  reasons: ("MANY_REVIEWS" | "DETAILED" | "HONEST" | "ACCURATE")[];
   voted_date: string;
+}
+
+export interface VotedActivityResponse {
+  data: VotedActivityInfo[];
 }

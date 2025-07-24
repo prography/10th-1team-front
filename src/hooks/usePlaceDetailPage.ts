@@ -46,6 +46,7 @@ export function usePlaceDetailPage(placeId: string) {
     }) => patchPlatformMatchVote(placeId, { platform, reasons }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["voteSummary", placeId] });
+      queryClient.invalidateQueries({ queryKey: ["votedActivity"] });
     },
   });
 

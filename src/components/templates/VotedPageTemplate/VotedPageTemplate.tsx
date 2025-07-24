@@ -1,15 +1,17 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { colors } from "@/styles/colors";
 import Icon from "@/components/atoms/Icon/Icon";
 import DefaultHeader from "@/components/molecules/Header/DefaultHeader";
 import IconButton from "@/components/molecules/IconButton/IconButton";
 import { ContextMenu } from "@/components/molecules/ContextMenu";
 import { VotedActivityList } from "@/components/organisms/ActivityList";
-
-import type { VotedActivityInfo } from "@/types/activity";
+import { useUserVotedActivityQuery } from "@/hooks/queries/useUserVotedActivityQuery";
+import EmptyPlaceholder from "@/components/molecules/EmptyPlaceholder/EmptyPlaceholder";
+import { useSort } from "@/hooks";
+import { VotedActivityInfo } from "@/types/activity";
+import { sortByDate } from "@/utils/sort";
 
 type SortType = "recent" | "old";
 
@@ -18,13 +20,18 @@ const SORT_LABELS: Record<SortType, string> = {
   old: "과거 등록 순",
 };
 
-interface VotedPageTemplateProps {
-  items: VotedActivityInfo[];
-}
+const sorters = {
+  recent: (arr: VotedActivityInfo[]) =>
+    sortByDate(arr, (g) => g.voted_date, "desc"),
+  old: (arr: VotedActivityInfo[]) =>
+    sortByDate(arr, (g) => g.voted_date, "asc"),
+} as const;
 
-export default function VotedPageTemplate({ items }: VotedPageTemplateProps) {
+export default function VotedPageTemplate() {
   const router = useRouter();
-  const [sortType, setSortType] = useState<SortType>("recent");
+  const { data } = useUserVotedActivityQuery();
+
+  const { sortKey, setSortKey, sortedItems } = useSort(data ?? [], sorters);
 
   return (
     <div className="flex flex-col flex-1 h-full w-full bg-surface-normal-container0">
@@ -42,7 +49,9 @@ export default function VotedPageTemplate({ items }: VotedPageTemplateProps) {
         <div className="flex justify-between items-center px-[16px] pt-[24px] pb-[12px]">
           <div className="body-m-semibold text-texticon-onnormal-highestemp space-x-[8px]">
             <span>전체</span>
-            <span className="text-texticon-onnormal-main-500">99</span>
+            <span className="text-texticon-onnormal-main-500">
+              {sortedItems.length}
+            </span>
           </div>
           <ContextMenu
             align="right"
@@ -51,7 +60,7 @@ export default function VotedPageTemplate({ items }: VotedPageTemplateProps) {
               <IconButton
                 {...props}
                 gap={4}
-                text={SORT_LABELS[sortType]}
+                text={SORT_LABELS[sortKey]}
                 className="body-s-regular"
                 endIcon={
                   <Icon
@@ -66,13 +75,13 @@ export default function VotedPageTemplate({ items }: VotedPageTemplateProps) {
             items={[
               {
                 label: SORT_LABELS.recent,
-                onClick: () => setSortType("recent"),
-                selected: sortType === "recent",
+                onClick: () => setSortKey("recent"),
+                selected: sortKey === "recent",
               },
               {
                 label: SORT_LABELS.old,
-                onClick: () => setSortType("old"),
-                selected: sortType === "old",
+                onClick: () => setSortKey("old"),
+                selected: sortKey === "old",
               },
             ]}
           />
@@ -80,12 +89,18 @@ export default function VotedPageTemplate({ items }: VotedPageTemplateProps) {
       </div>
 
       {/* 저장 그룹 리스트 */}
-      <VotedActivityList
-        items={items}
-        onItemClick={() => {
-          // TODO: 장소 상세 페이지로 이동
-        }}
-      />
+      {sortedItems.length > 0 ? (
+        <VotedActivityList
+          items={sortedItems}
+          onItemClick={(item) => router.push(`/place/${item.place_id}`)}
+        />
+      ) : (
+        <EmptyPlaceholder
+          title="투표 히스토리가 없어요"
+          description="가게 상세페이지 > 플랫폼 매치에서 투표를 해보세요"
+          className="mt-[100px]"
+        />
+      )}
     </div>
   );
 }

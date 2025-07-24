@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useCallback, useMemo, useState } from "react";
+import { useState } from "react";
 import { usePortal } from "@/hooks/usePortal";
 import { colors } from "@/styles/colors";
 import Icon from "@/components/atoms/Icon/Icon";
@@ -12,10 +12,16 @@ import IconButton from "@/components/molecules/IconButton/IconButton";
 import { ContextMenu } from "@/components/molecules/ContextMenu";
 import { AlertModal } from "@/components/molecules/Modal";
 import { SavedGroupDetailList } from "@/components/organisms/ActivityList";
-import { sortByDate, sortByName } from "@/utils/sort";
-
-import type { GroupInfo, PlaceInfo } from "@/types/activity";
 import { GroupDefaultListBottomSheet } from "@/components/organisms/GroupBottomSheet";
+import { sortByDate, sortByName } from "@/utils/sort";
+import type { PlaceInfo } from "@/types/activity";
+import { useSelection, useSheetState, useSort } from "@/hooks";
+import {
+  useBookmarkedGroupsQuery,
+  useBookmarkedPlacesQuery,
+  useDeleteBookmarkedPlaceMutation,
+  useMoveBookmarkedPlaceMutation,
+} from "@/hooks/queries";
 
 type SortType = "recent" | "name";
 
@@ -24,76 +30,42 @@ const SORT_LABELS: Record<SortType, string> = {
   name: "장소명 순",
 };
 
-interface SavedGroupDetailTemplateProps {
-  items: PlaceInfo[];
-  groups: GroupInfo[];
-  groupId: string;
-  groupName: string;
-  total: number;
-  groupIcon: string;
-  onDeleteClick?: (items: string[]) => void;
-  onMoveClick?: (params: {
-    fromGroupId: string;
-    placeIds: string[];
-    toGroupId: string;
-  }) => void;
-}
+const sorters: Record<SortType, (arr: PlaceInfo[]) => PlaceInfo[]> = {
+  recent: (arr) => sortByDate(arr, (p) => p.saved_at, "desc"),
+  name: (arr) => sortByName(arr, (p) => p.place_name),
+} as const;
 
-export default function SavedGroupDetailTemplate({
-  items,
-  groups,
-  groupId,
-  groupName,
-  groupIcon,
-  total,
-  onDeleteClick,
-  onMoveClick,
-}: SavedGroupDetailTemplateProps) {
+export default function SavedGroupDetailTemplate({ id }: { id: string }) {
   const createPortal = usePortal();
   const router = useRouter();
 
-  const [sortType, setSortType] = useState<SortType>("recent");
-  const [isEditMode, setIsEditMode] = useState(false);
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
-  const [currentSheet, setCurrentSheet] = useState<"move" | "delete" | null>(
-    null
+  const { data: groups } = useBookmarkedGroupsQuery({
+    queryKey: ["bookmarkedGroups"],
+  });
+  const { data } = useBookmarkedPlacesQuery(id);
+  const { group_id, group_name, icon, total, places } = data ?? {};
+
+  const { sortKey, setSortKey, sortedItems } = useSort<PlaceInfo, SortType>(
+    places ?? [],
+    sorters,
+    "recent"
   );
+  const { selected, setSelected, toggle, toggleAll, reset } =
+    useSelection<PlaceInfo>(places ?? [], (p) => p.place_id);
+  const { sheet, open, close } = useSheetState<"delete" | "move">();
 
-  const sortMethods: Record<SortType, (arr: PlaceInfo[]) => PlaceInfo[]> = {
-    recent: (arr) => sortByDate(arr, (p) => p.saved_at, "desc"),
-    name: (arr) => sortByName(arr, (p) => p.place_name),
+  const [isEditMode, setIsEditMode] = useState(false);
+
+  const deleteBookmarkedPlaceMutation = useDeleteBookmarkedPlaceMutation(
+    group_id ?? ""
+  );
+  const moveBookmarkedPlaceMutation = useMoveBookmarkedPlaceMutation();
+
+  const handleDelete = async () => {
+    await deleteBookmarkedPlaceMutation.mutateAsync(selected);
+    reset();
+    close();
   };
-
-  const sortedItems = useMemo(() => {
-    return sortMethods[sortType](items);
-  }, [items, sortType]);
-
-  const openSheet = useCallback((sheetType: "move" | "delete") => {
-    setCurrentSheet(sheetType);
-  }, []);
-
-  const closeSheet = useCallback(() => {
-    setCurrentSheet(null);
-  }, []);
-
-  const deleteEditMode = useCallback(() => {
-    setSelectedItems([]);
-    setIsEditMode(false);
-  }, []);
-
-  const toggleAllItemsSelection = useCallback(() => {
-    setSelectedItems(
-      selectedItems.length === items.length
-        ? []
-        : items.map((item) => item.place_id)
-    );
-  }, [items, selectedItems]);
-
-  const toggleItemSelection = useCallback((item: string) => {
-    setSelectedItems((prev) =>
-      prev.includes(item) ? prev.filter((i) => i !== item) : [...prev, item]
-    );
-  }, []);
 
   return (
     <div className="flex flex-col flex-1 h-full w-full bg-surface-normal-container0">
@@ -104,7 +76,7 @@ export default function SavedGroupDetailTemplate({
           startIcon={!isEditMode && <Icon icon="Back" />}
           endIcon={isEditMode && <Icon icon="Exit" />}
           onClickStartIcon={() => router.back()}
-          onClickEndIcon={deleteEditMode}
+          onClickEndIcon={() => setIsEditMode(false)}
           fullWidth
           className="border-b border-border-normal-lowemp"
         />
@@ -117,12 +89,12 @@ export default function SavedGroupDetailTemplate({
                 <Icon
                   icon="Radio"
                   fill={
-                    selectedItems.length === items.length
+                    selected.length === (places?.length ?? 0)
                       ? colors.TextIcon.OnNormal["Main 500"]
                       : undefined
                   }
                   stroke={
-                    selectedItems.length === items.length
+                    selected.length === (places?.length ?? 0)
                       ? colors.TextIcon.OnNormal.White
                       : undefined
                   }
@@ -131,7 +103,7 @@ export default function SavedGroupDetailTemplate({
               text="전체 선택"
               className="body-s-regular text-texticon-onnormal-midemp"
               gap={16}
-              onClick={toggleAllItemsSelection}
+              onClick={toggleAll}
             />
           </div>
         )}
@@ -141,9 +113,9 @@ export default function SavedGroupDetailTemplate({
           <>
             {/* 그룹 정보 */}
             <div className="flex flex-col px-[16px] py-[24px]">
-              <Icon icon="Group" fill={groupIcon} />
+              <Icon icon="Group" fill={icon} />
               <p className="body-l-semibold text-texticon-onnormal-highestemp mt-[12px] mb-[8px]">
-                {groupName}
+                {group_name}
               </p>
               <p className="body-s-regular space-x-[4px] text-texticon-onnormal-lowemp">
                 <span>저장된 가게</span>
@@ -162,7 +134,7 @@ export default function SavedGroupDetailTemplate({
                   <IconButton
                     {...props}
                     gap={4}
-                    text={SORT_LABELS[sortType]}
+                    text={SORT_LABELS[sortKey]}
                     className="body-s-regular"
                     endIcon={
                       <Icon
@@ -177,13 +149,13 @@ export default function SavedGroupDetailTemplate({
                 items={[
                   {
                     label: SORT_LABELS.recent,
-                    onClick: () => setSortType("recent"),
-                    selected: sortType === "recent",
+                    onClick: () => setSortKey("recent"),
+                    selected: sortKey === "recent",
                   },
                   {
                     label: SORT_LABELS.name,
-                    onClick: () => setSortType("name"),
-                    selected: sortType === "name",
+                    onClick: () => setSortKey("name"),
+                    selected: sortKey === "name",
                   },
                 ]}
               />
@@ -191,7 +163,7 @@ export default function SavedGroupDetailTemplate({
                 variant="neutral"
                 className="button-s-medium py-[5px] px-[8px]"
                 onClick={() => {
-                  setSelectedItems([]);
+                  setSelected([]);
                   setIsEditMode(true);
                 }}
               >
@@ -206,18 +178,18 @@ export default function SavedGroupDetailTemplate({
       <div className="flex flex-col flex-1">
         <SavedGroupDetailList
           items={sortedItems}
-          selectedItems={selectedItems}
+          selectedItems={selected}
           isEditMode={isEditMode}
           onItemClick={(item) => {
             if (isEditMode) {
-              toggleItemSelection(item.place_id);
+              toggle(item.place_id);
             } else {
               router.push(`/place/${item.place_id}`);
             }
           }}
           onDeleteClick={(item) => {
-            toggleItemSelection(item.place_id);
-            openSheet("delete");
+            toggle(item.place_id);
+            open("delete");
           }}
         />
       </div>
@@ -229,9 +201,9 @@ export default function SavedGroupDetailTemplate({
             variant="primary"
             className="button-l-semibold py-[16px]"
             fullWidth
-            disabled={selectedItems.length === 0}
+            disabled={selected.length === 0}
             onClick={() => {
-              openSheet("move");
+              open("move");
             }}
           >
             이동
@@ -240,9 +212,9 @@ export default function SavedGroupDetailTemplate({
             variant="primary"
             className="button-l-semibold py-[16px]"
             fullWidth
-            disabled={selectedItems.length === 0}
+            disabled={selected.length === 0}
             onClick={() => {
-              openSheet("delete");
+              open("delete");
             }}
           >
             삭제
@@ -251,34 +223,36 @@ export default function SavedGroupDetailTemplate({
       )}
 
       {/* 관련 모달 */}
-      {currentSheet === "delete" &&
+      {sheet === "delete" &&
         createPortal(
           <AlertModal
-            isOpen={currentSheet === "delete"}
-            onClose={closeSheet}
+            isOpen={sheet === "delete"}
+            onClose={close}
             title="선택한 가게를 삭제할까요?"
             leftButtonText="취소"
             rightButtonText="삭제"
-            onLeftButtonClick={closeSheet}
-            onRightButtonClick={() => {
-              onDeleteClick?.(selectedItems);
-            }}
+            onLeftButtonClick={close}
+            onRightButtonClick={handleDelete}
+            // isLoading={deleteBookmarkedPlaceMutation.isPending} // 필요시 주석 해제
           />
         )}
 
-      {currentSheet === "move" &&
+      {sheet === "move" &&
         createPortal(
           <GroupDefaultListBottomSheet
             title="그룹 선택"
-            groups={groups}
-            onClose={closeSheet}
-            onDone={(targetGroupId) => {
-              onMoveClick?.({
-                fromGroupId: groupId,
-                placeIds: selectedItems,
-                toGroupId: targetGroupId,
+            groups={groups?.groups ?? []}
+            onClose={close}
+            onDone={async (targetGroupId) => {
+              if (!group_id || !targetGroupId || selected.length === 0) return;
+              await moveBookmarkedPlaceMutation.mutateAsync({
+                sourceGroupId: group_id,
+                targetGroupIds: [targetGroupId],
+                placeIds: selected,
               });
-              closeSheet();
+              reset();
+              setIsEditMode(false);
+              close();
             }}
           />
         )}

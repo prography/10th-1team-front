@@ -38,6 +38,8 @@ export default function PlaceSaveModal({
       queryClient.invalidateQueries({
         queryKey: ["isPlaceSaved", placeId],
       });
+      queryClient.invalidateQueries({ queryKey: ["bookmarkedGroups"] });
+      queryClient.invalidateQueries({ queryKey: ["bookmarkedPlaces"] });
     },
   });
 

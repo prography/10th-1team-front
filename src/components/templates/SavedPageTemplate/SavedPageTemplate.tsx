@@ -1,21 +1,30 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
+import { useCallback, useState, useMemo } from "react";
 import { usePortal } from "@/hooks/usePortal";
 import { colors } from "@/styles/colors";
 import Icon from "@/components/atoms/Icon/Icon";
 import Button from "@/components/atoms/Button/Button";
+import Toast from "@/components/atoms/Toast/Toast";
 import DefaultHeader from "@/components/molecules/Header/DefaultHeader";
 import IconButton from "@/components/molecules/IconButton/IconButton";
 import { AlertModal } from "@/components/molecules/Modal";
 import { ContextMenu } from "@/components/molecules/ContextMenu";
 import { SavedGroupList } from "@/components/organisms/ActivityList";
-import { GroupWithInputBottomSheet } from "@/components/organisms/GroupBottomSheet";
+import {
+  GroupWithInputBottomSheet,
+  useGroupWithInputBottomSheet,
+} from "@/components/organisms/GroupBottomSheet";
 import { sortByDate, sortByName } from "@/utils/sort";
-import { useMemo } from "react";
 
 import type { GroupInfo } from "@/types/activity";
+import {
+  useBookmarkedGroupsQuery,
+  useCreateGroupMutation,
+  useDeleteGroupMutation,
+} from "@/hooks/queries";
+import { useSort, useSheetState } from "@/hooks";
 
 type SortType = "recent" | "name" | "group";
 
@@ -25,55 +34,58 @@ const SORT_LABELS: Record<SortType, string> = {
   group: "그룹 추가 순",
 };
 
+const sorters = {
+  recent: (arr: GroupInfo[]) => sortByDate(arr, (g) => g.create_at, "desc"),
+  name: (arr: GroupInfo[]) => sortByName(arr, (g) => g.group_name),
+  group: (arr: GroupInfo[]) => sortByDate(arr, (g) => g.create_at),
+} as const;
+
 interface SavedPageTemplateProps {
-  total: number;
-  groups: GroupInfo[];
   onDeleteClick?: (group_id: string) => void;
   onEdit?: (item: GroupInfo) => void;
 }
 
-export default function SavedPageTemplate({
-  total,
-  groups,
-  onDeleteClick,
-  onEdit,
-}: SavedPageTemplateProps) {
+export default function SavedPageTemplate({ onEdit }: SavedPageTemplateProps) {
   const createPortal = usePortal();
   const router = useRouter();
-  const [sortType, setSortType] = useState<SortType>("recent");
-  const [currentSheet, setCurrentSheet] = useState<
-    "delete" | "edit" | "create" | null
-  >(null);
+
+  const { data, isLoading } = useBookmarkedGroupsQuery({
+    queryKey: ["bookmarkedGroups"],
+  });
+  const createGroupMutation = useCreateGroupMutation();
+  const deleteGroupMutation = useDeleteGroupMutation();
+
+  const groups = useMemo(() => data?.groups ?? [], [data]);
+  const total = useMemo(() => data?.total ?? 0, [data]);
+
+  const { sortKey, setSortKey, sortedItems } = useSort<GroupInfo, SortType>(
+    groups,
+    sorters,
+    "recent"
+  );
+
+  const { sheet, open, close } = useSheetState<"delete" | "edit" | "create">();
   const [selectedItem, setSelectedItem] = useState<GroupInfo | null>(null);
-  const [groupName, setGroupName] = useState("");
-  const [selectedColor, setSelectedColor] = useState("");
+  const {
+    groupName,
+    setGroupName,
+    selectedIcon,
+    setSelectedIcon,
+    resetGroupInput,
+  } = useGroupWithInputBottomSheet();
 
-  const sortMethods: Record<SortType, (arr: GroupInfo[]) => GroupInfo[]> = {
-    recent: (arr) => sortByDate(arr, (g) => g.create_at, "desc"),
-    name: (arr) => sortByName(arr, (g) => g.group_name),
-    group: (arr) => sortByDate(arr, (g) => g.create_at),
-  };
-
-  const sortedGroups = useMemo(() => {
-    return sortMethods[sortType](groups);
-  }, [groups, sortType]);
-
-  const openSheet = useCallback((sheetType: "delete" | "edit" | "create") => {
-    setCurrentSheet(sheetType);
-  }, []);
+  const [toast, setToast] = useState<{ open: boolean; message: string }>({
+    open: false,
+    message: "",
+  });
 
   const closeSheet = useCallback(() => {
-    setGroupName("");
-    setSelectedColor("");
-    setCurrentSheet(null);
-  }, []);
+    resetGroupInput();
+    close();
+  }, [close, resetGroupInput]);
 
-  const handleGroupNameChange = useCallback((value: string) => {
-    setGroupName(value);
-  }, []);
-
-  const handleColorSelect = useCallback((color: string) => {
-    setSelectedColor(color);
+  const showToast = useCallback((message: string) => {
+    setToast({ open: true, message });
   }, []);
 
   return (
@@ -101,7 +113,7 @@ export default function SavedPageTemplate({
               <IconButton
                 {...props}
                 gap={4}
-                text={SORT_LABELS[sortType]}
+                text={SORT_LABELS[sortKey]}
                 className="body-s-regular"
                 endIcon={
                   <Icon
@@ -116,18 +128,18 @@ export default function SavedPageTemplate({
             items={[
               {
                 label: SORT_LABELS.recent,
-                onClick: () => setSortType("recent"),
-                selected: sortType === "recent",
+                onClick: () => setSortKey("recent"),
+                selected: sortKey === "recent",
               },
               {
                 label: SORT_LABELS.name,
-                onClick: () => setSortType("name"),
-                selected: sortType === "name",
+                onClick: () => setSortKey("name"),
+                selected: sortKey === "name",
               },
               {
                 label: SORT_LABELS.group,
-                onClick: () => setSortType("group"),
-                selected: sortType === "group",
+                onClick: () => setSortKey("group"),
+                selected: sortKey === "group",
               },
             ]}
           />
@@ -136,22 +148,28 @@ export default function SavedPageTemplate({
 
       {/* 저장 그룹 리스트 */}
       <div className="flex-1">
-        <SavedGroupList
-          items={sortedGroups}
-          onItemClick={(item) => {
-            router.push(`/saved/${item.group_id}`);
-          }}
-          onDeleteClick={(item) => {
-            setSelectedItem(item);
-            openSheet("delete");
-          }}
-          onEdit={(item) => {
-            setSelectedItem(item);
-            setGroupName(item.group_name);
-            setSelectedColor(item.icon);
-            openSheet("edit");
-          }}
-        />
+        {isLoading ? (
+          <div className="flex justify-center items-center h-full">
+            로딩 중...
+          </div>
+        ) : (
+          <SavedGroupList
+            items={sortedItems}
+            onItemClick={(item) => {
+              router.push(`/saved/${item.group_id}`);
+            }}
+            onDeleteClick={(item) => {
+              setSelectedItem(item);
+              open("delete");
+            }}
+            onEdit={(item) => {
+              setSelectedItem(item);
+              setGroupName(item.group_name);
+              setSelectedIcon(item.icon);
+              open("edit");
+            }}
+          />
+        )}
       </div>
 
       {/* 새로운 그룹 만들기 버튼 */}
@@ -161,7 +179,7 @@ export default function SavedPageTemplate({
           className="button-l-semibold py-[16px]"
           fullWidth
           onClick={() => {
-            openSheet("create");
+            open("create");
           }}
         >
           새로운 그룹 만들기
@@ -169,53 +187,67 @@ export default function SavedPageTemplate({
       </div>
 
       {/* 관련 모달 및 바텀시트 */}
-      {currentSheet === "delete" &&
+      {sheet === "delete" &&
         createPortal(
           <AlertModal
-            isOpen={currentSheet === "delete"}
+            isOpen={sheet === "delete"}
             onClose={closeSheet}
             title="삭제할까요?"
             description={`그룹을 삭제하면 \n 저장된 가게 정보도 함께 삭제돼요`}
             leftButtonText="취소"
             rightButtonText="삭제"
             onLeftButtonClick={closeSheet}
-            onRightButtonClick={() => {
-              if (selectedItem) onDeleteClick?.(selectedItem.group_id);
+            onRightButtonClick={async () => {
+              if (!selectedItem) return;
+              await deleteGroupMutation.mutateAsync(selectedItem.group_id);
+              closeSheet();
             }}
           />
         )}
 
-      {currentSheet === "edit" &&
+      {sheet === "edit" &&
         createPortal(
           <GroupWithInputBottomSheet
             title="그룹 수정"
             groupName={groupName}
-            selectedColor={selectedColor}
-            onGroupNameChange={handleGroupNameChange}
-            onColorSelect={handleColorSelect}
+            selectedColor={selectedIcon}
+            onGroupNameChange={setGroupName}
+            onColorSelect={setSelectedIcon}
             onClose={closeSheet}
             onDone={() => {
               closeSheet();
+              showToast("그룹이 수정되었습니다");
               if (selectedItem) onEdit?.(selectedItem);
             }}
           />
         )}
 
-      {currentSheet === "create" &&
+      {sheet === "create" &&
         createPortal(
           <GroupWithInputBottomSheet
             title="새로운 그룹 만들기"
             groupName={groupName}
-            selectedColor={selectedColor}
-            onGroupNameChange={handleGroupNameChange}
-            onColorSelect={handleColorSelect}
+            selectedColor={selectedIcon}
+            onGroupNameChange={setGroupName}
+            onColorSelect={setSelectedIcon}
             onClose={closeSheet}
-            onDone={() => {
+            onDone={async () => {
+              if (!groupName || !selectedIcon) return;
+              await createGroupMutation.mutateAsync({
+                group_name: groupName,
+                icon: selectedIcon,
+              });
               closeSheet();
-              // TODO: 그룹 생성 로직 추가 필요
+              showToast("새로운 그룹이 생성되었습니다");
             }}
           />
         )}
+      <Toast
+        message={toast.message}
+        icon={<Icon icon="Complete" />}
+        isOpen={toast.open}
+        onClose={() => setToast((prev) => ({ ...prev, open: false }))}
+      />
     </div>
   );
 }
