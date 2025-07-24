@@ -11,6 +11,8 @@ import Link from "next/link";
 import { useVoteCountQuery } from "@/hooks/queries";
 import { usePortal, useSheetState } from "@/hooks";
 import { AlertModal } from "@/components/molecules/Modal";
+import { useRouter } from "next/navigation";
+import useUserStore from "@/store/useUserStore";
 
 interface MainSidebarProps {
   onClose: () => void;
@@ -26,7 +28,9 @@ export default function MainSidebar({
   user,
 }: MainSidebarProps) {
   const createPortal = usePortal();
+  const router = useRouter();
   const { sheet, open, close } = useSheetState<"logout">();
+  const clearUser = useUserStore((state) => state.clearUser);
 
   const { data: voteCount = 0, isLoading: isVoteCountLoading } =
     useVoteCountQuery(!!user);
@@ -133,6 +137,7 @@ export default function MainSidebar({
                   <Button
                     variant="text"
                     className="text-texticon-onnormal-lowemp caption-m-regular"
+                    onClick={() => router.push("/withdraw")}
                   >
                     회원탈퇴
                   </Button>
@@ -156,6 +161,7 @@ export default function MainSidebar({
               onLeftButtonClick={close}
               onRightButtonClick={async () => {
                 onLogout();
+                clearUser();
                 close();
               }}
             />

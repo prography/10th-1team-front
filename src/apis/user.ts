@@ -18,3 +18,12 @@ export const getMyInfo = async () => {
     return data.data;
   }
 };
+
+export const deleteUser = async () => {
+  try {
+    await authProxyAPI.delete("/users/me");
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};

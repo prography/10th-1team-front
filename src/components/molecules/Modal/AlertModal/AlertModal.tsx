@@ -84,7 +84,7 @@ export default function AlertModal({
             {rightButtonText && (
               <Button
                 variant="primary"
-                className="flex-1 h-[56px]button-l-semibold"
+                className="flex-1 h-[56px] button-l-semibold"
                 onClick={onRightButtonClick}
               >
                 {rightButtonText}
