@@ -1,6 +1,10 @@
 import { authProxyAPI } from "./customAxios";
 import { fetchWithAuth } from "./fetchWithAuth";
-import type { SavedGroupResponse, SavedPlacesResponse } from "@/types/activity";
+import type {
+  SavedGroupResponse,
+  SavedPlacesResponse,
+  VotedActivityResponse,
+} from "@/types/activity";
 import qs from "qs";
 
 export const getBookmarkedGroups = async () => {
@@ -79,6 +83,23 @@ export const moveBookmarkedPlace = async (
     return response.data.data;
   } catch (error) {
     console.error("Failed to move bookmarked place:", error);
+    throw error;
+  }
+};
+
+export const getUserVotedActivity = async () => {
+  try {
+    let data;
+    if (typeof window === "undefined") {
+      data = await fetchWithAuth<VotedActivityResponse>(`/users/activity/vote`);
+      return data.data;
+    } else {
+      const response =
+        await authProxyAPI.get<VotedActivityResponse>(`/users/activity/vote`);
+      return response.data.data;
+    }
+  } catch (error) {
+    console.error("Failed to fetch user voted activity:", error);
     throw error;
   }
 };
