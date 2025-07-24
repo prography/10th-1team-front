@@ -36,27 +36,40 @@ export default function VotedActivityList({
             <div className="caption-m-semibold text-texticon-onnormal-midemp px-[16px] py-[4px]">
               {year}년 {month}월
             </div>
-            {groupItems.map((item) => {
+            {groupItems.map((item, index) => {
               const dateInfo = parseKoreanDateInfo(item.voted_date);
+              const isToday =
+                dateInfo.isToday && index === groupItems.length - 1;
               return (
                 <ListItem
                   key={item.place_id}
-                  className="h-[138px] flex-row px-[16px] py-[12px] justify-start gap-[16px]"
+                  className="h-full flex-row px-[16px] py-[12px] justify-start gap-[16px]"
                   onClick={() => onItemClick(item)}
                 >
                   <div
                     className={cn(
-                      "relative h-full aspect-[60/138] bg-surface-normal-container-b10 rounded-[4px] body-m-semibold flex flex-col items-center justify-center"
+                      "relative flex-shrink-0 w-[60px] h-[138px] bg-surface-normal-container-b10 rounded-[8px] body-m-semibold flex flex-col items-center justify-center",
+                      isToday && "border border-border-primary-500"
                     )}
                   >
-                    <p className="text-texticon-onnormal-highestemp">
+                    <p
+                      className={cn(
+                        "text-texticon-onnormal-highestemp",
+                        isToday && "text-brand-primary-main"
+                      )}
+                    >
                       {dateInfo.date}
                     </p>
-                    <p className="text-texticon-onnormal-lowestemp">
+                    <p
+                      className={cn(
+                        "text-texticon-onnormal-lowestemp",
+                        isToday && "text-brand-primary-main"
+                      )}
+                    >
                       {dateInfo.day[0]}
                     </p>
                   </div>
-                  <div className="flex flex-col gap-[8px] w-full">
+                  <div className="flex flex-col justify-between py-[12px] w-full">
                     <p className="caption-m-semibold text-texticon-onnormal-lowemp">
                       {item.category}
                     </p>
