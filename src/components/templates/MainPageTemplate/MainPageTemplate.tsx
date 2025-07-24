@@ -61,7 +61,9 @@ export default function MainPageTemplate({
     <div className="flex flex-col w-full bg-surface-normal-container0">
       <MainHeader onSidebarOpen={() => setIsSidebarOpen(true)} />
 
-      <MainBannerSection />
+      <MainBannerSection
+        onClick={user ? () => {} : () => router.push("/login")}
+      />
 
       <div className="flex flex-col py-[12px] px-[16px] gap-[12px]">
         <LocationSelectorSection
