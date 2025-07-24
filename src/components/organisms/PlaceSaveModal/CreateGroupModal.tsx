@@ -10,6 +10,7 @@ interface CreateGroupModalProps {
   onClose: () => void;
   title?: string;
   onCreateGroup: (groupName: string, selectedColor: string) => void;
+  showOverlay?: boolean;
 }
 
 // 각 색상에 대한 선택된 상태의 border 클래스를 반환하는 함수
@@ -43,6 +44,7 @@ export default function CreateGroupModal({
   title = "새로운 그룹 만들기",
   onClose,
   onCreateGroup,
+  showOverlay = true,
 }: CreateGroupModalProps) {
   const [groupName, setGroupName] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
@@ -76,9 +78,9 @@ export default function CreateGroupModal({
   if (!isOpen) return null;
 
   return (
-    <BottomSheet title={title} onClose={handleClose} showOverlay={true}>
+    <BottomSheet title={title} onClose={handleClose} showOverlay={showOverlay}>
       <div className="flex flex-col gap-[8px]">
-        <div className="px-[16px] py-[12px] body-l-semibold text-texticon-onnormal-highestemp">
+        <div className="px-[16px] py-[12px] body-m-semibold text-texticon-onnormal-highestemp">
           그룹 이름
         </div>
         <div className="self-stretch px-[16px] items-center">
@@ -107,7 +109,7 @@ export default function CreateGroupModal({
           </div>
         </div>
         <div className="flex flex-col px-[16px] py-[12px] gap-[12px]">
-          <div className="body-l-semibold text-texticon-onnormal-highestemp">
+          <div className="body-m-semibold text-texticon-onnormal-highestemp">
             아이콘
           </div>
           <div className="flex gap-[24px] mb-[33px]">

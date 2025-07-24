@@ -134,6 +134,7 @@ export default function ModalRenderer() {
           onClose: () => void;
           onCreateGroup: (groupName: string, selectedColor: string) => void;
           title?: string;
+          showOverlay?: boolean;
         };
         return (
           <CreateGroupModal
@@ -141,6 +142,7 @@ export default function ModalRenderer() {
             onClose={createGroupProps?.onClose || closeModal}
             onCreateGroup={createGroupProps?.onCreateGroup}
             title={createGroupProps?.title}
+            showOverlay={createGroupProps?.showOverlay}
           />
         );
       }
