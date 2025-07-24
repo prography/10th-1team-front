@@ -24,10 +24,25 @@ export async function GET(
     );
   }
 
+  // CSRF 검증
   const cookieStore = await cookies();
   const storedState = cookieStore.get("oauth_state")?.value;
 
   if (!storedState || storedState !== returnedState) {
+    return NextResponse.redirect(
+      new URL(`${getBaseUrl()}/oauth/callback?error=invalid-state`, req.url)
+    );
+  }
+
+  // from 값 디코딩
+  let from: string | null = null;
+  try {
+    const decoded = JSON.parse(
+      Buffer.from(returnedState, "base64url").toString()
+    );
+    from = decoded.from ?? null;
+  } catch (err) {
+    console.error("Failed to parse state:", err);
     return NextResponse.redirect(
       new URL(`${getBaseUrl()}/oauth/callback?error=invalid-state`, req.url)
     );
@@ -40,7 +55,7 @@ export async function GET(
         code,
       });
 
-    const redirectTo = is_new_user ? "/onboarding" : "/";
+    const redirectTo = is_new_user ? "/onboarding" : (from ?? "/");
 
     const res = NextResponse.redirect(
       new URL(
