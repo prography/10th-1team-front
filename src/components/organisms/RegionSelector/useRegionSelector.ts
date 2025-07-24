@@ -50,7 +50,7 @@ export function useRegionSelector() {
   const regionDongData = tempCity ? getDongListByCity(tempCity) : [];
   const openRegionSelector = useCallback(() => {
     setTempProvince("서울");
-    setTempCity("");
+    setTempCity("강남구");
     setTempDong([]);
     setIsOpen(true);
     setHasSelectedRegion(false);
