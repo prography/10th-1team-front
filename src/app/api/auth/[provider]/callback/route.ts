@@ -44,7 +44,7 @@ export async function GET(
 
     const res = NextResponse.redirect(
       new URL(
-        `${getBaseUrl()}/oauth/callback?redirectTo=${encodeURIComponent(redirectTo)}`,
+        `${getBaseUrl()}/oauth/callback?redirectTo=${encodeURIComponent(redirectTo)}&provider=${provider}`,
         req.url
       )
     );
@@ -62,11 +62,6 @@ export async function GET(
       secure: true,
       path: "/",
       maxAge: 60 * 60 * 24 * 30,
-      sameSite: "strict",
-    });
-
-    res.cookies.set("provider", provider, {
-      path: "/",
       sameSite: "strict",
     });
 

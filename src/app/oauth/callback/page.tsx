@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import MainLayout from "@/components/templates/MainLayout/MainLayout";
+import LocalStorage from "@/utils/localStorage";
 
 export default function OAuthCallbackPage() {
   const searchParams = useSearchParams();
@@ -10,6 +11,11 @@ export default function OAuthCallbackPage() {
   useEffect(() => {
     const redirectTo = searchParams.get("redirectTo") ?? "/";
     const error = searchParams.get("error");
+    const provider = searchParams.get("provider");
+
+    if (provider) {
+      LocalStorage.setItem("lastProvider", provider);
+    }
 
     if (error) {
       alert(`로그인에 실패했습니다. 다시 시도해주세요.\n${error}`);
