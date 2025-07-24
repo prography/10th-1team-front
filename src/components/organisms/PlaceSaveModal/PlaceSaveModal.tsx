@@ -79,6 +79,7 @@ export default function PlaceSaveModal({
         isOpen={showCreate}
         onClose={closeCreateModal}
         onCreateGroup={handleCreateGroup}
+        showOverlay={false}
       />
     </>
   );
