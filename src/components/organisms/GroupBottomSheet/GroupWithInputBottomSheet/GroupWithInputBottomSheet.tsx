@@ -104,7 +104,7 @@ export default function GroupWithInputBottomSheet({
             variant="primary"
             fullWidth
             className="h-[56px]"
-            disabled={!groupName}
+            disabled={!groupName || !selectedColor}
             onClick={onDone}
           >
             완료

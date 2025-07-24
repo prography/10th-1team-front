@@ -6,6 +6,7 @@ import { usePortal } from "@/hooks/usePortal";
 import { colors } from "@/styles/colors";
 import Icon from "@/components/atoms/Icon/Icon";
 import Button from "@/components/atoms/Button/Button";
+import Toast from "@/components/atoms/Toast/Toast";
 import DefaultHeader from "@/components/molecules/Header/DefaultHeader";
 import IconButton from "@/components/molecules/IconButton/IconButton";
 import { AlertModal } from "@/components/molecules/Modal";
@@ -73,10 +74,19 @@ export default function SavedPageTemplate({ onEdit }: SavedPageTemplateProps) {
     resetGroupInput,
   } = useGroupWithInputBottomSheet();
 
+  const [toast, setToast] = useState<{ open: boolean; message: string }>({
+    open: false,
+    message: "",
+  });
+
   const closeSheet = useCallback(() => {
     resetGroupInput();
     close();
   }, [close, resetGroupInput]);
+
+  const showToast = useCallback((message: string) => {
+    setToast({ open: true, message });
+  }, []);
 
   return (
     <div className="flex flex-col flex-1 h-full w-full bg-surface-normal-container0">
@@ -206,6 +216,7 @@ export default function SavedPageTemplate({ onEdit }: SavedPageTemplateProps) {
             onClose={closeSheet}
             onDone={() => {
               closeSheet();
+              showToast("그룹이 수정되었습니다");
               if (selectedItem) onEdit?.(selectedItem);
             }}
           />
@@ -227,9 +238,16 @@ export default function SavedPageTemplate({ onEdit }: SavedPageTemplateProps) {
                 icon: selectedIcon,
               });
               closeSheet();
+              showToast("새로운 그룹이 생성되었습니다");
             }}
           />
         )}
+      <Toast
+        message={toast.message}
+        icon={<Icon icon="Complete" />}
+        isOpen={toast.open}
+        onClose={() => setToast((prev) => ({ ...prev, open: false }))}
+      />
     </div>
   );
 }
