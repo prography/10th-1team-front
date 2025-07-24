@@ -4,15 +4,20 @@ import { useRecommendListQuery } from "@/hooks/queries/useRecommendListQuery";
 import MainPageTemplate from "@/components/templates/MainPageTemplate/MainPageTemplate";
 import MainLayout from "@/components/templates/MainLayout/MainLayout";
 import { logout } from "@/apis/login";
-import useUserStore from "@/store/useUserStore";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getMyInfo } from "@/apis/user";
+import { UserInfo } from "@/types/user";
 
-export default function MainPage() {
-  const user = useUserStore((state) => state.user);
+interface MainPageProps {
+  initialUser: UserInfo | null;
+}
+
+export default function MainPage({ initialUser }: MainPageProps) {
+  const [user, setUser] = useState<UserInfo | null>(initialUser);
+
   const handleLogout = async () => {
     await logout();
-    useUserStore.getState().clearUser();
+    setUser(null);
   };
 
   const { data: recommendList, isLoading } = useRecommendListQuery({
@@ -21,7 +26,9 @@ export default function MainPage() {
 
   useEffect(() => {
     if (!user) {
-      getMyInfo().then((user) => useUserStore.getState().setUser(user));
+      getMyInfo()
+        .then(setUser)
+        .catch(() => setUser(null));
     }
   }, []);
 

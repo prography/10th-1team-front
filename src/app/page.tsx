@@ -6,9 +6,11 @@ import {
 
 import MainPage from "./main/MainPage";
 import { fetchRecommendList } from "@/apis/fetchRecommendList";
+import { getMyInfo } from "@/apis/user";
 
 export default async function Home() {
   const queryClient = new QueryClient();
+  const user = await getMyInfo();
   await queryClient.prefetchQuery({
     queryKey: ["recommendList", { size: 3 }],
     queryFn: () => fetchRecommendList({ size: 3 }),
@@ -16,7 +18,7 @@ export default async function Home() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <MainPage />
+      <MainPage initialUser={user} />
     </HydrationBoundary>
   );
 }
