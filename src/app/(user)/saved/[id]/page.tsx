@@ -1,4 +1,9 @@
 import SavedGroupDetailTemplate from "@/components/templates/SavedGroupDetailTemplate/SavedGroupDetailTemplate";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
 import { getBookmarkedGroups, getBookmarkedPlaces } from "@/apis/activity";
 
 export default async function SavedGroupDetailPage({
@@ -7,19 +12,20 @@ export default async function SavedGroupDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const data = await getBookmarkedPlaces(id);
-  const groups = await getBookmarkedGroups();
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: ["bookmarkedGroups"],
+    queryFn: getBookmarkedGroups,
+  });
+  await queryClient.prefetchQuery({
+    queryKey: ["bookmarkedPlaces", id],
+    queryFn: () => getBookmarkedPlaces(id),
+  });
+  const dehydratedState = dehydrate(queryClient);
 
   return (
-    <SavedGroupDetailTemplate
-      items={data?.places ?? []}
-      groups={groups?.groups ?? []}
-      groupId={data?.group_id ?? ""}
-      groupName={data?.group_name ?? ""}
-      groupIcon={data?.icon ?? ""}
-      total={data?.total ?? 0}
-      // onDeleteClick={() => {}}
-      // onMoveClick={() => {}}
-    />
+    <HydrationBoundary state={dehydratedState}>
+      <SavedGroupDetailTemplate id={id} />
+    </HydrationBoundary>
   );
 }
