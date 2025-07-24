@@ -40,7 +40,7 @@ export default function VotedPageTemplate() {
         <DefaultHeader
           title="투표한 가게"
           startIcon={<Icon icon="Back" />}
-          onClickStartIcon={() => router.back()}
+          onClickStartIcon={() => router.push("/")}
           fullWidth
           className="border-b border-border-normal-lowemp"
         />

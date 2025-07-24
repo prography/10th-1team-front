@@ -95,7 +95,7 @@ export default function SavedPageTemplate({ onEdit }: SavedPageTemplateProps) {
         <DefaultHeader
           title="저장한 가게"
           startIcon={<Icon icon="Back" />}
-          onClickStartIcon={() => router.back()}
+          onClickStartIcon={() => router.push("/")}
           fullWidth
           className="border-b border-border-normal-lowemp"
         />
