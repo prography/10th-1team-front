@@ -72,7 +72,7 @@ export function usePlaceDetailPage(placeId: string) {
     if (!isLoggedIn) {
       openModal("login", {
         onLogin: () => {
-          router.push(`/login`);
+          router.push(`/login?from=/place/${decodeURIComponent(placeId)}`);
           openModal(null);
         },
       });
@@ -91,7 +91,7 @@ export function usePlaceDetailPage(placeId: string) {
     if (!isLoggedIn) {
       openModal("login", {
         onLogin: () => {
-          router.push(`/login`);
+          router.push(`/login?from=/place/${decodeURIComponent(placeId)}`);
           openModal(null);
         },
       });
@@ -107,6 +107,7 @@ export function usePlaceDetailPage(placeId: string) {
     isLoggedIn,
     handlePlatformVoteTabChange,
     router,
+    placeId,
   ]);
 
   return {
