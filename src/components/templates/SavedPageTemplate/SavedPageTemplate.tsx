@@ -21,6 +21,7 @@ import type { GroupInfo } from "@/types/activity";
 import {
   useBookmarkedGroupsQuery,
   useCreateGroupMutation,
+  useDeleteGroupMutation,
 } from "@/hooks/queries";
 import { useSort, useSheetState } from "@/hooks";
 
@@ -43,10 +44,7 @@ interface SavedPageTemplateProps {
   onEdit?: (item: GroupInfo) => void;
 }
 
-export default function SavedPageTemplate({
-  onDeleteClick,
-  onEdit,
-}: SavedPageTemplateProps) {
+export default function SavedPageTemplate({ onEdit }: SavedPageTemplateProps) {
   const createPortal = usePortal();
   const router = useRouter();
 
@@ -54,6 +52,7 @@ export default function SavedPageTemplate({
     queryKey: ["bookmarkedGroups"],
   });
   const createGroupMutation = useCreateGroupMutation();
+  const deleteGroupMutation = useDeleteGroupMutation();
 
   const groups = useMemo(() => data?.groups ?? [], [data]);
   const total = useMemo(() => data?.total ?? 0, [data]);
@@ -188,8 +187,10 @@ export default function SavedPageTemplate({
             leftButtonText="취소"
             rightButtonText="삭제"
             onLeftButtonClick={closeSheet}
-            onRightButtonClick={() => {
-              if (selectedItem) onDeleteClick?.(selectedItem.group_id);
+            onRightButtonClick={async () => {
+              if (!selectedItem) return;
+              await deleteGroupMutation.mutateAsync(selectedItem.group_id);
+              closeSheet();
             }}
           />
         )}
