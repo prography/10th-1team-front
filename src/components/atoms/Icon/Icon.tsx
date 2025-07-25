@@ -15,6 +15,8 @@ interface IconProps {
   strokeWidth?: number;
   /** 추가 스타일을 적용하기 위한 className */
   className?: string;
+  /** 아이콘의 비활성화 상태 */
+  disabled?: boolean;
 }
 
 export default function Icon({
@@ -24,6 +26,7 @@ export default function Icon({
   stroke,
   strokeWidth,
   className,
+  disabled = false,
 }: IconProps) {
   const IconComponent = icons[icon];
   return (
@@ -34,6 +37,7 @@ export default function Icon({
       fill={fill}
       stroke={stroke}
       strokeWidth={strokeWidth}
+      disabled={disabled}
     />
   );
 }

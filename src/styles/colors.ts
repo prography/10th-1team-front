@@ -157,6 +157,7 @@ export const colors = {
   Border: {
     Normal: {
       LowEmp: grayscale["100"],
+      LowestEmp: grayscale["50"],
       MidEmp: grayscale["200"],
       HighEmp: grayscale["400"],
     },
