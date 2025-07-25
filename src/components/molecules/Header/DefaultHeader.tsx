@@ -2,7 +2,7 @@ import { cn } from "@/utils/cn";
 import { ReactNode } from "react";
 import IconButton from "../IconButton/IconButton";
 
-interface DefaultHeaderProps {
+export interface DefaultHeaderProps {
   title: string;
   startIcon?: ReactNode;
   endIcon?: ReactNode;

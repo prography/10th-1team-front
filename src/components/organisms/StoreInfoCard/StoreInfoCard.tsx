@@ -1,5 +1,5 @@
 import Image from "next/image";
-import PlatformScoreLabel from "./PlatformScoreLabel";
+import PlatformScoreLabel from "@/components/molecules/PlatformScoreLabel/PlatformScoreLabel";
 import { cn } from "@/utils/cn";
 import { useState } from "react";
 import type { SearchResultItem } from "@/types/search";

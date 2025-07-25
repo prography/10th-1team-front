@@ -6,7 +6,7 @@ import { cn } from "@/utils/cn";
 
 const iconColors = ["#FF5252", "#FFD600", "#7ED957", "#4FC3F7", "#BA68C8"];
 
-interface GroupWithInputBottomSheetProps {
+export interface GroupWithInputBottomSheetProps {
   title: string;
   groupName: string;
   selectedColor: string;

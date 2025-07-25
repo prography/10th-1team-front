@@ -1,7 +1,7 @@
 import React from "react";
 import Icon from "@/components/atoms/Icon/Icon";
 import ImageCarousel from "@/components/molecules/ImageCarousel/ImageCarousel";
-import PlatformScoreLabel from "@/components/organisms/StoreInfoCard/PlatformScoreLabel";
+import PlatformScoreLabel from "@/components/molecules/PlatformScoreLabel/PlatformScoreLabel";
 import { colors } from "@/styles/colors";
 
 interface PlaceCardProps {
