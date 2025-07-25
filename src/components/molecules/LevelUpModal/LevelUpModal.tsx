@@ -1,5 +1,6 @@
 import React from "react";
 import Icon from "@/components/atoms/Icon/Icon";
+import Image from "next/image";
 
 interface LevelUpModalProps {
   isOpen: boolean;
@@ -26,10 +27,11 @@ export default function LevelUpModal({
 
         {/* 메인 카드 - 전체 이미지 */}
         <div className="relative overflow-hidden rounded-2xl shadow-lg my-[60px]">
-          <object
-            data={imageSrc || "/images/LevelUp.svg"}
-            type="image/svg+xml"
-            aria-label="Level Up"
+          <Image
+            src={imageSrc || "/images/LevelUp.svg"}
+            alt="Level Up"
+            width={328}
+            height={184}
             className="h-auto w-full"
           />
         </div>

@@ -2,6 +2,7 @@
 
 import React, { useState, useCallback } from "react";
 import Icon from "@/components/atoms/Icon/Icon";
+import Image from "next/image";
 import IconButton from "@/components/molecules/IconButton/IconButton";
 import Button from "@/components/atoms/Button/Button";
 import { List, ListItem } from "@/components/atoms/List";
@@ -250,10 +251,11 @@ export default function PlatformMatchVoteModal({
               </div>
             </div>
             <div className="w-full flex justify-center mb-[12px]">
-              <object
-                data="/images/PlatformVoteComplete.svg"
-                type="image/svg+xml"
-                aria-label="platformComplete"
+              <Image
+                src="/images/PlatformVoteComplete.svg"
+                alt="platform-complete"
+                width={600}
+                height={184}
                 className="min-h-[184px] w-full object-cover"
               />
             </div>
