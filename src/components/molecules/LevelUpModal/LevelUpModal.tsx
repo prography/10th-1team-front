@@ -26,7 +26,7 @@ export default function LevelUpModal({
         </div>
 
         {/* 메인 카드 - 전체 이미지 */}
-        <div className="relative overflow-hidden rounded-2xl shadow-lg my-[60px]">
+        <div className="relative overflow-hidden rounded-[8px] shadow-lg my-[60px]">
           <Image
             src={imageSrc || "/images/LevelUp.svg"}
             alt="Level Up"

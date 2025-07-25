@@ -256,7 +256,7 @@ export default function PlatformMatchVoteModal({
                 alt="platform-complete"
                 width={600}
                 height={184}
-                className="min-h-[184px] w-full object-cover"
+                className="min-h-[184px] w-full object-cover rounded-[8px]"
               />
             </div>
             <div className="flex items-center justify-center h-[84px]">

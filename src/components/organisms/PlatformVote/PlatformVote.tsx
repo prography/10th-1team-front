@@ -17,9 +17,9 @@ export default function PlatformVote({
 
   return hasZeroReviews ? (
     <div className="px-[16px] py-[14px] flex flex-col gap-[12px]">
-      <div className="relative min-h-[184px] w-full">
+      <div className="relative min-h-[184px] w-full ">
         <Image
-          className="w-full h-[184px] object-cover"
+          className="w-full h-[184px] object-cover rounded-[8px]"
           src="/images/PlatformVoteDisabled.svg"
           alt="platform-vote-disabled"
           width={600}
@@ -39,7 +39,7 @@ export default function PlatformVote({
     <div className="px-[16px] py-[14px] flex flex-col gap-[12px]">
       <div className="relative min-h-[184px] w-full">
         <Image
-          className="w-full h-[184px] object-cover"
+          className="w-full h-[184px] object-cover rounded-[8px]"
           src="/images/PlatformVote.svg"
           alt="platform-vote"
           width={600}
