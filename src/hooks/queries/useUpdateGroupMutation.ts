@@ -16,6 +16,7 @@ export function useUpdateGroupMutation() {
       queryClient.invalidateQueries({
         queryKey: ["bookmarkedPlaces", groupId],
       });
+      queryClient.invalidateQueries({ queryKey: ["PlaceGroup"] });
     },
   });
 }
