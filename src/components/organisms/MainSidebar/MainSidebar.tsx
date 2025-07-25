@@ -121,8 +121,12 @@ export default function MainSidebar({
                       약관 및 정책
                     </h6>
                     <div className="flex flex-col items-start gap-[12px] text-texticon-onnormal-lowemp body-s-semibold">
-                      <Link href="/privacy">개인정보 처리 방침</Link>
-                      <Link href="/terms">이용약관</Link>
+                      <Link href="https://tattered-radius-4a3.notion.site/23ac0f5d7a1d80b79175c6bcde53f0a8">
+                        개인정보 처리 방침
+                      </Link>
+                      <Link href="https://tattered-radius-4a3.notion.site/23ac0f5d7a1d8091a5a8f68ebcaa89c7">
+                        이용약관
+                      </Link>
                     </div>
                   </div>
                 </div>
