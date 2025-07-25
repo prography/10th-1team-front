@@ -1,23 +1,25 @@
+import React, { useEffect } from "react";
 import Button from "@/components/atoms/Button/Button";
 import { cn } from "@/utils/cn";
 import { allowScroll, preventScroll } from "@/utils/modal";
-import { useEffect } from "react";
 
-interface AlertModalProps {
+export interface ConfirmModalProps {
   isOpen: boolean;
   onClose: () => void;
   title: string;
-  description?: string;
+  description?: string | React.ReactNode;
   leftButtonText?: string;
   rightButtonText?: string;
   onLeftButtonClick?: () => void;
   onRightButtonClick?: () => void;
+  rightButtonVariant?: "primary" | "secondary" | "neutral";
+  leftButtonVariant?: "neutral" | "primary" | "secondary";
   scrollable?: boolean;
   showOverlay?: boolean;
   className?: string;
 }
 
-export default function AlertModal({
+export default function ConfirmModal({
   isOpen,
   onClose,
   title,
@@ -26,10 +28,12 @@ export default function AlertModal({
   rightButtonText,
   onLeftButtonClick,
   onRightButtonClick,
+  rightButtonVariant = "primary",
+  leftButtonVariant = "neutral",
   scrollable = false,
   showOverlay = true,
   className = "",
-}: AlertModalProps) {
+}: ConfirmModalProps) {
   useEffect(() => {
     if (!scrollable) {
       const prevScrollY = preventScroll();
@@ -59,22 +63,23 @@ export default function AlertModal({
           className
         )}
         role="dialog"
+        aria-modal="true"
       >
-        <div className="w-full bg-surface-normal-container0 rounded-[12px] shadow-[0px_4px_8px_0px_rgba(0,0,0,0.12)] inline-flex flex-col">
-          <div className="flex flex-col items-center justify-center gap-[16px] mt-[28px] mb-[12px]">
-            <div className="title-m-semibold text-texticon-onnormal-highestemp">
+        <div className="w-full bg-surface-normal-container0 rounded-[12px] shadow-[0px_4px_8px_0px_rgba(0,0,0,0.12)] inline-flex flex-col items-center">
+          <div className="flex flex-col items-center justify-center gap-[16px] mt-[28px] mb-[12px] w-full">
+            <div className="title-m-semibold text-texticon-onnormal-highestemp text-center w-full">
               {title}
             </div>
             {description && (
-              <div className="body-s-regular text-texticon-onnormal-midemp text-center whitespace-pre-line">
+              <div className="body-s-regular text-texticon-onnormal-midemp text-center whitespace-pre-line w-full">
                 {description}
               </div>
             )}
           </div>
-          <div className="flex py-[14px] px-[16px] gap-[6px] w-full ">
+          <div className="flex py-[14px] px-[16px] gap-[6px] w-full">
             {leftButtonText && (
               <Button
-                variant="neutral"
+                variant={leftButtonVariant}
                 className="flex-1 h-[56px] button-l-semibold"
                 onClick={onLeftButtonClick}
               >
@@ -83,7 +88,7 @@ export default function AlertModal({
             )}
             {rightButtonText && (
               <Button
-                variant="primary"
+                variant={rightButtonVariant}
                 className="flex-1 h-[56px] button-l-semibold"
                 onClick={onRightButtonClick}
               >

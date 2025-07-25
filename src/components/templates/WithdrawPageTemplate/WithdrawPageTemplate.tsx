@@ -9,7 +9,7 @@ import DefaultHeader from "@/components/molecules/Header/DefaultHeader";
 import { useRouter } from "next/navigation";
 import { deleteUser } from "@/apis/user";
 import { usePortal, useSheetState } from "@/hooks";
-import { AlertModal } from "@/components/molecules/Modal";
+import ConfirmModal from "@/components/molecules/ConfirmModal/ConfirmModal";
 import useUserStore from "@/store/useUserStore";
 
 export default function WithdrawPageTemplate() {
@@ -93,7 +93,7 @@ export default function WithdrawPageTemplate() {
 
       {sheet === "withdraw" &&
         createPortal(
-          <AlertModal
+          <ConfirmModal
             isOpen={sheet === "withdraw"}
             onClose={handleClose}
             title="회원탈퇴 완료"

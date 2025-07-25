@@ -9,7 +9,7 @@ import Button from "@/components/atoms/Button/Button";
 import Toast from "@/components/atoms/Toast/Toast";
 import DefaultHeader from "@/components/molecules/Header/DefaultHeader";
 import IconButton from "@/components/molecules/IconButton/IconButton";
-import { AlertModal } from "@/components/molecules/Modal";
+import ConfirmModal from "@/components/molecules/ConfirmModal/ConfirmModal";
 import { ContextMenu } from "@/components/molecules/ContextMenu";
 import { SavedGroupList } from "@/components/organisms/ActivityList";
 import {
@@ -186,7 +186,7 @@ export default function SavedPageTemplate() {
       {/* 관련 모달 및 바텀시트 */}
       {sheet === "delete" &&
         createPortal(
-          <AlertModal
+          <ConfirmModal
             isOpen={sheet === "delete"}
             onClose={closeSheet}
             title="삭제할까요?"

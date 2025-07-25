@@ -10,7 +10,7 @@ import type { UserInfo } from "@/types/user";
 import Link from "next/link";
 import { useVoteCountQuery } from "@/hooks/queries";
 import { usePortal, useSheetState } from "@/hooks";
-import { AlertModal } from "@/components/molecules/Modal";
+import ConfirmModal from "@/components/molecules/ConfirmModal/ConfirmModal";
 import { useRouter } from "next/navigation";
 import useUserStore from "@/store/useUserStore";
 
@@ -155,7 +155,7 @@ export default function MainSidebar({
 
         {sheet === "logout" &&
           createPortal(
-            <AlertModal
+            <ConfirmModal
               isOpen={sheet === "logout"}
               onClose={close}
               title="로그아웃"
