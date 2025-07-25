@@ -12,11 +12,10 @@ export function usePlaceDetailPage(placeId: string) {
     usePlaceDetailQuery(placeId);
   const hasZeroReviews =
     data?.kakao_review_count === 0 || data?.naver_review_count === 0;
-  const pathname =
-    typeof window !== "undefined" ? window.location.pathname : "";
   const currentUrl =
-    typeof window !== "undefined" ? window.location.origin + pathname : "";
-
+    typeof window !== "undefined"
+      ? window.location.origin + "/place/" + placeId
+      : "";
   const router = useRouter();
   const openModal = useModalStore((state) => state.openModal);
   const queryClient = useQueryClient();
