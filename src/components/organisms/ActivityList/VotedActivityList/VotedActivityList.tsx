@@ -38,8 +38,7 @@ export default function VotedActivityList({
             </div>
             {groupItems.map((item, index) => {
               const dateInfo = parseKoreanDateInfo(item.voted_date);
-              const isToday =
-                dateInfo.isToday && index === groupItems.length - 1;
+              const isToday = dateInfo.isToday && index === 0;
               return (
                 <ListItem
                   key={item.place_id}
