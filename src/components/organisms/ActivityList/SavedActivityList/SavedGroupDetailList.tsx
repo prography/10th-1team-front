@@ -99,10 +99,10 @@ export default function SavedGroupDetailList({
                         onDeleteClick(item);
                       },
                     },
-                    {
-                      label: "룰렛 추가",
-                      onClick: () => alert("룰렛 추가"),
-                    },
+                    // {
+                    //   label: "룰렛 추가",
+                    //   onClick: () => alert("룰렛 추가"),
+                    // },
                   ]}
                 />
               )}

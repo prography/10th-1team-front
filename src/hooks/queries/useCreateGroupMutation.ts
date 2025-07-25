@@ -7,6 +7,7 @@ export function useCreateGroupMutation() {
     mutationFn: createGroup,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["bookmarkedGroups"] });
+      queryClient.invalidateQueries({ queryKey: ["PlaceGroup"] });
     },
   });
 }

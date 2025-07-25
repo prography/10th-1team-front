@@ -9,10 +9,11 @@ import { createPortal } from "react-dom";
 import { useEffect, useState } from "react";
 import PlaceSaveModal from "../organisms/PlaceSaveModal/PlaceSaveModal";
 import LevelUpModal from "../molecules/LevelUpModal/LevelUpModal";
-import BasicConfirmModal from "../molecules/BasicConfirmModal";
+
 import GroupSaveModal from "../organisms/PlaceSaveModal/GroupSaveModal";
 
 import CreateGroupModal from "../organisms/PlaceSaveModal/CreateGroupModal";
+import ConfirmModal from "@/components/molecules/ConfirmModal/ConfirmModal";
 
 export default function ModalRenderer() {
   const { type, props, closeModal } = useModalStore();
@@ -157,13 +158,14 @@ export default function ModalRenderer() {
           onConfirm: () => void;
         };
         return (
-          <BasicConfirmModal
+          <ConfirmModal
             isOpen={true}
+            onClose={closeModal}
             title={confirmProps.title}
             description={confirmProps.description}
-            confirmText={confirmProps.confirmText}
-            onCancel={confirmProps.onCancel || closeModal}
-            onConfirm={confirmProps.onConfirm}
+            rightButtonText={confirmProps.confirmText}
+            onLeftButtonClick={confirmProps.onCancel}
+            onRightButtonClick={confirmProps.onConfirm}
           />
         );
       }

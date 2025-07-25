@@ -8,9 +8,10 @@ import Icon from "@/components/atoms/Icon/Icon";
 import Divider from "@/components/atoms/Divider/Divider";
 import Button from "@/components/atoms/Button/Button";
 import DefaultHeader from "@/components/molecules/Header/DefaultHeader";
+import ConfirmModal from "@/components/molecules/ConfirmModal/ConfirmModal";
 import IconButton from "@/components/molecules/IconButton/IconButton";
 import { ContextMenu } from "@/components/molecules/ContextMenu";
-import { AlertModal } from "@/components/molecules/Modal";
+
 import { SavedGroupDetailList } from "@/components/organisms/ActivityList";
 import { GroupDefaultListBottomSheet } from "@/components/organisms/GroupBottomSheet";
 import { sortByDate, sortByName } from "@/utils/sort";
@@ -225,7 +226,7 @@ export default function SavedGroupDetailTemplate({ id }: { id: string }) {
       {/* 관련 모달 */}
       {sheet === "delete" &&
         createPortal(
-          <AlertModal
+          <ConfirmModal
             isOpen={sheet === "delete"}
             onClose={close}
             title="선택한 가게를 삭제할까요?"

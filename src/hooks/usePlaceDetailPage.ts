@@ -47,6 +47,7 @@ export function usePlaceDetailPage(placeId: string) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["voteSummary", placeId] });
       queryClient.invalidateQueries({ queryKey: ["votedActivity"] });
+      queryClient.invalidateQueries({ queryKey: ["voteCount"] });
     },
   });
 

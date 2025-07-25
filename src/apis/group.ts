@@ -23,7 +23,10 @@ export const updateGroup = async (
   }
 ) => {
   try {
-    const response = await authProxyAPI.put(`/bookmark/group/${groupId}`, data);
+    const response = await authProxyAPI.patch(
+      `/bookmark/group/${groupId}`,
+      data
+    );
     return response.data.data;
   } catch (error) {
     console.error("Group 수정 실패:", error);

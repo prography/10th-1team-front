@@ -9,7 +9,7 @@ import Button from "@/components/atoms/Button/Button";
 import Toast from "@/components/atoms/Toast/Toast";
 import DefaultHeader from "@/components/molecules/Header/DefaultHeader";
 import IconButton from "@/components/molecules/IconButton/IconButton";
-import { AlertModal } from "@/components/molecules/Modal";
+import ConfirmModal from "@/components/molecules/ConfirmModal/ConfirmModal";
 import { ContextMenu } from "@/components/molecules/ContextMenu";
 import { SavedGroupList } from "@/components/organisms/ActivityList";
 import {
@@ -23,6 +23,7 @@ import {
   useBookmarkedGroupsQuery,
   useCreateGroupMutation,
   useDeleteGroupMutation,
+  useUpdateGroupMutation,
 } from "@/hooks/queries";
 import { useSort, useSheetState } from "@/hooks";
 
@@ -40,12 +41,7 @@ const sorters = {
   group: (arr: GroupInfo[]) => sortByDate(arr, (g) => g.create_at),
 } as const;
 
-interface SavedPageTemplateProps {
-  onDeleteClick?: (group_id: string) => void;
-  onEdit?: (item: GroupInfo) => void;
-}
-
-export default function SavedPageTemplate({ onEdit }: SavedPageTemplateProps) {
+export default function SavedPageTemplate() {
   const createPortal = usePortal();
   const router = useRouter();
 
@@ -54,6 +50,7 @@ export default function SavedPageTemplate({ onEdit }: SavedPageTemplateProps) {
   });
   const createGroupMutation = useCreateGroupMutation();
   const deleteGroupMutation = useDeleteGroupMutation();
+  const updateGroupMutation = useUpdateGroupMutation();
 
   const groups = useMemo(() => data?.groups ?? [], [data]);
   const total = useMemo(() => data?.total ?? 0, [data]);
@@ -189,7 +186,7 @@ export default function SavedPageTemplate({ onEdit }: SavedPageTemplateProps) {
       {/* 관련 모달 및 바텀시트 */}
       {sheet === "delete" &&
         createPortal(
-          <AlertModal
+          <ConfirmModal
             isOpen={sheet === "delete"}
             onClose={closeSheet}
             title="삭제할까요?"
@@ -217,7 +214,12 @@ export default function SavedPageTemplate({ onEdit }: SavedPageTemplateProps) {
             onDone={() => {
               closeSheet();
               showToast("그룹이 수정되었습니다");
-              if (selectedItem) onEdit?.(selectedItem);
+              if (selectedItem) {
+                updateGroupMutation.mutate({
+                  groupId: selectedItem.group_id,
+                  data: { group_name: groupName, icon: selectedIcon },
+                });
+              }
             }}
           />
         )}

@@ -109,7 +109,7 @@ export default function PlatformMatchVoteModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+    <div className="fixed inset-0 max-w-[600px] left-1/2 transform -translate-x-1/2 z-50 flex items-center justify-center bg-black/60">
       <div className="bg-white rounded-xl w-[360px] max-w-full p-0 flex flex-col">
         {/* Header */}
         <div className="self-stretch px-[16px] pt-[14px] pb-[10px] border-b border-border-normal-lowemp inline-flex justify-between items-center">

@@ -24,24 +24,30 @@ export default function ExploreSection() {
       </div>
 
       <div>
-        <Button className="flex-1 flex flex-col items-center gap-[4px]">
-          <Icon icon="MainRulet" size={48} />
-          <span className="body-s-semibold text-texticon-onnormal-highestemp">
+        <Button
+          className="flex-1 flex flex-col items-center gap-[4px]"
+          disabled
+        >
+          <Icon icon="MainRulet" size={48} disabled />
+          <span className="body-s-semibold text-border-normal-lowemp">
             룰렛
           </span>
-          <span className="caption-s-regular text-texticon-onnormal-lowemp">
+          <span className="caption-s-regular text-border-normal-lowestemp">
             맛집 정하기
           </span>
         </Button>
       </div>
 
       <div>
-        <Button className="flex-1 flex flex-col items-center gap-[4px]">
-          <Icon icon="MainCalandar" size={48} />
-          <span className="body-s-semibold text-texticon-onnormal-highestemp">
+        <Button
+          className="flex-1 flex flex-col items-center gap-[4px]"
+          disabled
+        >
+          <Icon icon="MainCalandar" size={48} disabled />
+          <span className="body-s-semibold text-border-normal-lowemp">
             캘린더
           </span>
-          <span className="caption-s-regular text-texticon-onnormal-lowemp">
+          <span className="caption-s-regular text-border-normal-lowestemp">
             맛집 기록
           </span>
         </Button>
