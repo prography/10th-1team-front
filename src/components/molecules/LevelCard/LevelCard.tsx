@@ -123,7 +123,7 @@ export default function LevelCard({
       <div className="relative mb-[2px]">
         <div className="w-full h-[8px] bg-surface-normal-container-b10 rounded-full overflow-hidden">
           <div
-            className="h-full bg-brand-primary-light rounded-full transition-all duration-300"
+            className="h-full bg-brand-primary-light rounded-full "
             style={{ width: `${progress}%` }}
           />
         </div>
