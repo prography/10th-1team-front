@@ -1,8 +1,22 @@
 import { useCallback } from "react";
 
-export function usePlatformMove(platform: "kakao" | "naver", placeId: string) {
+export function usePlatformMove(
+  platform: "kakao" | "naver",
+  placeId: string,
+  options: { disableAppMove?: boolean } = { disableAppMove: true }
+) {
   return useCallback(() => {
     if (!placeId) return;
+
+    // 앱 이동이 비활성화된 경우 웹으로만 이동
+    if (options?.disableAppMove) {
+      const webUrl =
+        platform === "kakao"
+          ? `https://place.map.kakao.com/${placeId}`
+          : `https://map.naver.com/p/entry/place/${placeId}`;
+      window.open(webUrl, "_blank");
+      return;
+    }
 
     const isPC = !navigator.userAgent.match(
       /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
@@ -53,5 +67,5 @@ export function usePlatformMove(platform: "kakao" | "naver", placeId: string) {
     };
 
     checkAndNavigate();
-  }, [platform, placeId]);
+  }, [platform, placeId, options?.disableAppMove]);
 }
