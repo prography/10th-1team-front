@@ -75,6 +75,7 @@ export function usePlaceDetailPage(placeId: string) {
           router.push(`/login?from=/place/${decodeURIComponent(placeId)}`);
           openModal(null);
         },
+        description: "음식점을 저장하시려면 \n 로그인을 먼저 진행해주세요",
       });
       return;
     }
@@ -94,6 +95,7 @@ export function usePlaceDetailPage(placeId: string) {
           router.push(`/login?from=/place/${decodeURIComponent(placeId)}`);
           openModal(null);
         },
+        description: "투표를 진행하시려면 \n 로그인을 먼저 진행해주세요",
       });
       return;
     }

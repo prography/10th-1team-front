@@ -5,12 +5,14 @@ interface LoginRequiredModalProps {
   isOpen: boolean;
   onCancel: () => void;
   onLogin: () => void;
+  description?: string;
 }
 
 export default function LoginRequiredModal({
   isOpen,
   onCancel,
   onLogin,
+  description,
 }: LoginRequiredModalProps) {
   if (!isOpen) return null;
   return (
@@ -19,10 +21,8 @@ export default function LoginRequiredModal({
         <div className="title-m-semibold text-center mt-[24px]">
           로그인이 필요해요!
         </div>
-        <div className="body-s-regular mt-[16px] mb-[12px] flex flex-col items-center justify-center w-full text-center">
-          투표를 진행하시려면
-          <br />
-          로그인을 먼저 진행해주세요
+        <div className="body-s-regular mt-[16px] mb-[12px] flex flex-col items-center justify-center w-full text-center whitespace-pre-line">
+          {description}
         </div>
         <div className="flex py-[14px] px-[16px] gap-[6px] w-full ">
           <Button

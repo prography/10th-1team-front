@@ -33,12 +33,14 @@ export default function ModalRenderer() {
           isOpen: boolean;
           onCancel: () => void;
           onLogin: () => void;
+          description?: string;
         };
         return (
           <LoginRequiredModal
             isOpen={true}
             onCancel={closeModal}
             onLogin={loginProps?.onLogin}
+            description={loginProps?.description}
           />
         );
       }
