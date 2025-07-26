@@ -14,6 +14,7 @@ import Icon from "@/components/atoms/Icon/Icon";
 import IconButton from "@/components/molecules/IconButton/IconButton";
 import { cn } from "@/utils/cn";
 import PlatformTabButton from "@/components/molecules/PlatformTabButton/PlatformTabButton";
+import { useRouter } from "next/navigation";
 
 interface PlatformMatchResultProps {
   data?: PlatformMatchResultData;
@@ -26,6 +27,8 @@ export default function PlatformMatchResult({
   handleVoteClick,
   data,
 }: PlatformMatchResultProps) {
+  const router = useRouter();
+
   let kakaoResult: PlatformResultItem | undefined = undefined;
   let naverResult: PlatformResultItem | undefined = undefined;
   let winningPlatform: PlatformView = "DROW";
@@ -179,12 +182,15 @@ export default function PlatformMatchResult({
               </span>
             </div>
             <div className="caption-m-regular text-texticon-onnormal-midemp">
-              캘린더에 투표가 기록되었어요!
+              투표가 기록되었어요!
             </div>
             <IconButton
               className="bg-texticon-onnormal-highestemp rounded-[99px] px-[14px] py-[8px] w-fit text-texticon-onnormal-white caption-m-semibold mt-[20px]"
-              text="캘린더 이동"
+              text="투표 현황 이동"
               endIcon={<Icon icon="PageMove" size={24} stroke="#fff" />}
+              onClick={() => {
+                router.push("/voted");
+              }}
             />
           </div>
         </div>
