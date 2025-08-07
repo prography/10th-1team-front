@@ -2,6 +2,8 @@
 
 import CustomQueryClientProvider from "@/providers/CustomQueryClientProvider";
 import UserProvider from "@/providers/UserProvider";
+import MixpanelProvider from "@/providers/MixpanelProvider";
+import GAProvider from "@/providers/GAProvider";
 import type { UserInfo } from "@/types/user";
 
 export default function Providers({
@@ -13,7 +15,11 @@ export default function Providers({
 }) {
   return (
     <CustomQueryClientProvider>
-      <UserProvider initialUser={user}>{children}</UserProvider>
+      <UserProvider initialUser={user}>
+        <MixpanelProvider>
+          <GAProvider>{children}</GAProvider>
+        </MixpanelProvider>
+      </UserProvider>
     </CustomQueryClientProvider>
   );
 }

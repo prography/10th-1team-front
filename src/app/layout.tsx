@@ -26,8 +26,32 @@ export default async function Layout({ children }: LayoutProps) {
     user = null;
   }
 
+  const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+
   return (
     <html lang="ko">
+      <head>
+        {/* Google Analytics */}
+        {gaMeasurementId && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}
+              strategy="afterInteractive"
+            />
+            <Script id="google-analytics" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${gaMeasurementId}', {
+                  page_title: document.title,
+                  page_location: window.location.href,
+                });
+              `}
+            </Script>
+          </>
+        )}
+      </head>
       <body>
         <Script
           type="text/javascript"
