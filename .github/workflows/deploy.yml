@@ -30,6 +30,8 @@ jobs:
           echo "KAKAO_REDIRECT_URI=${{ secrets.KAKAO_REDIRECT_URI }}" >> .env
           echo "NAVER_CLIENT_ID=${{ secrets.NAVER_CLIENT_ID }}" >> .env
           echo "NAVER_REDIRECT_URI=${{ secrets.NAVER_REDIRECT_URI }}" >> .env
+          echo "NEXT_PUBLIC_GA_MEASUREMENT_ID=${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}" >> .env
+          echo "NEXT_PUBLIC_MIXPANEL_TOKEN=${{ secrets.NEXT_PUBLIC_MIXPANEL_TOKEN }}" >> .env
 
       - name: Login to Harbor
         run: |
