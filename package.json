@@ -30,13 +30,15 @@
     "axios": "^1.9.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "gtag": "^1.0.1",
+    "mixpanel-browser": "^2.67.0",
     "next": "15.3.1",
     "qs": "^6.14.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "swiper": "^11.1.1",
     "tailwind-merge": "^3.3.0",
-    "zustand": "^5.0.3",
-    "swiper": "^11.1.1"
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
