@@ -87,19 +87,22 @@ export const moveBookmarkedPlace = async (
   }
 };
 
-export const getUserVotedActivity = async () => {
+export const getActivityCalendar = async (year: number, month: number) => {
   try {
     let data;
     if (typeof window === "undefined") {
-      data = await fetchWithAuth<VotedActivityResponse>(`/users/activity/vote`);
+      data = await fetchWithAuth<VotedActivityResponse>(
+        `/users/activity/calendar?year=${year}&month=${month}`
+      );
       return data.data;
     } else {
-      const response =
-        await authProxyAPI.get<VotedActivityResponse>(`/users/activity/vote`);
+      const response = await authProxyAPI.get<VotedActivityResponse>(
+        `/users/activity/calendar?year=${year}&month=${month}`
+      );
       return response.data.data;
     }
   } catch (error) {
-    console.error("Failed to fetch user voted activity:", error);
+    console.error("Failed to fetch user calendar activity:", error);
     throw error;
   }
 };
