@@ -12,6 +12,10 @@ import EmptyPlaceholder from "@/components/molecules/EmptyPlaceholder/EmptyPlace
 import { useSort } from "@/hooks";
 import { VotedActivityInfo } from "@/types/activity";
 import { sortByDate } from "@/utils/sort";
+import { useState } from "react";
+import ActivityCalendar from "@/components/organisms/ActivityCalendar/ActivityCalendar";
+import Divider from "@/components/atoms/Divider/Divider";
+import { parseKoreanDateInfo } from "@/utils/date";
 
 type SortType = "recent" | "old";
 
@@ -29,12 +33,31 @@ const sorters = {
 
 export default function VotedPageTemplate() {
   const router = useRouter();
-  const { data } = useUserVotedActivityQuery();
+  const now = new Date();
+  const [year, setYear] = useState(now.getFullYear());
+  const [month, setMonth] = useState(now.getMonth() + 1);
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const { data } = useUserVotedActivityQuery(year, month);
 
-  const { sortKey, setSortKey, sortedItems } = useSort(data ?? [], sorters);
+  const { sortKey, setSortKey, sortedItems } = useSort(
+    data?.votes ?? [],
+    sorters
+  );
+
+  const selectedInfo = selectedDate ? parseKoreanDateInfo(selectedDate) : null;
+  const displayedCount = selectedInfo
+    ? sortedItems.filter((item) => {
+        const info = parseKoreanDateInfo(item.voted_date);
+        return (
+          info.year === selectedInfo.year &&
+          info.month === selectedInfo.month &&
+          info.date === selectedInfo.date
+        );
+      }).length
+    : sortedItems.length;
 
   return (
-    <div className="flex flex-col flex-1 h-full w-full bg-surface-normal-container0">
+    <div className="flex flex-col h-full w-full bg-surface-normal-container0 overflow-y-auto">
       {/* 헤더 */}
       <div className="sticky top-0 z-10 bg-surface-normal-container0">
         <DefaultHeader
@@ -44,13 +67,29 @@ export default function VotedPageTemplate() {
           fullWidth
           className="border-b border-border-normal-lowemp"
         />
+        <ActivityCalendar
+          year={year}
+          month={month}
+          votes={data?.votes ?? []}
+          selectedDate={selectedDate}
+          onChangeMonth={(year, month) => {
+            setYear(year);
+            setMonth(month);
+            setSelectedDate(null);
+          }}
+          onDateClick={(date) => {
+            setSelectedDate(date === selectedDate ? null : date);
+          }}
+        />
+
+        <Divider />
 
         {/* 정렬기준 서브 헤더 */}
         <div className="flex justify-between items-center px-[16px] pt-[24px] pb-[12px]">
           <div className="body-m-semibold text-texticon-onnormal-highestemp space-x-[8px]">
             <span>전체</span>
             <span className="text-texticon-onnormal-main-500">
-              {sortedItems.length}
+              {displayedCount}
             </span>
           </div>
           <ContextMenu
@@ -89,16 +128,18 @@ export default function VotedPageTemplate() {
       </div>
 
       {/* 저장 그룹 리스트 */}
+
       {sortedItems.length > 0 ? (
         <VotedActivityList
           items={sortedItems}
           onItemClick={(item) => router.push(`/place/${item.place_id}`)}
+          selectedDate={selectedDate}
         />
       ) : (
         <EmptyPlaceholder
           title="투표 히스토리가 없어요"
           description="가게 상세페이지 > 플랫폼 매치에서 투표를 해보세요"
-          className="mt-[100px]"
+          className="my-[100px]"
         />
       )}
     </div>

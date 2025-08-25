@@ -43,3 +43,4 @@ export { default as Empty } from "./Empty";
 export { default as VoteReslutLeft } from "./VoteReslutLeft";
 export { default as VoteReslutRight } from "./VoteReslutRight";
 export { default as PopupExit } from "./PopupExit";
+export { default as ChevronRight } from "./ChevronRight";

@@ -44,5 +44,7 @@ export interface VotedActivityInfo {
 }
 
 export interface VotedActivityResponse {
-  data: VotedActivityInfo[];
+  data: {
+    votes: VotedActivityInfo[];
+  };
 }
